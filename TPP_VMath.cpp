@@ -2,9 +2,6 @@
 // written by Jesse Rankins 2021
 #include "TPP_VMath.h"
 #include <cmath>
-#include <xmmintrin.h>
-#include <x86intrin.h>
-#include <vector>
 
 namespace TPP_VMath
 {
