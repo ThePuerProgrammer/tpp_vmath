@@ -58,7 +58,7 @@ namespace TPP_VMath
         void    scale_by(float);
 
         // Manual assignment of x, y, z vector entries
-        void  set_coordinates(float, float, float);
+        void    set_coordinates(float, float, float);
     };
 
     //========================================================================//
