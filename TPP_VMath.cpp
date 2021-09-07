@@ -5,29 +5,38 @@
 
 namespace TPP_VMath
 {
-
-    // VECTOR CLASS
     //========================================================================//
-    float Vector::operator[](int i)
+    // VECT CLASS
+    //========================================================================//
+
+    // Overloaded [] operator returns the ith coordinate in the vector
+    float* Vect::operator[](int i)
     {
-        return coordinates[i];
+        return &coordinates[i];
     }
 
-    float* Vector::get_coordinates()
+    // Returns the coordinate array as a pointer to coordinates[0]
+    float* Vect::get_coordinates()
     {
         return coordinates;
     }
+
+    //========================================================================//
+    // END OF VECT CLASS IMPLEMENTATION
     //========================================================================//
 
-    // VECTOR3D CLASS
     //========================================================================//
-    Vector3D::Vector3D()
+    // VECT3D CLASS
+    //========================================================================//
+
+    // Default constructor for a vector in R3 that inits to the zero vector
+    Vect3D::Vect3D()
     {
-        // default: initialize to the zero vector in R3;
-        Vector3D(0,0,0);
+        Vect3D(0,0,0);
     }
 
-    Vector3D::Vector3D(float x, float y, float z)
+    // Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
+    Vect3D::Vect3D(float x, float y, float z)
     {
         coordinates = new float(3);
         coordinates[0] = x;
@@ -35,19 +44,22 @@ namespace TPP_VMath
         coordinates[2] = z;
     }
 
-    Vector3D::~Vector3D()
+    // Destructor deletes coordinate array
+    Vect3D::~Vect3D()
     {
         delete [] coordinates;
     }
 
-    void Vector3D::set_coordinates(float x, float y, float z)
+    // Manual assignment of x, y, z vector entries
+    void Vect3D::set_coordinates(float x, float y, float z)
     {
         coordinates[0] = x;
         coordinates[1] = y;
         coordinates[2] = z;
     }
 
-    float Vector3D::get_magnitude()
+    // Returns sqrtf(x^2 + y^2 + z^2)
+    float Vect3D::get_magnitude()
     {
         float xSquared = coordinates[0] * coordinates[0];
         float ySquared = coordinates[1] * coordinates[1];
@@ -56,19 +68,24 @@ namespace TPP_VMath
         return sqrtf(sumOfSquares);
     }
 
-    void Vector3D::scale_by(int c)
+    // Scales each entry in the vector by integer scalar value
+    void Vect3D::scale_by(int c)
     {
         coordinates[0] *= c;
         coordinates[1] *= c;
         coordinates[2] *= c;
     }
 
-    void Vector3D::scale_by(float c)
+    // Scales each entry in the vector by float scalar value
+    void Vect3D::scale_by(float c)
     {
         coordinates[0] *= c;
         coordinates[1] *= c;
         coordinates[2] *= c;
     }
+
+    //========================================================================//
+    // END OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
 
 }

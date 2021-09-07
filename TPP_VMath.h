@@ -4,53 +4,64 @@
 
 namespace TPP_VMath
 {
-    class Vector
+    //========================================================================//
+    // VECT CLASS
+    //========================================================================//
+
+    class Vect
     {
     public:
-        // PUBLIC FUNCTIONS
-        //--------------------------------------------------------------------//
         virtual float   get_magnitude() = 0;
         virtual void    scale_by(int) = 0;
         virtual void    scale_by(float) = 0;
-        //--------------------------------------------------------------------//
 
-        // OP OVERLOADS
-        //--------------------------------------------------------------------//
-        float           operator[](int i);
-        //--------------------------------------------------------------------//
+        // Overloaded [] operator returns the ith coordinate in the vector
+        float*          operator[](int i);
 
-        // COORDINATES GETTERS/SETTERS
-        //--------------------------------------------------------------------//
+        // Returns the coordinate array as a pointer to coordinates[0]
         float*          get_coordinates();
         virtual void    set_coordinates(float, float, float) = 0;
-        //--------------------------------------------------------------------//
 
     protected:
-        // xyz coordinates
         float* coordinates;
     };
 
-    class Vector3D : protected Vector
+    //========================================================================//
+    // END OF VECT CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // VECT CLASS
+    //========================================================================//
+
+    class Vect3D : protected Vect
     {
     public:
-        // CONSTRUCTORS/DESTRUCTOR
-        //--------------------------------------------------------------------//
-        Vector3D();
-        Vector3D(float, float, float);
+        // Default constructor for a vector in R3 that inits to the zero vector
+        Vect3D();
 
-        ~Vector3D();
-        //--------------------------------------------------------------------//
+        /*
+        Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
+        */
+        Vect3D(float, float, float);
 
-        // PUBLIC FUNCTIONS
-        //--------------------------------------------------------------------//
+        // Destructor deletes coordinate array
+        ~Vect3D();
+
+        // Returns sqrtf(x^2 + y^2 + z^2)
         float   get_magnitude();
-        void    scale_by(int);
-        void    scale_by(float);
-        //--------------------------------------------------------------------//
 
-        // COORDINATES GETTERS/SETTERS
-        //--------------------------------------------------------------------//
+        // Scales each entry in the vector by integer scalar value
+        void    scale_by(int);
+
+        // Scales each entry in the vector by float scalar value
+        void    scale_by(float);
+
+        // Manual assignment of x, y, z vector entries
         void  set_coordinates(float, float, float);
-        //--------------------------------------------------------------------//
     };
+
+    //========================================================================//
+    // END OF VECT3D CLASS DECLARATION
+    //========================================================================//
 };
