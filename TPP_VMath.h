@@ -47,15 +47,6 @@ namespace TPP_VMath
         // COORDINATES GETTERS/SETTERS
         //--------------------------------------------------------------------//
         void  setCoordinates(float, float, float);
-
-        float getX();
-        void  setX(int);
-
-        float getY();
-        void  setY(int);
-
-        float getZ();
-        void  setZ(int);
         //--------------------------------------------------------------------//
     };
 };
