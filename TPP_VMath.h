@@ -49,13 +49,13 @@ namespace TPP_VMath
         void  setCoordinates(float, float, float);
 
         float getX();
-        void  setX();
+        void  setX(int);
 
         float getY();
-        void  setY();
+        void  setY(int);
 
         float getZ();
-        void  setZ();
+        void  setZ(int);
         //--------------------------------------------------------------------//
     };
 };

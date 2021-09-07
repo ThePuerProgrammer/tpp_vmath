@@ -58,6 +58,36 @@ namespace TPP_VMath
         float sumOfSquares = xSquared + ySquared + zSquared;
         return sqrtf(sumOfSquares);
     }
+
+    float Vector3D::getX()
+    {
+        return coordinates[0];
+    }
+
+    void Vector3D::setX(int x)
+    {
+        coordinates[0] = x;
+    }
+
+    float Vector3D::getY()
+    {
+        return coordinates[1];
+    }
+
+    void Vector3D::setY(int y)
+    {
+        coordinates[1] = y;
+    }
+
+    float Vector3D::getZ()
+    {
+        return coordinates[2];
+    }
+
+    void Vector3D::setZ(int z)
+    {
+        coordinates[2] = z;
+    }
     //========================================================================//
 
 }
