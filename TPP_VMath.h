@@ -9,7 +9,9 @@ namespace TPP_VMath
     public:
         // PUBLIC FUNCTIONS
         //--------------------------------------------------------------------//
-        virtual float   getMagnitude() = 0;
+        virtual float   get_magnitude() = 0;
+        virtual void    scale_by(int) = 0;
+        virtual void    scale_by(float) = 0;
         //--------------------------------------------------------------------//
 
         // OP OVERLOADS
@@ -19,8 +21,8 @@ namespace TPP_VMath
 
         // COORDINATES GETTERS/SETTERS
         //--------------------------------------------------------------------//
-        float*          getCoordinates();
-        virtual void    setCoordinates(float, float, float) = 0;
+        float*          get_coordinates();
+        virtual void    set_coordinates(float, float, float) = 0;
         //--------------------------------------------------------------------//
 
     protected:
@@ -41,12 +43,14 @@ namespace TPP_VMath
 
         // PUBLIC FUNCTIONS
         //--------------------------------------------------------------------//
-        float getMagnitude();
+        float   get_magnitude();
+        void    scale_by(int);
+        void    scale_by(float);
         //--------------------------------------------------------------------//
 
         // COORDINATES GETTERS/SETTERS
         //--------------------------------------------------------------------//
-        void  setCoordinates(float, float, float);
+        void  set_coordinates(float, float, float);
         //--------------------------------------------------------------------//
     };
 };
