@@ -16,7 +16,7 @@ namespace TPP_VMath
         virtual void    scale_by(float) = 0;
 
         // Overloaded [] operator returns the ith coordinate in the vector
-        float*          operator[](int i);
+        float*          operator[](int);
 
         // Returns the coordinate array as a pointer to coordinates[0]
         float*          get_coordinates();

@@ -38,7 +38,7 @@ namespace TPP_VMath
     // Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
     Vect3D::Vect3D(float x, float y, float z)
     {
-        coordinates = new float(3);
+        coordinates = new float[3];
         coordinates[0] = x;
         coordinates[1] = y;
         coordinates[2] = z;
