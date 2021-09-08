@@ -45,8 +45,14 @@ namespace TPP_VMath
         */
         Vect3D(float, float, float);
 
+        // Copy constructor
+        Vect3D(Vect3D&);
+
         // Destructor deletes coordinate array
         ~Vect3D();
+
+        // Manual assignment of x, y, z vector entries
+        void    set_coordinates(float, float, float);
 
         // Returns sqrtf(x^2 + y^2 + z^2)
         float   get_magnitude();
@@ -56,9 +62,6 @@ namespace TPP_VMath
 
         // Scales each entry in the vector by float scalar value
         void    scale_by(float);
-
-        // Manual assignment of x, y, z vector entries
-        void    set_coordinates(float, float, float);
     };
 
     //========================================================================//

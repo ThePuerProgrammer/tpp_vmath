@@ -44,6 +44,15 @@ namespace TPP_VMath
         coordinates[2] = z;
     }
 
+    Vect3D::Vect3D(Vect3D& oldVect3D)
+    {
+        coordinates = new float[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            coordinates[i] = oldVect3D.coordinates[i];
+        }
+    }
+
     // Destructor deletes coordinate array
     Vect3D::~Vect3D()
     {
