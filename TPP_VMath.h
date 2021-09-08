@@ -11,19 +11,30 @@ namespace TPP_VMath
     class Vect
     {
     public:
-        virtual float   get_magnitude() = 0;
-        virtual void    scale_by(int) = 0;
-        virtual void    scale_by(float) = 0;
+        // Returns sqrtf(v₁^2+...+vᵢ^2)
+        float           get_magnitude();
 
-        // Overloaded [] operator returns the ith coordinate in the vector
+        // Scales each entry in the vector by integer scalar value
+        void            scale_by(int);
+
+        // Scales each entry in the vector by float scalar value
+        void            scale_by(float);
+
+        // Returns pointer to the ith coordinate in the vector
         float*          operator[](int);
 
         // Returns the coordinate array as a pointer to coordinates[0]
         float*          get_coordinates();
-        virtual void    set_coordinates(float, float, float) = 0;
+
+        // Returns the dimension of the vector
+        int             get_dimension();
+
+        // Temporary virtualizer to force abstraction
+        virtual void    virtualizer() = 0;
 
     protected:
-        float* coordinates;
+        int             dimension;
+        float*          coordinates;
     };
 
     //========================================================================//
@@ -34,7 +45,7 @@ namespace TPP_VMath
     // VECT CLASS
     //========================================================================//
 
-    class Vect3D : protected Vect
+    class Vect3D : public Vect
     {
     public:
         // Default constructor for a vector in R3 that inits to the zero vector
@@ -43,25 +54,22 @@ namespace TPP_VMath
         /*
         Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
         */
-        Vect3D(float, float, float);
+        Vect3D(const float, const float, const float);
 
         // Copy constructor
-        Vect3D(Vect3D&);
+        Vect3D(const Vect3D&);
 
         // Destructor deletes coordinate array
         ~Vect3D();
 
+        // Copies coordinates from the right side Vect3D to the left side Vect3D
+        Vect3D& operator=(const Vect3D&);
+
         // Manual assignment of x, y, z vector entries
         void    set_coordinates(float, float, float);
 
-        // Returns sqrtf(x^2 + y^2 + z^2)
-        float   get_magnitude();
-
-        // Scales each entry in the vector by integer scalar value
-        void    scale_by(int);
-
-        // Scales each entry in the vector by float scalar value
-        void    scale_by(float);
+        // Unimplemented virtualizer forces abstraction
+        void    virtualizer();
     };
 
     //========================================================================//
