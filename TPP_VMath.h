@@ -26,7 +26,7 @@ namespace TPP_VMath
         // Returns the coordinate array as a pointer to coordinates[0]
         float*          get_coordinates();
 
-        // Returns the dimension of the vector
+        // Returns the dimension of the vector (the number of entries)
         int             get_dimension();
 
         // Temporary virtualizer to force abstraction
@@ -80,22 +80,88 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
+    // START OF SET CLASS DECLARATION
+    //========================================================================//
+
+    class VSet
+    {
+    public:
+
+        // Default constructor is a null set
+        VSet();
+
+        // Overloaded constructor for one Vect3D
+        VSet(Vect3D);
+
+        // Overloaded constructor for an array of Vect3D
+        VSet(int, Vect3D**);
+
+        // Destructor deletes the set
+        ~VSet();
+
+        // Returns the number of vectors in the set
+        int     get_n();
+        
+        // Returns the number of entries in each vector
+        int     get_m();
+
+        // Returns the set as an array of Vects
+        Vect**  get_set_of_vectors();
+
+        /*
+        Add a new vect of *matching dimension* to the set
+        If the vector dimension doesn't == m, a runtime exception is thrown
+        It is best to wrap the call to this funtion in a guard in the form
+        if (Vect*->get_dimension() == Set.get_m())
+        {
+            add_vect_to_set(Vect*);
+        }
+        This does not apply if the set is currently null
+        */
+        void    add_vect_to_set(Vect*);
+
+    private:
+
+        // The number of entries in each vector in the set
+        int     m;
+
+        // The number of vectors in the set
+        int     n;
+
+        // The set of vectors as an array in pointer notation
+        Vect**  setOfVectors;
+    };
+
+    //========================================================================//
+    // END OF SET CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
     // START OF MATRIX CLASS DECLARATION
     //========================================================================//
 
     class Matrix
     {
     public:
-    
-        // Overloaded constructor accepts a set of Vects and generates a matrix
-        Matrix(int, int, Vect**);
 
-        // Destructor deletes the matrix
+        // Overloaded constructor accepts a set of Vects and generates a matrix
+        Matrix(VSet);
+
+        // Destructor deletes the matrix A
         ~Matrix();
 
+        // Console representation of coefficient matrix for testing
+        void    print_matrix();
+
     private:
+
+        // The number of entries in each column of A
         int     m;
+
+        // The number of columns in A
         int     n;
+
+        // 2D array using pointer notation representing a matrix
         float   **A;
     };
 
