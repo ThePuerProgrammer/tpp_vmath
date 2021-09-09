@@ -5,7 +5,7 @@
 namespace TPP_VMath
 {
     //========================================================================//
-    // VECT CLASS
+    // START OF VECT CLASS DECLARATION
     //========================================================================//
 
     class Vect
@@ -33,7 +33,10 @@ namespace TPP_VMath
         virtual void    virtualizer() = 0;
 
     protected:
+        // The number of entries in coordinates
         int             dimension;
+
+        // The array representing the vector
         float*          coordinates;
     };
 
@@ -42,7 +45,7 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // VECT CLASS
+    // START OF VECT3D CLASS DECLARATION
     //========================================================================//
 
     class Vect3D : public Vect
@@ -68,11 +71,35 @@ namespace TPP_VMath
         // Manual assignment of x, y, z vector entries
         void    set_coordinates(float, float, float);
 
-        // Unimplemented virtualizer forces abstraction
+        // Unimplemented. Do NOT call
         void    virtualizer();
     };
 
     //========================================================================//
     // END OF VECT3D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF MATRIX CLASS DECLARATION
+    //========================================================================//
+
+    class Matrix
+    {
+    public:
+    
+        // Overloaded constructor accepts a set of Vects and generates a matrix
+        Matrix(int, int, Vect**);
+
+        // Destructor deletes the matrix
+        ~Matrix();
+
+    private:
+        int     m;
+        int     n;
+        float   **A;
+    };
+
+    //========================================================================//
+    // END OF MATRIX CLASS DECLARATION
     //========================================================================//
 };

@@ -6,7 +6,7 @@
 namespace TPP_VMath
 {
     //========================================================================//
-    // VECT CLASS
+    // START OF VECT CLASS IMPLEMENTATION
     //========================================================================//
 
     // Returns sqrtf(v₁^2+...+vᵢ^2)
@@ -57,7 +57,7 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // VECT3D CLASS
+    // START OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
 
     // Default constructor for a vector in R3 that inits to the zero vector
@@ -115,6 +115,40 @@ namespace TPP_VMath
     { }
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF MATRIX CLASS IMPLEMENTATION
+    //========================================================================//
+
+    // Constructor builds an mxn matrix A from a set of n Vects
+    Matrix::Matrix(int m, int n, Vect **set)
+    {
+        this->m = m;
+        this->n = n;
+        A = new float*[n];
+        for (int i = 0; i < n; ++i)
+        {
+            A[i] = new float[m];
+            for (int j = 0; j < m; ++j)
+            {
+                A[i][j] = set[i]->get_coordinates()[j]; 
+            }
+        }
+    }
+
+    // Destructor deletes A
+    Matrix::~Matrix()
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            delete [] A[i];
+        }
+        delete [] A;
+    }
+
+    //========================================================================//
+    // END OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
 
 }
