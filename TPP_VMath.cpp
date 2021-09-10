@@ -7,6 +7,7 @@
 
 namespace TPP_VMath
 {
+
     //========================================================================//
     // START OF VECT CLASS IMPLEMENTATION
     //========================================================================//
@@ -58,7 +59,7 @@ namespace TPP_VMath
     }
 
     // Returns the dimension of the vector (the number of entries)
-    int Vect::get_dimension()
+    int Vect::get_dimension() const
     {
         return dimension;
     }
@@ -87,17 +88,25 @@ namespace TPP_VMath
     }
 
     // Copy constructor
-    Vect3D::Vect3D(const Vect3D& oldVect3D)
+    Vect3D::Vect3D(const Vect3D& original)
     {
         dimension = 3;
         coordinates = new float[3];
         
         for (int i = 0; i < 3; ++i)
         {
-            coordinates[i] = oldVect3D.get_coordinates()[i];
+            coordinates[i] = original.get_coordinates()[i];
         }
     }
 
+    /*
+    Constructor useful for polymorphic copies of Vect* v = new Vect3D();
+    Error prone!! Call should ALWAYS be wrapped with guard in the form
+    if (v->get_dimension() == 3)
+    {
+        Vect3D(v->get_components());
+    }
+    */
     Vect3D::Vect3D(const float* coordinates)
     {
         this->dimension = 3;
@@ -142,6 +151,7 @@ namespace TPP_VMath
         }
         return sumOfProducts;
     }
+
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
@@ -158,7 +168,7 @@ namespace TPP_VMath
     }
 
     // Overloaded constructor for one Vect3D
-    VSet::VSet(Vect3D v3D)
+    VSet::VSet(const Vect3D& v3D)
     {
         n = 1;
         m = v3D.get_dimension();
@@ -175,6 +185,37 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             setOfVectors[i] = new Vect3D(a[i]->get_coordinates());
+        }
+    }
+
+    VSet::VSet(const VSet& original)
+    {
+        this->n = original.n;
+        this->m = original.m;
+        setOfVectors = new Vect*[n];
+        for (int i = 0; i < n; ++i)
+        {
+            if (m == 1)
+            {
+                // Vect1D
+            }
+            else if (m == 2)
+            {
+                // Vect2D
+            }
+            else if (m == 3) 
+            {
+                setOfVectors[i] = 
+                    new Vect3D(original.setOfVectors[i]->get_coordinates());
+            }
+            else if (m == 4)
+            {
+                // Vect4D
+            }
+            else
+            {
+                // VectND
+            }
         }
     }
 
@@ -277,8 +318,8 @@ namespace TPP_VMath
                       << "VSet dimensions\n";
             std::cerr << e.what() << '\n';
         }
-        
     }
+
     //========================================================================//
     // END OF VSET CLASS IMPLEMENTATION
     //========================================================================//
@@ -299,6 +340,22 @@ namespace TPP_VMath
             for (int j = 0; j < m; ++j)
             {
                 A[i][j] = set.get_set_of_vectors()[i]->get_coordinates()[j]; 
+            }
+        }
+    }
+
+    // Matrix copy constructor
+    Matrix::Matrix(const Matrix& original)
+    {
+        this->m = original.m;
+        this->n = original.n;
+        A = new float*[n];
+        for (int i = 0; i < n; ++i)
+        {
+            A[i] = new float[m];
+            for (int j = 0; j < m; ++j)
+            {
+                A[i][j] = original.A[i][j];
             }
         }
     }
@@ -343,19 +400,29 @@ namespace TPP_VMath
         }
     }
 
+
+
+    // Reduce this matrix to reduced echelon form
     void Matrix::reduce_matrix()
     {
-        bool notREForm = true;
+        bool notInReducedEchelonForm = true;
 
-        while (notREForm)
+        while (notInReducedEchelonForm)
         {
+            // If RE form achieved, the loop will break
+            notInReducedEchelonForm = false;
+
+            // STEP 1. TODO
 
         }
     }
 
+    // Produce a new reduced echelon matrix from this matrix
     Matrix  Matrix::get_reduced()
     {
-
+        Matrix copy(*this);
+        copy.reduce_matrix();
+        return copy;
     }
 
     //========================================================================//

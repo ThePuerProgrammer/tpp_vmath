@@ -4,6 +4,7 @@
 
 namespace TPP_VMath
 {
+
     //========================================================================//
     // START OF VECT CLASS DECLARATION
     //========================================================================//
@@ -27,7 +28,7 @@ namespace TPP_VMath
         float*          get_coordinates() const;
 
         // Returns the dimension of the vector (the number of entries)
-        int             get_dimension();
+        int             get_dimension() const;
 
         // Pure virtual destructor
         virtual ~Vect() = 0;
@@ -62,7 +63,14 @@ namespace TPP_VMath
         // Copy constructor
         Vect3D(const Vect3D&);
 
-        // Overloaded constructor uses copy of float*
+        /*
+        Constructor useful for polymorphic copies of Vect* v = new Vect3D();
+        Error prone!! Call should ALWAYS be wrapped with guard in the form
+        if (v->get_dimension() == 3)
+        {
+            Vect3D(v->get_components());
+        }
+        */
         Vect3D(const float*);
 
         // Destructor deletes coordinate array
@@ -94,10 +102,13 @@ namespace TPP_VMath
         VSet();
 
         // Overloaded constructor for one Vect3D
-        VSet(Vect3D);
+        VSet(const Vect3D&);
 
         // Overloaded constructor for an array of Vect3D
         VSet(int, Vect3D**);
+
+        // Copy constructor
+        VSet(const VSet&);
 
         // Destructor deletes the set
         ~VSet();
@@ -150,6 +161,9 @@ namespace TPP_VMath
         // Overloaded constructor accepts a set of Vects and generates a matrix
         Matrix(VSet&);
 
+        // Matrix copy constructor
+        Matrix(const Matrix&);
+
         // Destructor deletes the matrix A
         ~Matrix();
 
@@ -158,6 +172,10 @@ namespace TPP_VMath
 
         // Produce a new reduced echelon matrix from this matrix
         Matrix  get_reduced();
+
+        // TODO
+        // // Returns a pointer to b where Ax = b
+        // Vect*   get_vector_matrix_product(Vect*);
 
         // Console representation of coefficient matrix for testing
         void    print_matrix();
@@ -177,4 +195,5 @@ namespace TPP_VMath
     //========================================================================//
     // END OF MATRIX CLASS DECLARATION
     //========================================================================//
+
 };
