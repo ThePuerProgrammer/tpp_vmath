@@ -62,6 +62,9 @@ namespace TPP_VMath
         // Copy constructor
         Vect3D(const Vect3D&);
 
+        // Overloaded constructor uses copy of float*
+        Vect3D(const float*);
+
         // Destructor deletes coordinate array
         ~Vect3D();
 
@@ -145,7 +148,7 @@ namespace TPP_VMath
     public:
 
         // Overloaded constructor accepts a set of Vects and generates a matrix
-        Matrix(VSet);
+        Matrix(VSet&);
 
         // Destructor deletes the matrix A
         ~Matrix();

@@ -94,7 +94,17 @@ namespace TPP_VMath
         
         for (int i = 0; i < 3; ++i)
         {
-            coordinates[i] = oldVect3D.coordinates[i];
+            coordinates[i] = oldVect3D.get_coordinates()[i];
+        }
+    }
+
+    Vect3D::Vect3D(const float* coordinates)
+    {
+        this->dimension = 3;
+        this->coordinates = new float[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            this->coordinates[i] = coordinates[i];
         }
     }
 
@@ -153,7 +163,7 @@ namespace TPP_VMath
         n = 1;
         m = v3D.get_dimension();
         setOfVectors = new Vect*[1];
-        setOfVectors[0] = new Vect3D(v3D);
+        setOfVectors[0] = new Vect3D(v3D.get_coordinates());
     }
 
     // Overloaded constructor for an array of Vect3D
@@ -164,7 +174,7 @@ namespace TPP_VMath
         setOfVectors = new Vect*[n];
         for (int i = 0; i < n; ++i)
         {
-            setOfVectors[i] = new Vect3D(*a[i]);
+            setOfVectors[i] = new Vect3D(a[i]->get_coordinates());
         }
     }
 
@@ -234,7 +244,7 @@ namespace TPP_VMath
                 delete [] setOfVectors;
 
                 // add the new vector
-                p[n - 1] = vect;
+                p[n - 1] = new Vect3D(vect->get_coordinates());
 
                 // set = new set
                 setOfVectors = p;
@@ -273,7 +283,7 @@ namespace TPP_VMath
     //========================================================================//
 
     // Constructor builds an mxn matrix A from a set of n Vects
-    Matrix::Matrix(VSet set)
+    Matrix::Matrix(VSet& set)
     {
         this->m = set.get_m();
         this->n = set.get_n();
