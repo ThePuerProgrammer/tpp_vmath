@@ -24,13 +24,13 @@ namespace TPP_VMath
         float*          operator[](int);
 
         // Returns the coordinate array as a pointer to coordinates[0]
-        float*          get_coordinates();
+        float*          get_coordinates() const;
 
         // Returns the dimension of the vector (the number of entries)
         int             get_dimension();
 
-        // Temporary virtualizer to force abstraction
-        virtual void    virtualizer() = 0;
+        // Pure virtual destructor
+        virtual ~Vect() = 0;
 
     protected:
         // The number of entries in coordinates
@@ -71,8 +71,8 @@ namespace TPP_VMath
         // Manual assignment of x, y, z vector entries
         void    set_coordinates(float, float, float);
 
-        // Unimplemented. Do NOT call
-        void    virtualizer();
+        // 
+        float   dot_product(const Vect3D&);
     };
 
     //========================================================================//
@@ -150,6 +150,12 @@ namespace TPP_VMath
         // Destructor deletes the matrix A
         ~Matrix();
 
+        // Reduce this matrix to reduced echelon form
+        void    reduce_matrix();
+
+        // Produce a new reduced echelon matrix from this matrix
+        Matrix  get_reduced();
+
         // Console representation of coefficient matrix for testing
         void    print_matrix();
 
@@ -162,7 +168,7 @@ namespace TPP_VMath
         int     n;
 
         // 2D array using pointer notation representing a matrix
-        float   **A;
+        float** A;
     };
 
     //========================================================================//

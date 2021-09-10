@@ -11,6 +11,9 @@ namespace TPP_VMath
     // START OF VECT CLASS IMPLEMENTATION
     //========================================================================//
 
+    Vect::~Vect()
+    { }
+
     // Returns sqrtf(v₁^2+...+vᵢ^2)
     float Vect::get_magnitude()
     {
@@ -49,7 +52,7 @@ namespace TPP_VMath
     }
 
     // Returns the coordinate array as a pointer to coordinates[0]
-    float* Vect::get_coordinates()
+    float* Vect::get_coordinates() const
     {
         return coordinates;
     }
@@ -99,6 +102,7 @@ namespace TPP_VMath
     Vect3D::~Vect3D()
     {
         delete [] coordinates;
+        coordinates = nullptr;
     }
 
     Vect3D& Vect3D::operator=(const Vect3D& right)
@@ -119,9 +123,15 @@ namespace TPP_VMath
         coordinates[2] = z;
     }
 
-    // Intended only to keep Vect as a pure virtual abstract class
-    void Vect3D::virtualizer()
-    { }
+    float Vect3D::dot_product(const Vect3D& that)
+    {
+        float sumOfProducts = 0;
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+        }
+        return sumOfProducts;
+    }
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
@@ -143,7 +153,7 @@ namespace TPP_VMath
         n = 1;
         m = v3D.get_dimension();
         setOfVectors = new Vect*[1];
-        setOfVectors[0] = &v3D;
+        setOfVectors[0] = new Vect3D(v3D);
     }
 
     // Overloaded constructor for an array of Vect3D
@@ -154,13 +164,19 @@ namespace TPP_VMath
         setOfVectors = new Vect*[n];
         for (int i = 0; i < n; ++i)
         {
-            setOfVectors[i] = a[i];
+            setOfVectors[i] = new Vect3D(*a[i]);
         }
     }
 
     // Destructor deletes the set
     VSet::~VSet()
     {
+        std::cout << n << std::endl;
+        for (int i = 0; i < n; ++i)
+        {
+            delete setOfVectors[i];
+            setOfVectors[i] = nullptr;
+        }
         delete [] setOfVectors;
     }
 
@@ -278,8 +294,10 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             delete [] A[i];
+            A[i] = nullptr;
         }
         delete [] A;
+        A = nullptr;
     }
 
     // Console representation of coefficient matrix for testing
@@ -307,6 +325,16 @@ namespace TPP_VMath
                           << " ";
             }
             std::cout << std::endl;
+        }
+    }
+
+    void Matrix::reduce_matrix()
+    {
+        bool notREForm = true;
+
+        while (notREForm)
+        {
+
         }
     }
 
