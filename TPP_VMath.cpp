@@ -244,7 +244,9 @@ namespace TPP_VMath
                 delete [] setOfVectors;
 
                 // add the new vector
-                p[n - 1] = new Vect3D(vect->get_coordinates());
+                // if set of Vect3D
+                if (m == 3)
+                    p[n - 1] = new Vect3D(vect->get_coordinates());
 
                 // set = new set
                 setOfVectors = p;
@@ -261,7 +263,10 @@ namespace TPP_VMath
 
                 // establish the set in memory
                 setOfVectors = new Vect*[1];
-                setOfVectors[0] = vect;
+
+                // if set of Vect3D
+                if (m == 3) 
+                    setOfVectors[0] = new Vect3D(vect->get_coordinates());
             }
         }
 
@@ -346,6 +351,11 @@ namespace TPP_VMath
         {
 
         }
+    }
+
+    Matrix  Matrix::get_reduced()
+    {
+
     }
 
     //========================================================================//
