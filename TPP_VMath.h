@@ -46,6 +46,35 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
+    // START OF VWRAPPER CLASS DECLARATION
+    //========================================================================//
+
+    /*
+    This class should be used to catch any functiont that returns a Vect*.
+    Wrapping the Vect* allows for stack allocation by the user of this library
+    and prevents memory leaks.
+    */
+    class VWrapper
+    {
+    public:
+
+        VWrapper(Vect*);
+
+        ~VWrapper();
+
+        Vect*   get_vect();
+
+    protected:
+
+        // The wrapped Vect*
+        Vect*   vect;
+    };
+
+    //========================================================================//
+    // END OF VWRAPPER CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
     // START OF VECT3D CLASS DECLARATION
     //========================================================================//
 
@@ -105,7 +134,7 @@ namespace TPP_VMath
         VSet(const Vect3D&);
 
         // Overloaded constructor for an array of Vect3D
-        VSet(int, Vect3D**);
+        VSet(const int&, Vect3D[]);
 
         // Copy constructor
         VSet(const VSet&);
@@ -173,9 +202,8 @@ namespace TPP_VMath
         // Produce a new reduced echelon matrix from this matrix
         Matrix  get_reduced();
 
-        // TODO
-        // // Returns a pointer to b where Ax = b
-        // Vect*   get_vector_matrix_product(Vect*);
+        // Returns a pointer to b where Ax = b
+        Vect*   get_vector_matrix_product(Vect*);
 
         // Console representation of coefficient matrix for testing
         void    print_matrix();

@@ -176,15 +176,19 @@ namespace TPP_VMath
         setOfVectors[0] = new Vect3D(v3D.get_coordinates());
     }
 
-    // Overloaded constructor for an array of Vect3D
-    VSet::VSet(int n, Vect3D** a)
+    /*
+    Overloaded VSet constructor using an array of Vect3D where n is the number 
+    of elements in a. In order to avoid errors, a should be instantiated with a 
+    const int that is also used as the argument for n
+    */
+    VSet::VSet(const int& n, Vect3D a[])
     {
         this->n = n;
         m = 3;
         setOfVectors = new Vect*[n];
         for (int i = 0; i < n; ++i)
         {
-            setOfVectors[i] = new Vect3D(a[i]->get_coordinates());
+            setOfVectors[i] = new Vect3D(a[i].get_coordinates());
         }
     }
 
@@ -222,11 +226,9 @@ namespace TPP_VMath
     // Destructor deletes the set
     VSet::~VSet()
     {
-        std::cout << n << std::endl;
         for (int i = 0; i < n; ++i)
         {
             delete setOfVectors[i];
-            setOfVectors[i] = nullptr;
         }
         delete [] setOfVectors;
     }
@@ -366,10 +368,8 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             delete [] A[i];
-            A[i] = nullptr;
         }
         delete [] A;
-        A = nullptr;
     }
 
     // Console representation of coefficient matrix for testing
@@ -425,8 +425,58 @@ namespace TPP_VMath
         return copy;
     }
 
+    // Returns a pointer to b where Ax = b
+    Vect*   Matrix::get_vector_matrix_product(Vect* x)
+    {
+        int dimension = x->get_dimension();
+
+        if (dimension != n) 
+        {
+            std::cerr << "x is not in the range of the transformation Ax\n";
+            return nullptr;
+        }
+
+        Vect* b;
+
+        if (x->get_dimension() == 3)
+        {
+            b = new Vect3D();
+
+            for (int i = 0; i < n; ++i)
+            {
+
+            }
+
+        }
+
+        return b;
+    }
+
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VWRAPPER CLASS IMPLEMENTATION
+    //========================================================================//
+
+    VWrapper::VWrapper(Vect* vect)
+    {
+        this->vect = vect;
+    }
+
+    VWrapper::~VWrapper()
+    {
+        delete vect;
+    }
+
+    Vect* VWrapper::get_vect()
+    {
+        return vect;
+    }
+
+    //========================================================================//
+    // END OF VWRAPPER CLASS IMPLEMENTATION
     //========================================================================//
 
 }
