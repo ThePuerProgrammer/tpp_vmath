@@ -12,6 +12,7 @@ namespace TPP_VMath
     class Vect
     {
     public:
+
         // Returns sqrtf(v₁^2+...+vᵢ^2)
         float           get_magnitude();
 
@@ -31,9 +32,10 @@ namespace TPP_VMath
         unsigned int    get_dimension() const;
 
         // Pure virtual destructor
-        virtual ~Vect() = 0;
+        virtual         ~Vect() = 0;
 
     protected:
+
         // The number of entries in coordinates
         unsigned int    dimension;
 
@@ -50,26 +52,37 @@ namespace TPP_VMath
     //========================================================================//
 
     /*
-    This class should be used to catch any functiont that returns a Vect*.
-    Wrapping the Vect* allows for stack allocation by the user of this library
-    and prevents memory leaks.
+    This class should be used to wrap any function that returns a Vect* to a 
+    newly allocated resource, such as the function
+    
+    Vect* Matrix::get_matrix_vector_product()
+
+    Wrapping a new Vect allows the destructor to handle deallocation of heap 
+    resources. If two VWrappers are used to wrap the same Vect*, this will 
+    result in undefined behavior. 
+    
+    Therefore, a single address should only ever be wrapped once. 
     */
     class VWrapper
     {
     public:
 
+        // Set vect to nullptr and wrap as a seperate step
         VWrapper();
 
+        // Wrap upon construction
         VWrapper(Vect*);
 
+        // Destructor handles deallocation
         ~VWrapper();
 
-        // If the vect is null, wrap a Vect*
+        // If vect is null, wrap a Vect*
         void    wrap(Vect*);
 
-        // If vect is not null, delete and set to nullptr
+        // Explicit deallocation of vect
         void    unwrap();
 
+        // Assignment for access of the wrapped pointer
         Vect*   get_vect();
 
     protected:
@@ -83,12 +96,35 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
+    // START OF VECT1D CLASS DECLARATION
+    //========================================================================//
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    //========================================================================//
+    // END OF VECT1D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT2D CLASS DECLARATION
+    //========================================================================//
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    //========================================================================//
+    // END OF VECT2D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
     // START OF VECT3D CLASS DECLARATION
     //========================================================================//
 
     class Vect3D : public Vect
     {
     public:
+    
         // Default constructor for a vector in R3 that inits to the zero vector
         Vect3D();
 
@@ -119,12 +155,34 @@ namespace TPP_VMath
         // Manual assignment of x, y, z vector entries
         void    set_coordinates(float, float, float);
 
-        // 
+        // Calculates the sum of the entrywise products of two Vect3Ds
         float   dot_product(const Vect3D&);
     };
 
     //========================================================================//
     // END OF VECT3D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT4D CLASS DECLARATION
+    //========================================================================//
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    //========================================================================//
+    // END OF VECT4D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECTND CLASS DECLARATION
+    //========================================================================//
+    // TODO
+    // TODO
+    // TODO
+    // TODO
+    //========================================================================//
+    // END OF VECTND CLASS DECLARATION
     //========================================================================//
 
     //========================================================================//
@@ -205,26 +263,31 @@ namespace TPP_VMath
         ~Matrix();
 
         // Reduce this matrix to reduced echelon form
-        void    reduce_matrix();
+        void            reduce_matrix();
 
         // Produce a new reduced echelon matrix from this matrix
-        Matrix  get_reduced();
+        Matrix          get_reduced();
 
         // Returns a pointer to b where Ax = b
-        Vect*   get_matrix_vector_product(Vect*);
+        Vect*           get_matrix_vector_product(Vect*);
 
         // Console representation of coefficient matrix for testing
-        void    print_matrix();
+        void            print_matrix();
+
+        // Returns an nxn identity matrix
+        static Matrix   get_identity_matrix_of_size(int);
 
     private:
 
-        // The number of entries in each column of A
+        // The number of rows in A
         unsigned int    m;
 
         // The number of columns in A
         unsigned int    n;
 
-        // 2D array using pointer notation representing a matrix
+        /*
+        2D array using pointer notation representing a matrix
+        */
         float**         A;
     };
 

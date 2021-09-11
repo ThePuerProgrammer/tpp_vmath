@@ -72,22 +72,26 @@ namespace TPP_VMath
     // START OF VWRAPPER CLASS IMPLEMENTATION
     //========================================================================//
 
+    // Set vect to nullptr and wrap as a seperate step
     VWrapper::VWrapper()
     {
         this->vect = nullptr;
     }
 
+    // Wrap upon construction
     VWrapper::VWrapper(Vect* vect)
     {
         this->vect = vect;
     }
 
+    // If vect is null, wrap a Vect*
     void VWrapper::wrap(Vect* vect)
     {
         if (!this->vect)
             this->vect = vect;
     }
 
+    // Explicit deallocation of vect
     void VWrapper::unwrap()
     {
         if (this->vect)
@@ -97,12 +101,14 @@ namespace TPP_VMath
         }
     }
 
+    // Destructor handles deallocation
     VWrapper::~VWrapper()
     {
         if (this->vect)
             delete vect;
     }
 
+    // Assignment for access of the wrapped pointer
     Vect* VWrapper::get_vect()
     {
         return vect;
@@ -379,13 +385,13 @@ namespace TPP_VMath
     {
         this->m = set.get_m();
         this->n = set.get_n();
-        A = new float*[n];
-        for (int i = 0; i < n; ++i)
+        A = new float*[m];
+        for (int i = 0; i < m; ++i)
         {
-            A[i] = new float[m];
-            for (int j = 0; j < m; ++j)
+            A[i] = new float[n];
+            for (int j = 0; j < n; ++j)
             {
-                A[i][j] = set.get_set_of_vectors()[i]->get_coordinates()[j]; 
+                A[i][j] = set.get_set_of_vectors()[j]->get_coordinates()[i];
             }
         }
     }
@@ -395,11 +401,11 @@ namespace TPP_VMath
     {
         this->m = original.m;
         this->n = original.n;
-        A = new float*[n];
-        for (int i = 0; i < n; ++i)
+        A = new float*[m];
+        for (int i = 0; i < m; ++i)
         {
-            A[i] = new float[m];
-            for (int j = 0; j < m; ++j)
+            A[i] = new float[n];
+            for (int j = 0; j < n; ++j)
             {
                 A[i][j] = original.A[i][j];
             }
@@ -409,7 +415,7 @@ namespace TPP_VMath
     // Destructor deletes A
     Matrix::~Matrix()
     {
-        for (int i = 0; i < n; ++i)
+        for (int i = 0; i < m; ++i)
         {
             delete [] A[i];
         }
@@ -437,41 +443,39 @@ namespace TPP_VMath
                           << std::fixed
                           << std::right
                           << std::setw(10)
-                          << A[j][i]
+                          << A[i][j]
                           << " ";
             }
             std::cout << std::endl;
         }
     }
 
-
-
     // Reduce this matrix to reduced echelon form
     void Matrix::reduce_matrix()
     {
+        int pivotCol = 0, pivotRow = 0;
         bool notInReducedEchelonForm = true;
 
         while (notInReducedEchelonForm)
         {
-            // If RE form achieved, the loop will break
+            // sf RE form achieved, the loop will break
             notInReducedEchelonForm = false;
+            
+            // search the row for the first non zero entry as our pivot
+            while (pivotCol < n && A[pivotCol][pivotRow] == 0)
+            {
+                ++pivotCol;
+            }
 
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
-            // TODO
+            // if the row is all zeros, interchange with the first non-zero row
+            if (pivotCol == n) {
+                // TODO
+                // TODO
+                // TODO
+                // TODO
+                // TODO
+                // TODO
+            }
 
         }
     }
@@ -484,7 +488,16 @@ namespace TPP_VMath
         return copy;
     }
 
-    // Returns a pointer to b where Ax = b
+    /*
+    Returns a pointer to b where Ax = b
+
+    In order to prevent memory leaks, it is highly recommended that this
+    function is called from within a VWrapper's constructor or wrap() function
+    in the form:
+
+    VWrapper wrapper(get_matrix_vector_product(&vect));
+    Vect* vectPointer = wrapper.get_vect();
+    */
     Vect*   Matrix::get_matrix_vector_product(Vect* vect)
     {
         unsigned int n = vect->get_dimension();
@@ -513,13 +526,48 @@ namespace TPP_VMath
 
             for (int j = 0; j < n; j++) 
             {
-                sum += A[j][i] * x[j];
+                sum += A[i][j] * x[j];
             }
 
             b->get_coordinates()[i] = sum;
         }
 
         return b;
+    }
+
+    Matrix Matrix::get_identity_matrix_of_size(int n)
+    {
+        VSet set;
+
+        // TODO
+        // WAITING ON VECTND
+        // TODO
+        // TODO
+        // TODO
+        // TODO
+        // TODO
+        // TODO
+        
+        for (int i = 0; i < n; ++i)
+        {
+            float f[n];
+
+            for (int j = 0; j < n; ++j)
+            {
+                if (j != i)
+                {
+                    f[j] = 0;
+                }
+                else
+                {
+                    f[j] = 1;
+                }
+            }
+            // set.add_vect_to_set(new VectND(n, f));
+        }
+
+        Matrix result(set);
+        return result;
     }
 
     //========================================================================//
