@@ -28,14 +28,14 @@ namespace TPP_VMath
         float*          get_coordinates() const;
 
         // Returns the dimension of the vector (the number of entries)
-        int             get_dimension() const;
+        unsigned int    get_dimension() const;
 
         // Pure virtual destructor
         virtual ~Vect() = 0;
 
     protected:
         // The number of entries in coordinates
-        int             dimension;
+        unsigned int    dimension;
 
         // The array representing the vector
         float*          coordinates;
@@ -58,9 +58,17 @@ namespace TPP_VMath
     {
     public:
 
+        VWrapper();
+
         VWrapper(Vect*);
 
         ~VWrapper();
+
+        // If the vect is null, wrap a Vect*
+        void    wrap(Vect*);
+
+        // If vect is not null, delete and set to nullptr
+        void    unwrap();
 
         Vect*   get_vect();
 
@@ -143,13 +151,13 @@ namespace TPP_VMath
         ~VSet();
 
         // Returns the number of vectors in the set
-        int     get_n();
+        unsigned int    get_n();
         
         // Returns the number of entries in each vector
-        int     get_m();
+        unsigned int    get_m();
 
         // Returns the set as an array of Vects
-        Vect**  get_set_of_vectors();
+        Vect**          get_set_of_vectors();
 
         /*
         Add a new vect of *matching dimension* to the set
@@ -161,18 +169,18 @@ namespace TPP_VMath
         }
         This does not apply if the set is currently null
         */
-        void    add_vect_to_set(Vect*);
+        void            add_vect_to_set(Vect*);
 
     private:
 
         // The number of entries in each vector in the set
-        int     m;
+        unsigned int    m;
 
         // The number of vectors in the set
-        int     n;
+        unsigned int    n;
 
         // The set of vectors as an array in pointer notation
-        Vect**  setOfVectors;
+        Vect**          setOfVectors;
     };
 
     //========================================================================//
@@ -203,7 +211,7 @@ namespace TPP_VMath
         Matrix  get_reduced();
 
         // Returns a pointer to b where Ax = b
-        Vect*   get_vector_matrix_product(Vect*);
+        Vect*   get_matrix_vector_product(Vect*);
 
         // Console representation of coefficient matrix for testing
         void    print_matrix();
@@ -211,13 +219,13 @@ namespace TPP_VMath
     private:
 
         // The number of entries in each column of A
-        int     m;
+        unsigned int    m;
 
         // The number of columns in A
-        int     n;
+        unsigned int    n;
 
         // 2D array using pointer notation representing a matrix
-        float** A;
+        float**         A;
     };
 
     //========================================================================//

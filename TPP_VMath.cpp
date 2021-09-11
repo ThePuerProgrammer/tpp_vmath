@@ -59,7 +59,7 @@ namespace TPP_VMath
     }
 
     // Returns the dimension of the vector (the number of entries)
-    int Vect::get_dimension() const
+    unsigned int Vect::get_dimension() const
     {
         return dimension;
     }
@@ -69,12 +69,56 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
+    // START OF VWRAPPER CLASS IMPLEMENTATION
+    //========================================================================//
+
+    VWrapper::VWrapper()
+    {
+        this->vect = nullptr;
+    }
+
+    VWrapper::VWrapper(Vect* vect)
+    {
+        this->vect = vect;
+    }
+
+    void VWrapper::wrap(Vect* vect)
+    {
+        if (!this->vect)
+            this->vect = vect;
+    }
+
+    void VWrapper::unwrap()
+    {
+        if (this->vect)
+        {
+            delete this->vect;
+            this->vect = nullptr;
+        }
+    }
+
+    VWrapper::~VWrapper()
+    {
+        if (this->vect)
+            delete vect;
+    }
+
+    Vect* VWrapper::get_vect()
+    {
+        return vect;
+    }
+
+    //========================================================================//
+    // END OF VWRAPPER CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
     // START OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
 
     // Default constructor for a vector in R3 that inits to the zero vector
-    Vect3D::Vect3D() : Vect3D(0, 0, 0)
-    { }
+    Vect3D::Vect3D() : Vect3D(0, 0, 0) 
+    {   }
 
     // Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
     Vect3D::Vect3D(const float x, const float y, const float z)
@@ -197,29 +241,29 @@ namespace TPP_VMath
         this->n = original.n;
         this->m = original.m;
         setOfVectors = new Vect*[n];
-        for (int i = 0; i < n; ++i)
+        if (m == 1)
         {
-            if (m == 1)
-            {
-                // Vect1D
-            }
-            else if (m == 2)
-            {
-                // Vect2D
-            }
-            else if (m == 3) 
+            // Vect1D
+        }
+        else if (m == 2)
+        {
+            // Vect2D
+        }
+        else if (m == 3) 
+        {
+            for (int i = 0; i < n; ++i)
             {
                 setOfVectors[i] = 
                     new Vect3D(original.setOfVectors[i]->get_coordinates());
             }
-            else if (m == 4)
-            {
-                // Vect4D
-            }
-            else
-            {
-                // VectND
-            }
+        }
+        else if (m == 4)
+        {
+            // Vect4D
+        }
+        else
+        {
+            // VectND
         }
     }
 
@@ -234,13 +278,13 @@ namespace TPP_VMath
     }
 
     // Returns the number of vectors in the set
-    int VSet::get_n()
+    unsigned int VSet::get_n()
     {
         return n;
     }
 
     // Returns the number of entries in each vector
-    int VSet::get_m()
+    unsigned int VSet::get_m()
     {
         return m;
     }
@@ -412,7 +456,22 @@ namespace TPP_VMath
             // If RE form achieved, the loop will break
             notInReducedEchelonForm = false;
 
-            // STEP 1. TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
+            // TODO
 
         }
     }
@@ -426,27 +485,38 @@ namespace TPP_VMath
     }
 
     // Returns a pointer to b where Ax = b
-    Vect*   Matrix::get_vector_matrix_product(Vect* x)
+    Vect*   Matrix::get_matrix_vector_product(Vect* vect)
     {
-        int dimension = x->get_dimension();
+        unsigned int n = vect->get_dimension();
 
-        if (dimension != n) 
+        // the dimensions of the vector must match the number of columns in A
+        if (n != this->n) 
         {
             std::cerr << "x is not in the range of the transformation Ax\n";
             return nullptr;
         }
 
+        // The matrix vector product
         Vect* b;
 
-        if (x->get_dimension() == 3)
+        if (n == 3)
         {
             b = new Vect3D();
+        }
 
-            for (int i = 0; i < n; ++i)
+        float* x = vect->get_coordinates();
+
+        // Ax = b
+        for (int i = 0; i < m; i++) 
+        {
+            int sum = 0;
+
+            for (int j = 0; j < n; j++) 
             {
-
+                sum += A[j][i] * x[j];
             }
 
+            b->get_coordinates()[i] = sum;
         }
 
         return b;
@@ -454,29 +524,6 @@ namespace TPP_VMath
 
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VWRAPPER CLASS IMPLEMENTATION
-    //========================================================================//
-
-    VWrapper::VWrapper(Vect* vect)
-    {
-        this->vect = vect;
-    }
-
-    VWrapper::~VWrapper()
-    {
-        delete vect;
-    }
-
-    Vect* VWrapper::get_vect()
-    {
-        return vect;
-    }
-
-    //========================================================================//
-    // END OF VWRAPPER CLASS IMPLEMENTATION
     //========================================================================//
 
 }
