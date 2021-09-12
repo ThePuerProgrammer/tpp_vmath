@@ -1,5 +1,9 @@
-// TPP_VMath.cpp
-// written by Jesse Rankins 2021
+/**
+ * @file        TPP_VMath.h
+ * @author      Jesse Rankins
+ * @since       2021
+ * @version     0.1
+ */ 
 #include "TPP_VMath.h"
 #include <cmath>
 #include <iostream>
@@ -15,7 +19,6 @@ namespace TPP_VMath
     Vect::~Vect()
     { }
 
-    // Returns sqrtf(v₁^2+...+vᵢ^2)
     float Vect::get_magnitude()
     {
         float sumOfSquares = 0;
@@ -28,7 +31,6 @@ namespace TPP_VMath
         return sqrtf(sumOfSquares);
     }
 
-    // Scales each entry in the vector by integer scalar value
     void Vect::scale_by(int c)
     {
         for (int i = 0; i < dimension; ++i)
@@ -37,7 +39,6 @@ namespace TPP_VMath
         }
     }
 
-    // Scales each entry in the vector by float scalar value
     void Vect::scale_by(float c)
     {
         for (int i = 0; i < dimension; ++i)
@@ -46,19 +47,16 @@ namespace TPP_VMath
         }
     }
 
-    // Overloaded [] operator returns the ith coordinate in the vector
     float* Vect::operator[](int i)
     {
         return &coordinates[i];
     }
 
-    // Returns the coordinate array as a pointer to coordinates[0]
     float* Vect::get_coordinates() const
     {
         return coordinates;
     }
 
-    // Returns the dimension of the vector (the number of entries)
     unsigned int Vect::get_dimension() const
     {
         return dimension;
@@ -72,26 +70,28 @@ namespace TPP_VMath
     // START OF VWRAPPER CLASS IMPLEMENTATION
     //========================================================================//
 
-    // Set vect to nullptr and wrap as a seperate step
     VWrapper::VWrapper()
     {
         this->vect = nullptr;
     }
 
-    // Wrap upon construction
     VWrapper::VWrapper(Vect* vect)
     {
         this->vect = vect;
     }
 
-    // If vect is null, wrap a Vect*
+    VWrapper::~VWrapper()
+    {
+        if (this->vect)
+            delete vect;
+    }
+
     void VWrapper::wrap(Vect* vect)
     {
         if (!this->vect)
             this->vect = vect;
     }
 
-    // Explicit deallocation of vect
     void VWrapper::unwrap()
     {
         if (this->vect)
@@ -101,14 +101,6 @@ namespace TPP_VMath
         }
     }
 
-    // Destructor handles deallocation
-    VWrapper::~VWrapper()
-    {
-        if (this->vect)
-            delete vect;
-    }
-
-    // Assignment for access of the wrapped pointer
     Vect* VWrapper::get_vect()
     {
         return vect;
@@ -122,11 +114,9 @@ namespace TPP_VMath
     // START OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
 
-    // Default constructor for a vector in R3 that inits to the zero vector
     Vect3D::Vect3D() : Vect3D(0, 0, 0) 
     {   }
 
-    // Overloaded constructor for a vector in R3 that accepts x,y,z coordinates
     Vect3D::Vect3D(const float x, const float y, const float z)
     {
         dimension = 3;
@@ -137,7 +127,6 @@ namespace TPP_VMath
         coordinates[2] = z;
     }
 
-    // Copy constructor
     Vect3D::Vect3D(const Vect3D& original)
     {
         dimension = 3;
@@ -149,14 +138,6 @@ namespace TPP_VMath
         }
     }
 
-    /*
-    Constructor useful for polymorphic copies of Vect* v = new Vect3D();
-    Error prone!! Call should ALWAYS be wrapped with guard in the form
-    if (v->get_dimension() == 3)
-    {
-        Vect3D(v->get_components());
-    }
-    */
     Vect3D::Vect3D(const float* coordinates)
     {
         this->dimension = 3;
@@ -167,7 +148,6 @@ namespace TPP_VMath
         }
     }
 
-    // Destructor deletes coordinate array
     Vect3D::~Vect3D()
     {
         delete [] coordinates;
@@ -184,7 +164,6 @@ namespace TPP_VMath
         return *this;
     }
 
-    // Manual assignment of x, y, z vector entries
     void Vect3D::set_coordinates(float x, float y, float z)
     {
         coordinates[0] = x;
@@ -210,14 +189,12 @@ namespace TPP_VMath
     // START OF VSET CLASS IMPLEMENTATION
     //========================================================================//
 
-    // Default constructor is a null set
     VSet::VSet()
     {
         m = n = 0;
         setOfVectors = nullptr;
     }
 
-    // Overloaded constructor for one Vect3D
     VSet::VSet(const Vect3D& v3D)
     {
         n = 1;
@@ -226,11 +203,6 @@ namespace TPP_VMath
         setOfVectors[0] = new Vect3D(v3D.get_coordinates());
     }
 
-    /*
-    Overloaded VSet constructor using an array of Vect3D where n is the number 
-    of elements in a. In order to avoid errors, a should be instantiated with a 
-    const int that is also used as the argument for n
-    */
     VSet::VSet(const int& n, Vect3D a[])
     {
         this->n = n;
@@ -273,7 +245,6 @@ namespace TPP_VMath
         }
     }
 
-    // Destructor deletes the set
     VSet::~VSet()
     {
         for (int i = 0; i < n; ++i)
@@ -283,34 +254,21 @@ namespace TPP_VMath
         delete [] setOfVectors;
     }
 
-    // Returns the number of vectors in the set
-    unsigned int VSet::get_n()
+    unsigned int VSet::get_n() const
     {
         return n;
     }
 
-    // Returns the number of entries in each vector
-    unsigned int VSet::get_m()
+    unsigned int VSet::get_m() const
     {
         return m;
     }
 
-    // Returns the set as an array of Vects
-    Vect** VSet::get_set_of_vectors()
+    Vect** VSet::get_set_of_vectors() const
     {
         return setOfVectors;
     }
 
-    /*
-    Add a new vect of *matching dimension* to the set
-    If the vector dimension doesn't == m, a runtime exception is thrown
-    It is best to wrap the call to this funtion in a guard in the form
-    if (Vect*->get_dimension() == Set.get_m())
-    {
-        add_vect_to_set(Vect*);
-    }
-    This does not apply if the set is currently null
-    */
     void VSet::add_vect_to_set(Vect* vect)
     {
         try
@@ -380,8 +338,7 @@ namespace TPP_VMath
     // START OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
 
-    // Constructor builds an mxn matrix A from a set of n Vects
-    Matrix::Matrix(VSet& set)
+    Matrix::Matrix(const VSet& set)
     {
         this->m = set.get_m();
         this->n = set.get_n();
@@ -396,7 +353,6 @@ namespace TPP_VMath
         }
     }
 
-    // Matrix copy constructor
     Matrix::Matrix(const Matrix& original)
     {
         this->m = original.m;
@@ -412,7 +368,6 @@ namespace TPP_VMath
         }
     }
 
-    // Destructor deletes A
     Matrix::~Matrix()
     {
         for (int i = 0; i < m; ++i)
@@ -422,7 +377,6 @@ namespace TPP_VMath
         delete [] A;
     }
 
-    // Console representation of coefficient matrix for testing
     void Matrix::print_matrix()
     {
         std::cout << "    ";
@@ -450,7 +404,6 @@ namespace TPP_VMath
         }
     }
 
-    // Reduce this matrix to reduced echelon form
     void Matrix::reduce_matrix()
     {
         int pivotCol = 0, pivotRow = 0;
@@ -480,7 +433,6 @@ namespace TPP_VMath
         }
     }
 
-    // Produce a new reduced echelon matrix from this matrix
     Matrix  Matrix::get_reduced()
     {
         Matrix copy(*this);
@@ -488,16 +440,6 @@ namespace TPP_VMath
         return copy;
     }
 
-    /*
-    Returns a pointer to b where Ax = b
-
-    In order to prevent memory leaks, it is highly recommended that this
-    function is called from within a VWrapper's constructor or wrap() function
-    in the form:
-
-    VWrapper wrapper(get_matrix_vector_product(&vect));
-    Vect* vectPointer = wrapper.get_vect();
-    */
     Vect*   Matrix::get_matrix_vector_product(Vect* vect)
     {
         unsigned int n = vect->get_dimension();
