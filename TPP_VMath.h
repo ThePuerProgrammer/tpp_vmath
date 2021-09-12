@@ -193,7 +193,7 @@ namespace TPP_VMath
         Vect3D(const float, const float, const float);
 
         /**
-         * @brief       Copy Constructor
+         * @brief       Copy Constructor for a vector in R3
          * @param       original a const Vect3D reference
          */ 
         Vect3D(const Vect3D&);
@@ -203,8 +203,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect3D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 3)
-         * @param       coordinates the float pointer representing the entries
-         *              in the vector
+         * @param       coordinates the entires in the 3D vector
          */
         Vect3D(const float*);
 
@@ -241,10 +240,70 @@ namespace TPP_VMath
     //========================================================================//
     // START OF VECT4D CLASS DECLARATION
     //========================================================================//
-    // TODO
-    // TODO
-    // TODO
-    // TODO
+
+    /**
+     * @brief           A vector in R4 that inherits from Vect
+     * @file            TPP_VMath.h
+     */ 
+    class Vect4D : public Vect
+    {
+    public:
+
+        /**
+         * @brief       A vector in R4 that defaults to zero
+         */
+        Vect4D(); 
+
+        /**
+         * @brief       A vector in R4 that inits to (x, y, z, w)
+         * @param       x the 1st entry in the Vect4D
+         * @param       y the 2nd entry in the Vect4D
+         * @param       z the 3rd entry in the Vect4D
+         * @param       w the 4th entry in the Vect4D
+         */
+        Vect4D(const float, const float, const float, const float);
+
+        /**
+         * @brief       Copy Constructor for a vector in R4
+         * @param       original a const Vect4D reference
+         */
+        Vect4D(const Vect4D&);
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect4D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 4)
+         * @param       coordinates the entries in the 4D vector
+         */
+        Vect4D(const float*); 
+
+        /**
+         * @brief       Destructor deletes coordinate array
+         */ 
+        ~Vect4D();
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const Vect4D reference to the right side of =
+         */ 
+        Vect4D&         operator=(const Vect4D&);
+
+        /**
+         * @brief       Manual assignment of x, y, z, w vector entries
+         * @param       x the 1st entry in the Vect4D
+         * @param       y the 2nd entry in the Vect4D
+         * @param       z the 3rd entry in the Vect4D
+         * @param       w the 4th entry in the Vect4D
+         */ 
+        void            set_coordinates(float, float, float, float);
+
+        /**
+         * @param       that a const Vect4D
+         * @return      sum of the entrywise products of two Vect4Ds
+         */ 
+        float           dot_product(const Vect4D&);
+    };
     //========================================================================//
     // END OF VECT4D CLASS DECLARATION
     //========================================================================//
@@ -295,6 +354,12 @@ namespace TPP_VMath
         VSet(const int&, Vect3D[]);
 
         /**
+         * @brief       Overloaded constructor for one Vect4D
+         * @param       v4D a const Vect4D reference is a vector in R4
+         */ 
+        VSet(const Vect4D&);
+
+        /**
          * @brief       Copy constructor
          * @param       original a const VSet reference
          */ 
@@ -306,16 +371,16 @@ namespace TPP_VMath
         ~VSet();
 
         /**
-         * @brief       Returns the number of vectors in the set
+         * @brief       The number of vectors in the set is always non-negative
          * @param       void
-         * @return      the number of vectors in the set is always non-negative
+         * @return      The number of vectors in the set
          */ 
         unsigned int    get_n() const;
         
         /**
-         * @brief       Returns the number of entries in each vector
+         * @brief       The number of entries is always non-negative
          * @param       void
-         * @return      the number of entries is always non-negative
+         * @return      The number of entries in each vector
          */ 
         unsigned int    get_m() const;
 
@@ -367,6 +432,15 @@ namespace TPP_VMath
          *              matching dimensions
          */ 
         Matrix(const VSet&);
+
+        /**
+         * @brief       Overloaded constructer accepts a float** in the form
+         *              f[rows][cols]
+         * @param       fMatrix a 2D array of floats
+         * @param       m the number of rows in the matrix
+         * @param       n the number of columns in the matrix
+         */ 
+        Matrix(int, int, float**);
 
         /**
          * @brief       Matrix copy constructor

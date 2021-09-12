@@ -121,7 +121,6 @@ namespace TPP_VMath
     {
         dimension = 3;
         coordinates = new float[3];
-
         coordinates[0] = x;
         coordinates[1] = y;
         coordinates[2] = z;
@@ -142,6 +141,7 @@ namespace TPP_VMath
     {
         this->dimension = 3;
         this->coordinates = new float[3];
+
         for (int i = 0; i < 3; ++i)
         {
             this->coordinates[i] = coordinates[i];
@@ -174,15 +174,95 @@ namespace TPP_VMath
     float Vect3D::dot_product(const Vect3D& that)
     {
         float sumOfProducts = 0;
+
         for (int i = 0; i < dimension; ++i)
         {
             sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
         }
+
         return sumOfProducts;
     }
 
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT4D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect4D::Vect4D() : Vect4D(0, 0, 0, 0)
+    {   }
+
+    Vect4D::Vect4D(float x, float y, float z, float w)
+    {
+        dimension = 4;
+        coordinates = new float[4];
+        coordinates[0] = x;
+        coordinates[1] = y;
+        coordinates[2] = z;
+        coordinates[3] = w;
+    }
+
+    Vect4D::Vect4D(const Vect4D& original)
+    {
+        dimension = 4;
+        coordinates = new float[4];
+
+        for (int i = 0; i < 4; ++i)
+        {
+            coordinates[i] = original.get_coordinates()[i];
+        }
+    }
+
+    Vect4D::Vect4D(const float* coordinates)
+    {
+        dimension = 4;
+        this->coordinates = new float[4];
+
+        for (int i = 0; i < 4; ++i)
+        {
+            this->coordinates[i] = coordinates[i];
+        }
+    }
+
+    Vect4D::~Vect4D()
+    {
+        delete [] coordinates;
+    }
+
+    Vect4D& Vect4D::operator=(const Vect4D& right)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            coordinates[i] = right.coordinates[i];
+        }
+
+        return *this;
+    }
+
+    void Vect4D::set_coordinates(float x, float y, float z, float w)
+    {
+        coordinates[0] = x;
+        coordinates[1] = y;
+        coordinates[2] = z;
+        coordinates[3] = w;
+    }
+
+    float Vect4D::dot_product(const Vect4D& that)
+    {
+        float sumOfProducts = 0;
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+        }
+
+        return sumOfProducts;
+    }
+
+    //========================================================================//
+    // END OF VECT4D CLASS IMPLEMENTATION
     //========================================================================//
 
     //========================================================================//
@@ -214,6 +294,14 @@ namespace TPP_VMath
         }
     }
 
+    VSet::VSet(const Vect4D& v4D)
+    {
+        n = 1;
+        m = v4D.get_dimension();
+        setOfVectors = new Vect*[1];
+        setOfVectors[0] = new Vect4D(v4D.get_coordinates());
+    }
+
     VSet::VSet(const VSet& original)
     {
         this->n = original.n;
@@ -237,7 +325,11 @@ namespace TPP_VMath
         }
         else if (m == 4)
         {
-            // Vect4D
+            for (int i = 0; i < n; ++i)
+            {
+                setOfVectors[i] = 
+                    new Vect4D(original.setOfVectors[i]->get_coordinates());
+            }
         }
         else
         {
@@ -297,7 +389,13 @@ namespace TPP_VMath
                 // add the new vector
                 // if set of Vect3D
                 if (m == 3)
+                {
                     p[n - 1] = new Vect3D(vect->get_coordinates());
+                }
+                else if (m == 4)
+                {
+                    p[n - 1] = new Vect4D(vect->get_coordinates());
+                }
 
                 // set = new set
                 setOfVectors = p;
@@ -317,7 +415,13 @@ namespace TPP_VMath
 
                 // if set of Vect3D
                 if (m == 3) 
+                {
                     setOfVectors[0] = new Vect3D(vect->get_coordinates());
+                }
+                else if (m == 4)
+                {
+                    setOfVectors[0] = new Vect4D(vect->get_coordinates());
+                }
             }
         }
 
@@ -343,14 +447,25 @@ namespace TPP_VMath
         this->m = set.get_m();
         this->n = set.get_n();
         A = new float*[m];
+
         for (int i = 0; i < m; ++i)
         {
             A[i] = new float[n];
+
             for (int j = 0; j < n; ++j)
             {
-                A[i][j] = set.get_set_of_vectors()[j]->get_coordinates()[i];
+                Vect* jthVect  = set.get_set_of_vectors()[j];
+                float ithEntry = jthVect->get_coordinates()[i];
+                A[i][j] = ithEntry;
             }
         }
+    }
+
+    Matrix::Matrix(int m, int n, float** fMatrix)
+    {
+        this->m = m;
+        this->n = n;
+        A = fMatrix;
     }
 
     Matrix::Matrix(const Matrix& original)
@@ -479,36 +594,27 @@ namespace TPP_VMath
 
     Matrix Matrix::get_identity_matrix_of_size(int n)
     {
-        VSet set;
-
-        // TODO
-        // WAITING ON VECTND
-        // TODO
-        // TODO
-        // TODO
-        // TODO
-        // TODO
-        // TODO
+        float** fMatrix = new float*[n];
         
         for (int i = 0; i < n; ++i)
         {
-            float f[n];
+            float* row = new float[n];
 
             for (int j = 0; j < n; ++j)
             {
                 if (j != i)
                 {
-                    f[j] = 0;
+                    row[j] = 0;
                 }
                 else
                 {
-                    f[j] = 1;
+                    row[j] = 1;
                 }
             }
-            // set.add_vect_to_set(new VectND(n, f));
+            fMatrix[i] = row;
         }
 
-        Matrix result(set);
+        Matrix result(n, n, fMatrix);
         return result;
     }
 
