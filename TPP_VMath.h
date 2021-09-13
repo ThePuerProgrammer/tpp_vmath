@@ -411,6 +411,14 @@ namespace TPP_VMath
 
         ///             The set of vectors as an array in pointer notation
         Vect**          setOfVectors;
+
+        /**
+         * @brief       Called by add_vect_to_set() to reduce redundancy
+         * @param       m the dimension of the vect
+         * @param       loc the location in the array for the new Vect
+         * @param       vect the original vect passed to add_vect_to_set()
+         */ 
+        void            add_vect_of_valid_dimensions(int, Vect*&, Vect*);
     };
 
     //========================================================================//

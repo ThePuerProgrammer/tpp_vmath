@@ -307,33 +307,11 @@ namespace TPP_VMath
         this->n = original.n;
         this->m = original.m;
         setOfVectors = new Vect*[n];
-        if (m == 1)
+
+        for (int i = 0; i < n; ++i)
         {
-            // Vect1D
-        }
-        else if (m == 2)
-        {
-            // Vect2D
-        }
-        else if (m == 3) 
-        {
-            for (int i = 0; i < n; ++i)
-            {
-                setOfVectors[i] = 
-                    new Vect3D(original.setOfVectors[i]->get_coordinates());
-            }
-        }
-        else if (m == 4)
-        {
-            for (int i = 0; i < n; ++i)
-            {
-                setOfVectors[i] = 
-                    new Vect4D(original.setOfVectors[i]->get_coordinates());
-            }
-        }
-        else
-        {
-            // VectND
+            Vect* v = original.setOfVectors[i];
+            add_vect_of_valid_dimensions(m, setOfVectors[i], v);
         }
     }
 
@@ -363,74 +341,74 @@ namespace TPP_VMath
 
     void VSet::add_vect_to_set(Vect* vect)
     {
-        try
+        // set already contains entries
+        if (setOfVectors)
         {
-            // set already contains entries
-            if (setOfVectors)
+            if (vect->get_dimension() != m)
             {
-                if (vect->get_dimension() != m)
-                {
-                    throw std::exception();
-                }
-
-                // increase the size of the set
-                ++n;
-                Vect** p = new Vect*[n];
-
-                // add all in the current set to the new set
-                for (int i = 0; i < n - 1; ++i)
-                {
-                    p[i] = setOfVectors[i];
-                }
-
-                // deallocate the old memory resource
-                delete [] setOfVectors;
-
-                // add the new vector
-                // if set of Vect3D
-                if (m == 3)
-                {
-                    p[n - 1] = new Vect3D(vect->get_coordinates());
-                }
-                else if (m == 4)
-                {
-                    p[n - 1] = new Vect4D(vect->get_coordinates());
-                }
-
-                // set = new set
-                setOfVectors = p;
+                std::cerr << "The dimensions for vect must match the "
+                          << "established VSet dimensions\n";
             }
 
-            // first entry in the set
-            else
+            // increase the size of the set
+            ++n;
+            Vect** p = new Vect*[n];
+
+            // add all in the current set to the new set
+            for (int i = 0; i < n - 1; ++i)
             {
-                // 1 entry in the set
-                ++n;
-
-                // set the dimension of the set
-                m = vect->get_dimension();
-
-                // establish the set in memory
-                setOfVectors = new Vect*[1];
-
-                // if set of Vect3D
-                if (m == 3) 
-                {
-                    setOfVectors[0] = new Vect3D(vect->get_coordinates());
-                }
-                else if (m == 4)
-                {
-                    setOfVectors[0] = new Vect4D(vect->get_coordinates());
-                }
+                p[i] = setOfVectors[i];
             }
+
+            // deallocate the old memory resource
+            delete [] setOfVectors;
+
+            // add the new vect of m dimensions to the new set p
+            add_vect_of_valid_dimensions(m, p[n - 1], vect);
+
+            // set = new set
+            setOfVectors = p;
         }
 
-        // the set dimensions didn't match
-        catch(const std::exception& e)
+        // first entry in the set
+        else
         {
-            std::cerr << "The dimensions for vect must match the current "
-                      << "VSet dimensions\n";
-            std::cerr << e.what() << '\n';
+            // 1 entry in the set
+            ++n;
+
+            // set the dimension of the set
+            m = vect->get_dimension();
+
+            // establish the set in memory
+            setOfVectors = new Vect*[1];
+
+            // add the new vect of m dimension as the first entry in the set
+            add_vect_of_valid_dimensions(m, setOfVectors[0], vect);
+        }
+    }
+
+    void VSet::add_vect_of_valid_dimensions(int m, Vect*& loc, Vect* vect)
+    {
+        // if set of Vect3D
+        if (m == 1)
+        {
+            // TODO
+        }
+        else if (m == 2)
+        {
+            // TODO
+        }
+        else if (m == 3) 
+        {
+            loc = new Vect3D(vect->get_coordinates());
+        }
+        else if (m == 4)
+        {
+            loc = new Vect4D(vect->get_coordinates());
+        }
+        else
+        {
+            // TODO
         }
     }
 
@@ -569,7 +547,7 @@ namespace TPP_VMath
         // The matrix vector product
         Vect* b;
 
-        if (n == 3)
+        if (n == 3) // hmmmmmmmmmm sketchy
         {
             b = new Vect3D();
         }
