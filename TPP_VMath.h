@@ -147,10 +147,66 @@ namespace TPP_VMath
     //========================================================================//
     // START OF VECT1D CLASS DECLARATION
     //========================================================================//
-    // TODO
-    // TODO
-    // TODO
-    // TODO
+    /**
+     * @brief           A one dimensional vector can be thought of as a scalar 
+     *                  but there are some unique edge cases where this is a
+     *                  very interesting and useful property
+     * @file            TPP_VMath.h
+     */
+    class Vect1D : public Vect
+    {
+    public:
+
+        /**
+         * @brief       constructor for a vector in R1 that inits to zero
+         * @param       void
+         */ 
+        Vect1D();
+
+        /**
+         * @brief       constructor for a vector in R1 that inits to (x)
+         * @param       x the 1st and only entry in the Vect1D
+         */ 
+        Vect1D(float);
+
+        /**
+         * @brief       Copy constructor for a vector in R1
+         * @param       original a const Vect1D reference
+         */
+        Vect1D(const Vect1D&); 
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect1D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 1)
+         * @param       coordinates the entries in the 1D vector
+         */
+        Vect1D(float*);
+
+        /**
+         * @brief       Destructor deletes the coordinate array
+         */ 
+        ~Vect1D();
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const Vect1D reference to the right side of =
+         */ 
+        Vect1D&         operator=(const Vect1D&);
+
+        /**
+         * @brief       Manual assignment of x vector entry
+         * @param       x the 1st and only entry in the Vect1D
+         */ 
+        void            set_coordinates(float);
+
+        /**
+         * @param       that a const Vect1D
+         * @return      sum of the entrywise products of two Vect1Ds
+         */ 
+        float           dot_product(const Vect1D&);
+    }; 
     //========================================================================//
     // END OF VECT1D CLASS DECLARATION
     //========================================================================//
@@ -203,7 +259,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect3D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 3)
-         * @param       coordinates the entires in the 3D vector
+         * @param       coordinates the entries in the 3D vector
          */
         Vect3D(const float*);
 

@@ -17,7 +17,7 @@ namespace TPP_VMath
     //========================================================================//
 
     Vect::~Vect()
-    { }
+    {   }
 
     float Vect::get_magnitude()
     {
@@ -108,6 +108,67 @@ namespace TPP_VMath
 
     //========================================================================//
     // END OF VWRAPPER CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect1D::Vect1D()
+    {
+        dimension = 1;
+        coordinates = new float[1];
+        coordinates[0] = 0;
+    }
+
+    Vect1D::Vect1D(float x)
+    {
+        dimension = 1;
+        coordinates = new float[1];
+        coordinates[0] = x;
+    }
+
+    Vect1D::Vect1D(const Vect1D& original)
+    {
+        dimension = 1;
+        coordinates = new float[1];
+        
+        for (int i = 0; i < 1; ++i)
+        {
+            coordinates[i] = original.get_coordinates()[i];
+        }
+    }
+
+    Vect1D::Vect1D(float* coordinates)
+    {
+        dimension = 1;
+        this->coordinates = coordinates;
+    }
+
+    Vect1D::~Vect1D()
+    {
+        delete [] coordinates;
+    }
+
+    Vect1D& Vect1D::operator=(const Vect1D& right)
+    {
+        coordinates[0] = right.coordinates[0];
+
+        return *this;
+    }
+
+    void Vect1D::set_coordinates(float x)
+    {
+        coordinates[0] = x;
+    }
+
+    float Vect1D::dot_product(const Vect1D& that)
+    {
+        return this->coordinates[0] * that.get_coordinates()[0];
+    }
+
+    //========================================================================//
+    // END OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
 
     //========================================================================//
@@ -392,7 +453,7 @@ namespace TPP_VMath
         float* c = vect->get_coordinates();
         switch (m)
         {
-            case  1: // return new Vect1D;
+            case  1: return new Vect1D(c);
             case  2: // return new Vect2D;
             case  3: return new Vect3D(c);
             case  4: return new Vect4D(c);
@@ -557,10 +618,10 @@ namespace TPP_VMath
     {
         switch (m)
         {
-            case 1: // return new Vect1D;
-            case 2: // return new Vect2D;
-            case 3: return new Vect3D;
-            case 4: return new Vect4D;
+            case  1: return new Vect1D;
+            case  2: // return new Vect2D;
+            case  3: return new Vect3D;
+            case  4: return new Vect4D;
             default: return new Vect3D; // VECTND WHEN CREATED TODO TODO
         }
     }
