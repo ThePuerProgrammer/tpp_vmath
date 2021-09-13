@@ -14,7 +14,10 @@ namespace TPP_VMath
     //========================================================================//
 
     /**
-     * @brief           Parent class for all vectors in the library
+     * @brief           Parent class for all vectors in the library. Children 
+     *                  that inherit from Vect should be thought of as having a 
+     *                  vertical orientation when considering their relationship
+     *                  to VSets and Matrices. 
      * @file            TPP_VMath.h
      */ 
     class Vect
@@ -150,7 +153,8 @@ namespace TPP_VMath
     /**
      * @brief           A one dimensional vector can be thought of as a scalar 
      *                  but there are some unique edge cases where this is a
-     *                  very interesting and useful property
+     *                  very interesting and useful property. A floating point
+     *                  vector in R1
      * @file            TPP_VMath.h
      */
     class Vect1D : public Vect
@@ -214,10 +218,66 @@ namespace TPP_VMath
     //========================================================================//
     // START OF VECT2D CLASS DECLARATION
     //========================================================================//
-    // TODO
-    // TODO
-    // TODO
-    // TODO
+    /**
+     * @brief           A floating point vector in R2 that inherits from Vect
+     * @file            TPP_VMath.h
+     */
+    class Vect2D : public Vect
+    {
+    public:
+
+        /**
+         * @brief       constructor for a vector in R2 that inits to zero
+         * @param       void
+         */ 
+        Vect2D();
+
+        /**
+         * @brief       constructor for a vector in R2 that inits to (x,y)
+         * @param       x the 1st entry in the Vect2D
+         * @param       y the 2nd entry in the Vect2D
+         */ 
+        Vect2D(float, float);
+
+        /**
+         * @brief       Copy constructor for a vector in R2
+         * @param       original a const Vect2D reference
+         */
+        Vect2D(const Vect2D&); 
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect2D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 2)
+         * @param       coordinates the entries in the 2D vector
+         */
+        Vect2D(float*);
+
+        /**
+         * @brief       Destructor deletes the coordinate array
+         */ 
+        ~Vect2D();
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const Vect2D reference to the right side of =
+         */ 
+        Vect2D&         operator=(const Vect2D&);
+
+        /**
+         * @brief       Manual assignment of x, y vector entries
+         * @param       x the 1st entry in the Vect2D
+         * @param       y the 2nd entry in the Vect2D
+         */ 
+        void            set_coordinates(float, float);
+
+        /**
+         * @param       that a const Vect2D
+         * @return      sum of the entrywise products of two Vect2Ds
+         */ 
+        float           dot_product(const Vect2D&);
+    }; 
     //========================================================================//
     // END OF VECT2D CLASS DECLARATION
     //========================================================================//
@@ -227,7 +287,7 @@ namespace TPP_VMath
     //========================================================================//
 
     /**
-     * @brief           A vector in R3 that inherits from Vect
+     * @brief           A floating point vector in R3 that inherits from Vect
      * @file            TPP_VMath.h
      */ 
     class Vect3D : public Vect
@@ -298,7 +358,7 @@ namespace TPP_VMath
     //========================================================================//
 
     /**
-     * @brief           A vector in R4 that inherits from Vect
+     * @brief           A floating point vector in R4 that inherits from Vect
      * @file            TPP_VMath.h
      */ 
     class Vect4D : public Vect
@@ -367,10 +427,37 @@ namespace TPP_VMath
     //========================================================================//
     // START OF VECTND CLASS DECLARATION
     //========================================================================//
-    // TODO
-    // TODO
-    // TODO
-    // TODO
+
+    /**
+     * @brief           A floating point vector in RN (variable length) that
+     *                  inherits from Vect
+     * @file            TPP_VMath.h
+     */
+    class VectND : public Vect
+    {
+    public:
+
+        /**
+         * @brief       Constructor for a vector in RN where N is provided that 
+         *              defaults to the zero vector
+         * @param       n the dimension of the vector
+         */ 
+        VectND(int);
+
+        /**
+         * @brief       Constructor for a vector in RN where N is provided that
+         *              initializes to the provided array of floats
+         * @param       n the dimension of the vector
+         * @param       coordinates the provided array of floats
+         */
+        VectND(int, float*);
+
+        /**
+         * @brief       Destructor deletes the coordinate array
+         */
+        ~VectND();
+    }; 
+
     //========================================================================//
     // END OF VECTND CLASS DECLARATION
     //========================================================================//

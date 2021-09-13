@@ -142,7 +142,8 @@ namespace TPP_VMath
     Vect1D::Vect1D(float* coordinates)
     {
         dimension = 1;
-        this->coordinates = coordinates;
+        coordinates = new float[1];
+        this->coordinates[0] = coordinates[0];
     }
 
     Vect1D::~Vect1D()
@@ -165,6 +166,80 @@ namespace TPP_VMath
     float Vect1D::dot_product(const Vect1D& that)
     {
         return this->coordinates[0] * that.get_coordinates()[0];
+    }
+
+    //========================================================================//
+    // END OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//~~
+    // START OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect2D::Vect2D() : Vect2D(0, 0)
+    {   }
+
+    Vect2D::Vect2D(float x, float y)
+    {
+        dimension = 2;
+        coordinates = new float[2];
+        coordinates[0] = x;
+        coordinates[1] = y;
+    }
+
+    Vect2D::Vect2D(const Vect2D& original)
+    {
+        dimension = 2;
+        coordinates = new float[2];
+        
+        for (int i = 0; i < 2; ++i)
+        {
+            coordinates[i] = original.get_coordinates()[i];
+        }
+    }
+
+    Vect2D::Vect2D(float* coordinates)
+    {
+        dimension = 2;
+        coordinates = new float[2];
+
+        for (int i = 0; i < 2; ++i) 
+        {
+            this->coordinates[i] = coordinates[i];
+        }
+    }
+
+    Vect2D::~Vect2D()
+    {
+        delete [] coordinates;
+    }
+
+    Vect2D& Vect2D::operator=(const Vect2D& right)
+    {
+        for (int i = 0; i < 2; ++i)
+        {
+            coordinates[i] = right.coordinates[i];
+        }
+
+        return *this;
+    }
+
+    void Vect2D::set_coordinates(float x, float y)
+    {
+        coordinates[0] = x;
+        coordinates[1] = y;
+    }
+
+    float Vect2D::dot_product(const Vect2D& that)
+    {
+        float sumOfProducts = 0;
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+        }
+
+        return sumOfProducts;
     }
 
     //========================================================================//
@@ -327,6 +402,41 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
+    // START OF VECTND CLASS IMPLEMENTATION
+    //========================================================================//
+
+    VectND::VectND(int n)
+    {
+        dimension = n;
+        coordinates = new float[n];
+
+        for (int i = 0; i < n; ++i)
+        {
+            coordinates[i] = 0;
+        }
+    }
+
+    VectND::VectND(int n, float* coordinates)
+    {
+        dimension = n;
+        this->coordinates = new float[n];
+
+        for (int i = 0; i < n; ++i)
+        {
+            this->coordinates[i] = coordinates[i];
+        }
+    }
+
+    VectND::~VectND()
+    {
+        delete [] coordinates;
+    }
+
+    //========================================================================//
+    // END OF VECTND CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
     // START OF VSET CLASS IMPLEMENTATION
     //========================================================================//
 
@@ -454,10 +564,10 @@ namespace TPP_VMath
         switch (m)
         {
             case  1: return new Vect1D(c);
-            case  2: // return new Vect2D;
+            case  2: return new Vect2D(c);
             case  3: return new Vect3D(c);
             case  4: return new Vect4D(c);
-            default: return new Vect3D(c); // VECTND WHEN CREATED TODO TODO
+            default: return new VectND(m, c);
         }
     }
 
@@ -521,7 +631,6 @@ namespace TPP_VMath
 
     void Matrix::print_matrix()
     {
-        std::cout << "    ";
         for (int i = 0; i < n; ++i)
         {
             std::cout << std::right
@@ -532,7 +641,6 @@ namespace TPP_VMath
         std::cout << std::endl;
         for (int i = 0; i < m; ++i)
         {
-            std::cout << "Row " << i + 1;
             for (int j = 0; j < n; ++j)
             {
                 std::cout << std::setprecision(2) 
@@ -542,7 +650,8 @@ namespace TPP_VMath
                           << A[i][j]
                           << " ";
             }
-            std::cout << std::endl;
+
+            std::cout << "     Row " << i + 1 << std::endl;
         }
     }
 
@@ -619,10 +728,10 @@ namespace TPP_VMath
         switch (m)
         {
             case  1: return new Vect1D;
-            case  2: // return new Vect2D;
+            case  2: return new Vect2D;
             case  3: return new Vect3D;
             case  4: return new Vect4D;
-            default: return new Vect3D; // VECTND WHEN CREATED TODO TODO
+            default: return new VectND(m); // VECTND WHEN CREATED TODO TODO
         }
     }
 
