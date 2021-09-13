@@ -415,10 +415,10 @@ namespace TPP_VMath
         /**
          * @brief       Called by add_vect_to_set() to reduce redundancy
          * @param       m the dimension of the vect
-         * @param       loc the location in the array for the new Vect
          * @param       vect the original vect passed to add_vect_to_set()
+         * @return      a Vect* to a new child vect of m dimensions
          */ 
-        void            add_vect_of_valid_dimensions(int, Vect*&, Vect*);
+        Vect*           add_vect_of_valid_dimensions(int, Vect*);
     };
 
     //========================================================================//
@@ -511,6 +511,13 @@ namespace TPP_VMath
          * @param       rowB a value representing a row in A
         */
         void            row_interchange(int rowA, int rowB);
+
+        /**
+         * @brief       Generate a zero vector in Rm
+         * @param       m the number of entries in the vector
+         * @return      a new instance of a Vect child
+         */
+        Vect*           get_b(const int&);
     };
 
     //========================================================================//

@@ -311,7 +311,7 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             Vect* v = original.setOfVectors[i];
-            add_vect_of_valid_dimensions(m, setOfVectors[i], v);
+            setOfVectors[i] = add_vect_of_valid_dimensions(m, v);
         }
     }
 
@@ -364,7 +364,7 @@ namespace TPP_VMath
             delete [] setOfVectors;
 
             // add the new vect of m dimensions to the new set p
-            add_vect_of_valid_dimensions(m, p[n - 1], vect);
+            p[n - 1] = add_vect_of_valid_dimensions(m, vect);
 
             // set = new set
             setOfVectors = p;
@@ -383,32 +383,20 @@ namespace TPP_VMath
             setOfVectors = new Vect*[1];
 
             // add the new vect of m dimension as the first entry in the set
-            add_vect_of_valid_dimensions(m, setOfVectors[0], vect);
+            setOfVectors[0] = add_vect_of_valid_dimensions(m, vect);
         }
     }
 
-    void VSet::add_vect_of_valid_dimensions(int m, Vect*& loc, Vect* vect)
+    Vect* VSet::add_vect_of_valid_dimensions(int m, Vect* vect)
     {
-        // if set of Vect3D
-        if (m == 1)
+        float* c = vect->get_coordinates();
+        switch (m)
         {
-            // TODO
-        }
-        else if (m == 2)
-        {
-            // TODO
-        }
-        else if (m == 3) 
-        {
-            loc = new Vect3D(vect->get_coordinates());
-        }
-        else if (m == 4)
-        {
-            loc = new Vect4D(vect->get_coordinates());
-        }
-        else
-        {
-            // TODO
+            case  1: // return new Vect1D;
+            case  2: // return new Vect2D;
+            case  3: return new Vect3D(c);
+            case  4: return new Vect4D(c);
+            default: return new Vect3D(c); // VECTND WHEN CREATED TODO TODO
         }
     }
 
@@ -545,12 +533,7 @@ namespace TPP_VMath
         }
 
         // The matrix vector product
-        Vect* b;
-
-        if (n == 3) // hmmmmmmmmmm sketchy
-        {
-            b = new Vect3D();
-        }
+        Vect* b = get_b(this->m);
 
         float* x = vect->get_coordinates();
 
@@ -568,6 +551,18 @@ namespace TPP_VMath
         }
 
         return b;
+    }
+
+    Vect* Matrix::get_b(const int& m)
+    {
+        switch (m)
+        {
+            case 1: // return new Vect1D;
+            case 2: // return new Vect2D;
+            case 3: return new Vect3D;
+            case 4: return new Vect4D;
+            default: return new Vect3D; // VECTND WHEN CREATED TODO TODO
+        }
     }
 
     Matrix Matrix::get_identity_matrix_of_size(int n)
