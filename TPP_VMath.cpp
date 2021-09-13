@@ -67,47 +67,96 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // START OF VWRAPPER CLASS IMPLEMENTATION
+    // START OF VWRAP CLASS IMPLEMENTATION
     //========================================================================//
 
-    VWrapper::VWrapper()
+    VWrap::VWrap()
     {
+        n = 0;
         this->vect = nullptr;
+        this->vPP = nullptr;
     }
 
-    VWrapper::VWrapper(Vect* vect)
+    VWrap::VWrap(Vect* vect)
     {
+        n = 1;
         this->vect = vect;
+        this->vPP = nullptr;
     }
 
-    VWrapper::~VWrapper()
+    VWrap::VWrap(int n, Vect** vPP)
+    {
+        this->n = n;
+        this->vect = nullptr;
+        this->vPP = vPP;
+    }
+
+    VWrap::~VWrap()
     {
         if (this->vect)
+        {
             delete vect;
+        }
+        else if (this->vPP)
+        {
+            for (int i = 0; i < n; ++i)
+            {
+                delete vPP[i];
+            }
+            delete [] vPP;
+        }
     }
 
-    void VWrapper::wrap(Vect* vect)
+    void VWrap::wrap(Vect* vect)
     {
+        n = 1;
         if (!this->vect)
             this->vect = vect;
     }
 
-    void VWrapper::unwrap()
+    void VWrap::wrap(int n, Vect** vPP)
+    {
+        this->n = n;
+        if (!this->vPP)
+            this->vPP = vPP;
+    }
+
+    void VWrap::unwrap()
     {
         if (this->vect)
         {
             delete this->vect;
             this->vect = nullptr;
         }
+        else if (this->vPP)
+        {
+            for (int i = 0; i < n; ++i)
+            {
+                delete this->vPP[i];
+                this->vPP[i] = nullptr;
+            }
+            delete [] this->vPP;
+            this->vPP = nullptr;
+        }
     }
 
-    Vect* VWrapper::get_vect()
+    Vect* VWrap::get_vect()
     {
         return vect;
     }
 
+    Vect** VWrap::get_vPP()
+    {
+        return vPP;
+    }
+
+    int VWrap::get_n()
+    {
+        return n;
+    }
+
     //========================================================================//
-    // END OF VWRAPPER CLASS IMPLEMENTATION
+    // END OF VWRAP CLASS IMPLEMENTATION
     //========================================================================//
 
     //========================================================================//
@@ -446,31 +495,32 @@ namespace TPP_VMath
         setOfVectors = nullptr;
     }
 
-    VSet::VSet(const Vect3D& v3D)
+    VSet::VSet(Vect& vect)
     {
         n = 1;
-        m = v3D.get_dimension();
+        m = vect.get_dimension();
         setOfVectors = new Vect*[1];
-        setOfVectors[0] = new Vect3D(v3D.get_coordinates());
+        setOfVectors[0] = add_vect_of_valid_dimensions(m, &vect);
     }
 
-    VSet::VSet(const int& n, Vect3D a[])
+    VSet::VSet(int n, Vect** a)
     {
         this->n = n;
-        m = 3;
-        setOfVectors = new Vect*[n];
-        for (int i = 0; i < n; ++i)
-        {
-            setOfVectors[i] = new Vect3D(a[i].get_coordinates());
-        }
+        m = a[0]->get_dimension();
+        setOfVectors = a;
     }
 
-    VSet::VSet(const Vect4D& v4D)
+    VSet::VSet(VWrap& wrapper)
     {
-        n = 1;
-        m = v4D.get_dimension();
-        setOfVectors = new Vect*[1];
-        setOfVectors[0] = new Vect4D(v4D.get_coordinates());
+        this->n = wrapper.get_n();
+        Vect** temp = wrapper.get_vPP();
+        m = temp[0]->get_dimension();
+        setOfVectors = new Vect*[n];
+        
+        for (int i = 0; i < n; ++i)
+        {
+            setOfVectors[i] = add_vect_of_valid_dimensions(m, temp[i]);
+        }
     }
 
     VSet::VSet(const VSet& original)
@@ -651,7 +701,7 @@ namespace TPP_VMath
                           << " ";
             }
 
-            std::cout << "     Row " << i + 1 << std::endl;
+            std::cout << "      Row " << i + 1 << std::endl;
         }
     }
 

@@ -80,24 +80,25 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // START OF VWRAPPER CLASS DECLARATION
+    // START OF VWrap CLASS DECLARATION
     //========================================================================//
 
     /**
-     * @brief           This class should be used to wrap any function that 
-     *                  returns a Vect* to a newly allocated resource, such as 
-     *                  the function 
+     * @brief           This class should be used to wrap any newly allocated 
+     *                  Vect memory such as Vect* p = new Vect3D[3] or any 
+     *                  function that returns a Vect* to a newly allocated 
+     *                  resource, such as the function 
      * 
      *                  Vect* Matrix::get_matrix_vector_product() 
      * 
      *                  Wrapping a new Vect allows the destructor to handle 
-     *                  deallocation of heap resources. If two VWrappers are 
+     *                  deallocation of heap resources. If two VWraps are 
      *                  used to wrap the same Vect*, this will result in 
      *                  undefined behavior. Therefore, a single address should 
      *                  only ever be wrapped once.
      * @file            TPP_VMath.h
     */
-    class VWrapper
+    class VWrap
     {
     public:
 
@@ -105,24 +106,37 @@ namespace TPP_VMath
          * @brief       Set vect to nullptr and wrap as a seperate step
          * @param       void
          */ 
-        VWrapper();
+        VWrap();
 
         /**
          * @brief       Wrap upon construction
          * @param       vect a polymorphic pointer to a Vect child
          */ 
-        VWrapper(Vect*);
+        VWrap(Vect*);
+
+        /**
+         * @brief       Wrap array upon construction
+         * @param       n the number of wrapped entries
+         * @param       vPP a polymorphic pointer to an array Vect children
+         */ 
+        VWrap(int, Vect**);
 
         /**
          * @brief       Destructor handles deallocation of vect
          */ 
-        ~VWrapper();
+        ~VWrap();
 
         /**
          * @brief       If vect is null, wrap a Vect*
          * @param       vect a polymorphic pointer to a Vect child
          */  
         void            wrap(Vect*);
+
+        /**
+         * @brief       If vPP is null, wrap a Vect**
+         * @param       vPP a polymorphic pointer to an array of Vect children
+         */  
+        void            wrap(int, Vect**);
 
         /**
          * @brief       Explicit deallocation of vect
@@ -137,14 +151,32 @@ namespace TPP_VMath
          */ 
         Vect*           get_vect();
 
+        /**
+         * @brief       Since address is wrapped, the pointer can be assigned
+         * @param       void
+         * @return      the wrapped vPP
+         */ 
+        Vect**          get_vPP();
+
+        /**
+         * @return      the number of wrapped entries
+         */ 
+        int             get_n();
+
     protected:
 
-        ///             The wrapped Vect*
+        ///             The number of wrapped entries
+        int             n;
+
+        ///             A wrapped Vect*
         Vect*           vect;
+
+        ///             A wrapped Vect**
+        Vect**          vPP;
     };
 
     //========================================================================//
-    // END OF VWRAPPER CLASS DECLARATION
+    // END OF VWrap CLASS DECLARATION
     //========================================================================//
 
     //========================================================================//
@@ -463,7 +495,7 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // START OF SET CLASS DECLARATION
+    // START OF VSET CLASS DECLARATION
     //========================================================================//
 
     /**
@@ -481,26 +513,30 @@ namespace TPP_VMath
         VSet();
 
         /**
-         * @brief       Overloaded constructor for one Vect3D
-         * @param       v3D a const Vect3D reference is a vector in R3
-         */ 
-        VSet(const Vect3D&);
-
-        /** 
-         * @brief       Overloaded VSet constructor using an array of Vect3D 
-         *              where n is the number of elements in a. In order to 
-         *              avoid errors, a should be instantiated with a const int 
-         *              that is also used as the argument for n.
-         * @param       n the number of elements in a
-         * @param       a an array of Vect3D representing a set
-        */
-        VSet(const int&, Vect3D[]);
+         * @brief       Constructor for a set containing a single Vect child
+         * @param       v a Vect child reference
+         */
+        VSet(Vect&);
 
         /**
-         * @brief       Overloaded constructor for one Vect4D
-         * @param       v4D a const Vect4D reference is a vector in R4
-         */ 
-        VSet(const Vect4D&);
+         * @brief       Constructor using an array of Vect where n is the number
+         *              of elements in a. In order to avoid errors, a should be 
+         *              instatntiated with a const int that is also used as the 
+         *              argument for n. This function should not be used to 
+         *              create a set from a wrapped Vect**. Instead, a
+         *              constructor has been defined to accept a VWrap.
+         * @param       n the number of elements in a
+         * @param       a a polymorphic pointer to an array of Vect children
+         */
+        VSet(int, Vect**); 
+
+        /**
+         * @brief       Constructor using a VWrap that can either contain a
+         *              single wrapped Vect* or an array of Wrapped Vect*. This
+         *              function creates a copy of every wrapped Vect.
+         * @param       wrapper a VWrap containing one or more Vects
+         */
+        VSet(VWrap&); 
 
         /**
          * @brief       Copy constructor
@@ -565,7 +601,7 @@ namespace TPP_VMath
     };
 
     //========================================================================//
-    // END OF SET CLASS DECLARATION
+    // END OF VSET CLASS DECLARATION
     //========================================================================//
 
     //========================================================================//
