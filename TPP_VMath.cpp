@@ -333,21 +333,21 @@ namespace TPP_VMath
     {
         n = 0;
         this->vect = nullptr;
-        this->vPP = nullptr;
+        this->vpp = nullptr;
     }
 
     VWrap::VWrap(Vect* vect)
     {
         n = 1;
         this->vect = vect;
-        this->vPP = nullptr;
+        this->vpp = nullptr;
     }
 
-    VWrap::VWrap(int n, Vect** vPP)
+    VWrap::VWrap(int n, Vect** vpp)
     {
         this->n = n;
         this->vect = nullptr;
-        this->vPP = vPP;
+        this->vpp = vpp;
     }
 
     VWrap::~VWrap()
@@ -356,13 +356,13 @@ namespace TPP_VMath
         {
             delete vect;
         }
-        else if (this->vPP)
+        else if (this->vpp)
         {
             for (int i = 0; i < n; ++i)
             {
-                delete vPP[i];
+                delete vpp[i];
             }
-            delete [] vPP;
+            delete [] vpp;
         }
     }
 
@@ -373,11 +373,11 @@ namespace TPP_VMath
             this->vect = vect;
     }
 
-    void VWrap::wrap(int n, Vect** vPP)
+    void VWrap::wrap(int n, Vect** vpp)
     {
         this->n = n;
-        if (!this->vPP)
-            this->vPP = vPP;
+        if (!this->vpp)
+            this->vpp = vpp;
     }
 
     void VWrap::unwrap()
@@ -387,15 +387,15 @@ namespace TPP_VMath
             delete this->vect;
             this->vect = nullptr;
         }
-        else if (this->vPP)
+        else if (this->vpp)
         {
             for (int i = 0; i < n; ++i)
             {
-                delete this->vPP[i];
-                this->vPP[i] = nullptr;
+                delete this->vpp[i];
+                this->vpp[i] = nullptr;
             }
-            delete [] this->vPP;
-            this->vPP = nullptr;
+            delete [] this->vpp;
+            this->vpp = nullptr;
         }
     }
 
@@ -404,9 +404,9 @@ namespace TPP_VMath
         return vect;
     }
 
-    Vect** VWrap::get_vPP()
+    Vect** VWrap::get_vpp()
     {
-        return vPP;
+        return vpp;
     }
 
     int VWrap::get_n()
@@ -446,7 +446,7 @@ namespace TPP_VMath
     VSet::VSet(VWrap& wrapper)
     {
         this->n = wrapper.get_n();
-        Vect** temp = wrapper.get_vPP();
+        Vect** temp = wrapper.get_vpp();
         m = temp[0]->get_dimension();
         setOfVectors = new Vect*[n];
         

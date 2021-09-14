@@ -445,7 +445,7 @@ namespace TPP_VMath
         /**
          * @brief       Wrap array upon construction
          * @param       n the number of wrapped entries
-         * @param       vPP a polymorphic pointer to an array Vect children
+         * @param       vpp a polymorphic pointer to an array Vect children
          */ 
         VWrap(int, Vect**);
 
@@ -461,8 +461,8 @@ namespace TPP_VMath
         void            wrap(Vect*);
 
         /**
-         * @brief       If vPP is null, wrap a Vect**
-         * @param       vPP a polymorphic pointer to an array of Vect children
+         * @brief       If vpp is null, wrap a Vect**
+         * @param       vpp a polymorphic pointer to an array of Vect children
          */  
         void            wrap(int, Vect**);
 
@@ -482,9 +482,9 @@ namespace TPP_VMath
         /**
          * @brief       Since address is wrapped, the pointer can be assigned
          * @param       void
-         * @return      the wrapped vPP
+         * @return      the wrapped vpp
          */ 
-        Vect**          get_vPP();
+        Vect**          get_vpp();
 
         /**
          * @return      the number of wrapped entries
@@ -500,7 +500,7 @@ namespace TPP_VMath
         Vect*           vect;
 
         ///             A wrapped Vect**
-        Vect**          vPP;
+        Vect**          vpp;
     };
 
     //========================================================================//
