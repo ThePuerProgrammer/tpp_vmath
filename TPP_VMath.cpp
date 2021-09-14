@@ -730,9 +730,9 @@ namespace TPP_VMath
         return copy;
     }
 
-    Vect*   Matrix::get_matrix_vector_product(Vect* vect)
+    Vect*   Matrix::get_matrix_vector_product(Vect& vect)
     {
-        unsigned int n = vect->get_dimension();
+        unsigned int n = vect.get_dimension();
 
         // the dimensions of the vector must match the number of columns in A
         if (n != this->n) 
@@ -744,7 +744,7 @@ namespace TPP_VMath
         // The matrix vector product
         Vect* b = get_b(this->m);
 
-        float* x = vect->get_coordinates();
+        float* x = vect.get_coordinates();
 
         // Ax = b
         for (int i = 0; i < m; i++) 
@@ -754,6 +754,38 @@ namespace TPP_VMath
             for (int j = 0; j < n; j++) 
             {
                 sum += A[i][j] * x[j];
+            }
+
+            b->get_coordinates()[i] = sum;
+        }
+
+        return b;
+    }
+
+    Vect*   Matrix::get_matrix_vector_product(Matrix& matrix, Vect& vect)
+    {
+        unsigned int n = vect.get_dimension();
+
+        // the dimensions of the vector must match the number of columns in A
+        if (n != matrix.n) 
+        {
+            std::cerr << "x is not in the range of the transformation Ax\n";
+            return nullptr;
+        }
+
+        // The matrix vector product
+        Vect* b = matrix.get_b(matrix.m);
+
+        float* x = vect.get_coordinates();
+
+        // Ax = b
+        for (int i = 0; i < matrix.m; i++) 
+        {
+            int sum = 0;
+
+            for (int j = 0; j < n; j++) 
+            {
+                sum += matrix.A[i][j] * x[j];
             }
 
             b->get_coordinates()[i] = sum;

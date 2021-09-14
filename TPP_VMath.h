@@ -12,6 +12,7 @@
 
 namespace TPP_VMath
 {
+    
     #pragma region Vect_Declaration
     //========================================================================//
     // START OF VECT CLASS DECLARATION
@@ -567,7 +568,7 @@ namespace TPP_VMath
         *               thrown. It is best to wrap the call to this funtion in 
         *               a guard ensuring that the dimensions are a match. This 
         *               does not apply if the set is currently null.
-        * @param        vect a polymorphic pointer to a child of Vect
+        * @param        vect a reference to a child of Vect
         */
         void            add_vect_to_set(Vect*);
 
@@ -651,7 +652,15 @@ namespace TPP_VMath
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
          */ 
-        Vect*           get_matrix_vector_product(Vect*);
+        Vect*           get_matrix_vector_product(Vect&);
+
+        /**
+         * @brief       Ax = b
+         * @param       matrix a Matrix reference
+         * @param       vect a polymorphic pointer to a child of Vect
+         * @return      a pointer to b where b = Ax
+         */ 
+        static Vect*   get_matrix_vector_product(Matrix&, Vect&);
 
         /**
          * @brief       Console representation of coefficient matrix for testing
