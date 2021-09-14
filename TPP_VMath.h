@@ -5,9 +5,10 @@
  * @version     0.1
  */ 
 #pragma once
-
+#pragma region Includes
 #include <array>
 #include <vector>
+#pragma endregion Includes
 
 namespace TPP_VMath
 {

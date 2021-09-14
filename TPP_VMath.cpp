@@ -4,15 +4,18 @@
  * @since       2021
  * @version     0.1
  */ 
+#pragma region Includes
 #include "TPP_VMath.h"
 #include <cmath>
 #include <iostream>
 #include <iomanip>  // for printing the matrix to the console
 #include <cfloat>   // for -FLT_MAX
+#pragma endregion Includes
 
 namespace TPP_VMath
 {
 
+    #pragma region Vect_Implementation
     //========================================================================//
     // START OF VECT CLASS IMPLEMENTATION
     //========================================================================//
@@ -211,7 +214,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion Vect_Implementation
 
+    #pragma region VectND_Implementation
     //========================================================================//
     // START OF VECTND CLASS IMPLEMENTATION
     //========================================================================//
@@ -275,7 +280,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECTND CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion VectND_Implementation
 
+    #pragma region Vect1D_Implementation
     //========================================================================//
     // START OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
@@ -295,7 +302,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion Vect1D_Implementation
 
+    #pragma region Vect2D_Implementation
     //========================================================================//~~
     // START OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
@@ -315,7 +324,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion Vect2D_Implementation
 
+    #pragma region Vect3D_Implementation
     //========================================================================//
     // START OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
@@ -335,7 +346,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion Vect3D_Implementation
 
+    #pragma region Vect4D_Implementation
     //========================================================================//
     // START OF VECT4D CLASS IMPLEMENTATION
     //========================================================================//
@@ -355,7 +368,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT4D CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion Vect4D_Implementation
 
+    #pragma region VWrap_Implementation
     //========================================================================//
     // START OF VWRAP CLASS IMPLEMENTATION
     //========================================================================//
@@ -448,7 +463,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VWRAP CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion VWrap_Implementation
 
+    #pragma region VSet_Implementation
     //========================================================================//
     // START OF VSET CLASS IMPLEMENTATION
     //========================================================================//
@@ -589,7 +606,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VSET CLASS IMPLEMENTATION
     //========================================================================//
+    #pragma endregion VSet_Implementation
 
+    #pragma region Matrix_Implementation
     //========================================================================//
     // START OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
@@ -784,5 +803,5 @@ namespace TPP_VMath
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
-
+    #pragma endregion Matrix_Implementation
 }
