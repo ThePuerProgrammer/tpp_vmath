@@ -7,7 +7,8 @@
 #include "TPP_VMath.h"
 #include <cmath>
 #include <iostream>
-#include <iomanip> // for printing the matrix to the console
+#include <iomanip>  // for printing the matrix to the console
+#include <cfloat>   // for -FLT_MAX
 
 namespace TPP_VMath
 {
@@ -64,6 +65,264 @@ namespace TPP_VMath
 
     //========================================================================//
     // END OF VECT CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECTND CLASS IMPLEMENTATION
+    //========================================================================//
+
+    VectND::VectND()
+    {   
+        dimension = 0;
+        coordinates = nullptr;
+    }
+
+    VectND::VectND(int n)
+    {
+        dimension = n;
+        coordinates = new float[n];
+
+        for (int i = 0; i < n; ++i)
+        {
+            coordinates[i] = 0;
+        }
+    }
+
+    VectND::VectND(int n, float* coordinates)
+    {
+        dimension = n;
+        this->coordinates = new float[n];
+
+        for (int i = 0; i < n; ++i)
+        {
+            this->coordinates[i] = coordinates[i];
+        }
+    }
+
+    VectND::VectND(std::vector<float> v)
+    {
+        if (v.size() > 0)
+        {
+            dimension = v.size();
+            coordinates = new float[v.size()];
+
+            for (int i = 0; i < dimension; ++i)
+            {
+                coordinates[i] = v[i];
+            }
+        }
+        else
+        {
+            dimension = 0;
+            coordinates = nullptr;
+        }
+    }
+
+    VectND::~VectND()
+    {
+        if (coordinates) 
+        {
+            delete [] coordinates;
+            coordinates = nullptr;
+        }
+    }
+
+    VectND& VectND::operator=(const VectND& right)
+    {
+        if (this->dimension != right.get_dimension())
+        {
+            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
+            return *this;
+        }
+
+        for (int i = 0; i < this->dimension; ++i)
+        {
+            this->coordinates[i] = right.get_coordinates()[i];
+        }
+
+        return *this;
+    }
+
+    float VectND::dot_product(const VectND& that)
+    {
+        if (this->dimension != that.get_dimension())
+        {
+            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
+            return -FLT_MAX;
+        }
+
+        float sumOfProducts = 0;
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+        }
+
+        return sumOfProducts;
+    }
+
+    void VectND::set_coordinates(std::vector<float> v)
+    {
+        if (dimension != 0 && v.size() != dimension)
+        {
+            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
+            return;
+        }
+
+        if (dimension == 0)
+        {
+            dimension = v.size();
+            coordinates = new float[v.size()];
+        }
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            coordinates[i] = v[i];
+        }
+    }
+
+    //========================================================================//
+    // END OF VECTND CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect1D::Vect1D() : VectND()
+    {   }
+
+    Vect1D::Vect1D(std::array<float, 1> a) : VectND(1, a.begin())
+    {   }
+
+    Vect1D::Vect1D(const Vect1D& original) : VectND(1, original.coordinates)
+    {   }
+
+    Vect1D::Vect1D(float* coordinates) : VectND(1, coordinates)
+    {   }
+
+    VectND& Vect1D::operator=(const VectND& right)
+    {   
+        return VectND::operator=(right);
+    }
+
+    float Vect1D::dot_product(const VectND& that)
+    {
+        return VectND::dot_product(that);
+    }
+
+    void Vect1D::set_coordinates(std::vector<float> v)
+    {
+        VectND::set_coordinates(v);
+    }
+
+    //========================================================================//
+    // END OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//~~
+    // START OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect2D::Vect2D() : Vect2D({0, 0})
+    {   }
+
+    Vect2D::Vect2D(std::array<float, 2> a) : VectND(2, a.begin())
+    {   }
+
+    Vect2D::Vect2D(const Vect2D& original) : VectND(2, original.coordinates)
+    {   }
+
+    Vect2D::Vect2D(float* coordinates) : VectND(2, coordinates)
+    {   }
+
+    VectND& Vect2D::operator=(const VectND& right)
+    {   
+        return VectND::operator=(right);
+    }
+
+    float Vect2D::dot_product(const VectND& that)
+    {
+        return VectND::dot_product(that);
+    }
+
+    void Vect2D::set_coordinates(std::vector<float> v)
+    {
+        VectND::set_coordinates(v);
+    }
+
+    //========================================================================//
+    // END OF VECT1D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT3D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect3D::Vect3D() : Vect3D({0, 0, 0}) 
+    {   }
+
+    Vect3D::Vect3D(std::array<float, 3> a) : VectND(3, a.begin())
+    {   }
+
+    Vect3D::Vect3D(const Vect3D& original) : VectND(3, original.coordinates)
+    {   }
+
+    Vect3D::Vect3D(float* coordinates) : VectND(3, coordinates)
+    {   }
+
+    VectND& Vect3D::operator=(const VectND& right)
+    {   
+        return VectND::operator=(right);
+    }
+
+    float Vect3D::dot_product(const VectND& that)
+    {
+        return VectND::dot_product(that);
+    }
+
+    void Vect3D::set_coordinates(std::vector<float> v)
+    {
+        VectND::set_coordinates(v);
+    }
+
+    //========================================================================//
+    // END OF VECT3D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT4D CLASS IMPLEMENTATION
+    //========================================================================//
+
+    Vect4D::Vect4D() : Vect4D({0, 0, 0, 0})
+    {   }
+
+    Vect4D::Vect4D(std::array<float, 4> a) : VectND(4, a.begin())
+    {   }
+
+    Vect4D::Vect4D(const Vect4D& original) : VectND(4, original.coordinates)
+    {   }
+
+    Vect4D::Vect4D(float* coordinates) : VectND(4, coordinates)
+    {   }
+
+    VectND& Vect4D::operator=(const VectND& right)
+    {   
+        return VectND::operator=(right);
+    }
+
+    float Vect4D::dot_product(const VectND& that)
+    {
+        return VectND::dot_product(that);
+    }
+
+    void Vect4D::set_coordinates(std::vector<float> v)
+    {
+        VectND::set_coordinates(v);
+    }
+
+    //========================================================================//
+    // END OF VECT4D CLASS IMPLEMENTATION
     //========================================================================//
 
     //========================================================================//
@@ -160,332 +419,6 @@ namespace TPP_VMath
     //========================================================================//
 
     //========================================================================//
-    // START OF VECT1D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    Vect1D::Vect1D()
-    {
-        dimension = 1;
-        coordinates = new float[1];
-        coordinates[0] = 0;
-    }
-
-    Vect1D::Vect1D(float x)
-    {
-        dimension = 1;
-        coordinates = new float[1];
-        coordinates[0] = x;
-    }
-
-    Vect1D::Vect1D(const Vect1D& original)
-    {
-        dimension = 1;
-        coordinates = new float[1];
-        
-        for (int i = 0; i < 1; ++i)
-        {
-            coordinates[i] = original.get_coordinates()[i];
-        }
-    }
-
-    Vect1D::Vect1D(float* coordinates)
-    {
-        dimension = 1;
-        coordinates = new float[1];
-        this->coordinates[0] = coordinates[0];
-    }
-
-    Vect1D::~Vect1D()
-    {
-        delete [] coordinates;
-    }
-
-    Vect1D& Vect1D::operator=(const Vect1D& right)
-    {
-        coordinates[0] = right.coordinates[0];
-
-        return *this;
-    }
-
-    void Vect1D::set_coordinates(float x)
-    {
-        coordinates[0] = x;
-    }
-
-    float Vect1D::dot_product(const Vect1D& that)
-    {
-        return this->coordinates[0] * that.get_coordinates()[0];
-    }
-
-    //========================================================================//
-    // END OF VECT1D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//~~
-    // START OF VECT1D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    Vect2D::Vect2D() : Vect2D(0, 0)
-    {   }
-
-    Vect2D::Vect2D(float x, float y)
-    {
-        dimension = 2;
-        coordinates = new float[2];
-        coordinates[0] = x;
-        coordinates[1] = y;
-    }
-
-    Vect2D::Vect2D(const Vect2D& original)
-    {
-        dimension = 2;
-        coordinates = new float[2];
-        
-        for (int i = 0; i < 2; ++i)
-        {
-            coordinates[i] = original.get_coordinates()[i];
-        }
-    }
-
-    Vect2D::Vect2D(float* coordinates)
-    {
-        dimension = 2;
-        coordinates = new float[2];
-
-        for (int i = 0; i < 2; ++i) 
-        {
-            this->coordinates[i] = coordinates[i];
-        }
-    }
-
-    Vect2D::~Vect2D()
-    {
-        delete [] coordinates;
-    }
-
-    Vect2D& Vect2D::operator=(const Vect2D& right)
-    {
-        for (int i = 0; i < 2; ++i)
-        {
-            coordinates[i] = right.coordinates[i];
-        }
-
-        return *this;
-    }
-
-    void Vect2D::set_coordinates(float x, float y)
-    {
-        coordinates[0] = x;
-        coordinates[1] = y;
-    }
-
-    float Vect2D::dot_product(const Vect2D& that)
-    {
-        float sumOfProducts = 0;
-
-        for (int i = 0; i < dimension; ++i)
-        {
-            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
-        }
-
-        return sumOfProducts;
-    }
-
-    //========================================================================//
-    // END OF VECT1D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT3D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    Vect3D::Vect3D() : Vect3D(0, 0, 0) 
-    {   }
-
-    Vect3D::Vect3D(const float x, const float y, const float z)
-    {
-        dimension = 3;
-        coordinates = new float[3];
-        coordinates[0] = x;
-        coordinates[1] = y;
-        coordinates[2] = z;
-    }
-
-    Vect3D::Vect3D(const Vect3D& original)
-    {
-        dimension = 3;
-        coordinates = new float[3];
-        
-        for (int i = 0; i < 3; ++i)
-        {
-            coordinates[i] = original.get_coordinates()[i];
-        }
-    }
-
-    Vect3D::Vect3D(const float* coordinates)
-    {
-        this->dimension = 3;
-        this->coordinates = new float[3];
-
-        for (int i = 0; i < 3; ++i)
-        {
-            this->coordinates[i] = coordinates[i];
-        }
-    }
-
-    Vect3D::~Vect3D()
-    {
-        delete [] coordinates;
-        coordinates = nullptr;
-    }
-
-    Vect3D& Vect3D::operator=(const Vect3D& right)
-    {
-        for (int i = 0; i < 3; ++i)
-        {
-            coordinates[i] = right.coordinates[i];
-        }
-
-        return *this;
-    }
-
-    void Vect3D::set_coordinates(float x, float y, float z)
-    {
-        coordinates[0] = x;
-        coordinates[1] = y;
-        coordinates[2] = z;
-    }
-
-    float Vect3D::dot_product(const Vect3D& that)
-    {
-        float sumOfProducts = 0;
-
-        for (int i = 0; i < dimension; ++i)
-        {
-            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
-        }
-
-        return sumOfProducts;
-    }
-
-    //========================================================================//
-    // END OF VECT3D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT4D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    Vect4D::Vect4D() : Vect4D(0, 0, 0, 0)
-    {   }
-
-    Vect4D::Vect4D(float x, float y, float z, float w)
-    {
-        dimension = 4;
-        coordinates = new float[4];
-        coordinates[0] = x;
-        coordinates[1] = y;
-        coordinates[2] = z;
-        coordinates[3] = w;
-    }
-
-    Vect4D::Vect4D(const Vect4D& original)
-    {
-        dimension = 4;
-        coordinates = new float[4];
-
-        for (int i = 0; i < 4; ++i)
-        {
-            coordinates[i] = original.get_coordinates()[i];
-        }
-    }
-
-    Vect4D::Vect4D(const float* coordinates)
-    {
-        dimension = 4;
-        this->coordinates = new float[4];
-
-        for (int i = 0; i < 4; ++i)
-        {
-            this->coordinates[i] = coordinates[i];
-        }
-    }
-
-    Vect4D::~Vect4D()
-    {
-        delete [] coordinates;
-    }
-
-    Vect4D& Vect4D::operator=(const Vect4D& right)
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            coordinates[i] = right.coordinates[i];
-        }
-
-        return *this;
-    }
-
-    void Vect4D::set_coordinates(float x, float y, float z, float w)
-    {
-        coordinates[0] = x;
-        coordinates[1] = y;
-        coordinates[2] = z;
-        coordinates[3] = w;
-    }
-
-    float Vect4D::dot_product(const Vect4D& that)
-    {
-        float sumOfProducts = 0;
-
-        for (int i = 0; i < dimension; ++i)
-        {
-            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
-        }
-
-        return sumOfProducts;
-    }
-
-    //========================================================================//
-    // END OF VECT4D CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECTND CLASS IMPLEMENTATION
-    //========================================================================//
-
-    VectND::VectND(int n)
-    {
-        dimension = n;
-        coordinates = new float[n];
-
-        for (int i = 0; i < n; ++i)
-        {
-            coordinates[i] = 0;
-        }
-    }
-
-    VectND::VectND(int n, float* coordinates)
-    {
-        dimension = n;
-        this->coordinates = new float[n];
-
-        for (int i = 0; i < n; ++i)
-        {
-            this->coordinates[i] = coordinates[i];
-        }
-    }
-
-    VectND::~VectND()
-    {
-        delete [] coordinates;
-    }
-
-    //========================================================================//
-    // END OF VECTND CLASS IMPLEMENTATION
-    //========================================================================//
-
-    //========================================================================//
     // START OF VSET CLASS IMPLEMENTATION
     //========================================================================//
 
@@ -569,6 +502,7 @@ namespace TPP_VMath
             {
                 std::cerr << "The dimensions for vect must match the "
                           << "established VSet dimensions\n";
+                return;
             }
 
             // increase the size of the set

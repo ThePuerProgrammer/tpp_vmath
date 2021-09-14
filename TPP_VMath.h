@@ -6,6 +6,9 @@
  */ 
 #pragma once
 
+#include <array>
+#include <vector>
+
 namespace TPP_VMath
 {
 
@@ -77,6 +80,331 @@ namespace TPP_VMath
 
     //========================================================================//
     // END OF VECT CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECTND CLASS DECLARATION
+    //========================================================================//
+
+    /**
+     * @brief           A floating point vector in RN (variable length) that
+     *                  inherits from Vect
+     * @file            TPP_VMath.h
+     */
+    class VectND : public Vect
+    {
+    public:
+
+        VectND();
+
+        /**
+         * @brief       Constructor for a vector in RN where N is provided that 
+         *              defaults to the zero vector
+         * @param       n the dimension of the vector
+         */ 
+        VectND(int);
+
+        /**
+         * @brief       Constructor for a vector in RN where N is provided that
+         *              initializes to the provided array of floats
+         * @param       n the dimension of the vector
+         * @param       coordinates the provided array of floats
+         */
+        VectND(int, float*);
+
+        /**
+         * @brief       Constructor for a vector in RN where N is the size of a
+         *              std::vector<float>
+         * @param       v a std::vector of floats
+         */
+        VectND(std::vector<float>); 
+
+        /**
+         * @brief       Destructor deletes the coordinate array
+         */
+        ~VectND();
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const Vect reference to the right side of =
+         */ 
+        VectND&         operator=(const VectND&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const Vect reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const VectND&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+    }; 
+
+    //========================================================================//
+    // END OF VECTND CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT1D CLASS DECLARATION
+    //========================================================================//
+    /**
+     * @brief           A one dimensional vector can be thought of as a scalar 
+     *                  but there are some unique edge cases where this is a
+     *                  very interesting and useful property. A floating point
+     *                  vector in R1 that inherits from VectND
+     * @file            TPP_VMath.h
+     */
+    class Vect1D : public VectND
+    {
+    public:
+
+        /**
+         * @brief       constructor for a vector in R1 that inits to zero
+         * @param       void
+         */ 
+        Vect1D();
+
+        /**
+         * @brief       constructor for a vector in R1 that inits to (x)
+         * @param       a an array of floats representing the value(s) x
+         */ 
+        Vect1D(std::array<float, 1>);
+
+        /**
+         * @brief       Copy constructor for a vector in R1
+         * @param       original a const Vect1D reference
+         */
+        Vect1D(const Vect1D&); 
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect1D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 1)
+         * @param       coordinates the entries in the 1D vector
+         */
+        Vect1D(float*);
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const VectND reference to the right side of =
+         */ 
+        VectND&         operator=(const VectND&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const VectND reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const VectND&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+    }; 
+    //========================================================================//
+    // END OF VECT1D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT2D CLASS DECLARATION
+    //========================================================================//
+    /**
+     * @brief           A floating point vector in R2 that inherits from Vect
+     * @file            TPP_VMath.h
+     */
+    class Vect2D : public VectND
+    {
+    public:
+
+        /**
+         * @brief       constructor for a vector in R2 that inits to zero
+         * @param       void
+         */ 
+        Vect2D();
+
+        /**
+         * @brief       constructor for a vector in R2 that inits to (x,y)
+         * @param       a an array of floats representing the value(s) x,y
+         */ 
+        Vect2D(std::array<float, 2>);
+
+        /**
+         * @brief       Copy constructor for a vector in R2
+         * @param       original a const Vect2D reference
+         */
+        Vect2D(const Vect2D&); 
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect2D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 2)
+         * @param       coordinates the entries in the 2D vector
+         */
+        Vect2D(float*);
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const VectND reference to the right side of =
+         */ 
+        VectND&         operator=(const VectND&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const VectND reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const VectND&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+    }; 
+    //========================================================================//
+    // END OF VECT2D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT3D CLASS DECLARATION
+    //========================================================================//
+
+    /**
+     * @brief           A floating point vector in R3 that inherits from Vect
+     * @file            TPP_VMath.h
+     */ 
+    class Vect3D : public VectND
+    {
+    public:
+    
+        /**
+         * @brief       Constructor for a vector in R3 that inits to zero
+         * @param       void
+         */ 
+        Vect3D();
+
+        /**
+         * @brief       Constructor for a vector in R3 that inits to (x,y,z)
+         * @param       a an array of floats representing the value(s) x,y,z
+         */
+        Vect3D(std::array<float, 3>);
+
+        /**
+         * @brief       Copy Constructor for a vector in R3
+         * @param       original a const Vect3D reference
+         */ 
+        Vect3D(const Vect3D&);
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect3D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 3)
+         * @param       coordinates the entries in the 3D vector
+         */
+        Vect3D(float*);
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const VectND reference to the right side of =
+         */ 
+        VectND&         operator=(const VectND&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const VectND reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const VectND&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+    };
+
+    //========================================================================//
+    // END OF VECT3D CLASS DECLARATION
+    //========================================================================//
+
+    //========================================================================//
+    // START OF VECT4D CLASS DECLARATION
+    //========================================================================//
+
+    /**
+     * @brief           A floating point vector in R4 that inherits from Vect
+     * @file            TPP_VMath.h
+     */ 
+    class Vect4D : public VectND
+    {
+    public:
+
+        /**
+         * @brief       A vector in R4 that defaults to zero
+         */
+        Vect4D(); 
+
+        /**
+         * @brief       A vector in R4 that inits to (x, y, z, w)
+         * @param       a an array of floats representing the value(s) x,y,z,w
+         */
+        Vect4D(std::array<float, 4>);
+
+        /**
+         * @brief       Copy Constructor for a vector in R4
+         * @param       original a const Vect4D reference
+         */
+        Vect4D(const Vect4D&);
+
+        /**
+         * @brief       Constructor useful for polymorphic copies of 
+         *              Vect* v = new Vect4D(); 
+         *              Error prone!! Call should ALWAYS be wrapped with guard 
+         *              in the form if (v->get_dimension() == 4)
+         * @param       coordinates the entries in the 4D vector
+         */
+        Vect4D(float*); 
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const VectND reference to the right side of =
+         */ 
+        VectND&         operator=(const VectND&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const VectND reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const VectND&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+    };
+    //========================================================================//
+    // END OF VECT4D CLASS DECLARATION
     //========================================================================//
 
     //========================================================================//
@@ -177,321 +505,6 @@ namespace TPP_VMath
 
     //========================================================================//
     // END OF VWrap CLASS DECLARATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT1D CLASS DECLARATION
-    //========================================================================//
-    /**
-     * @brief           A one dimensional vector can be thought of as a scalar 
-     *                  but there are some unique edge cases where this is a
-     *                  very interesting and useful property. A floating point
-     *                  vector in R1
-     * @file            TPP_VMath.h
-     */
-    class Vect1D : public Vect
-    {
-    public:
-
-        /**
-         * @brief       constructor for a vector in R1 that inits to zero
-         * @param       void
-         */ 
-        Vect1D();
-
-        /**
-         * @brief       constructor for a vector in R1 that inits to (x)
-         * @param       x the 1st and only entry in the Vect1D
-         */ 
-        Vect1D(float);
-
-        /**
-         * @brief       Copy constructor for a vector in R1
-         * @param       original a const Vect1D reference
-         */
-        Vect1D(const Vect1D&); 
-
-        /**
-         * @brief       Constructor useful for polymorphic copies of 
-         *              Vect* v = new Vect1D(); 
-         *              Error prone!! Call should ALWAYS be wrapped with guard 
-         *              in the form if (v->get_dimension() == 1)
-         * @param       coordinates the entries in the 1D vector
-         */
-        Vect1D(float*);
-
-        /**
-         * @brief       Destructor deletes the coordinate array
-         */ 
-        ~Vect1D();
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const Vect1D reference to the right side of =
-         */ 
-        Vect1D&         operator=(const Vect1D&);
-
-        /**
-         * @brief       Manual assignment of x vector entry
-         * @param       x the 1st and only entry in the Vect1D
-         */ 
-        void            set_coordinates(float);
-
-        /**
-         * @param       that a const Vect1D
-         * @return      sum of the entrywise products of two Vect1Ds
-         */ 
-        float           dot_product(const Vect1D&);
-    }; 
-    //========================================================================//
-    // END OF VECT1D CLASS DECLARATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT2D CLASS DECLARATION
-    //========================================================================//
-    /**
-     * @brief           A floating point vector in R2 that inherits from Vect
-     * @file            TPP_VMath.h
-     */
-    class Vect2D : public Vect
-    {
-    public:
-
-        /**
-         * @brief       constructor for a vector in R2 that inits to zero
-         * @param       void
-         */ 
-        Vect2D();
-
-        /**
-         * @brief       constructor for a vector in R2 that inits to (x,y)
-         * @param       x the 1st entry in the Vect2D
-         * @param       y the 2nd entry in the Vect2D
-         */ 
-        Vect2D(float, float);
-
-        /**
-         * @brief       Copy constructor for a vector in R2
-         * @param       original a const Vect2D reference
-         */
-        Vect2D(const Vect2D&); 
-
-        /**
-         * @brief       Constructor useful for polymorphic copies of 
-         *              Vect* v = new Vect2D(); 
-         *              Error prone!! Call should ALWAYS be wrapped with guard 
-         *              in the form if (v->get_dimension() == 2)
-         * @param       coordinates the entries in the 2D vector
-         */
-        Vect2D(float*);
-
-        /**
-         * @brief       Destructor deletes the coordinate array
-         */ 
-        ~Vect2D();
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const Vect2D reference to the right side of =
-         */ 
-        Vect2D&         operator=(const Vect2D&);
-
-        /**
-         * @brief       Manual assignment of x, y vector entries
-         * @param       x the 1st entry in the Vect2D
-         * @param       y the 2nd entry in the Vect2D
-         */ 
-        void            set_coordinates(float, float);
-
-        /**
-         * @param       that a const Vect2D
-         * @return      sum of the entrywise products of two Vect2Ds
-         */ 
-        float           dot_product(const Vect2D&);
-    }; 
-    //========================================================================//
-    // END OF VECT2D CLASS DECLARATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT3D CLASS DECLARATION
-    //========================================================================//
-
-    /**
-     * @brief           A floating point vector in R3 that inherits from Vect
-     * @file            TPP_VMath.h
-     */ 
-    class Vect3D : public Vect
-    {
-    public:
-    
-        /**
-         * @brief       Constructor for a vector in R3 that inits to zero
-         * @param       void
-         */ 
-        Vect3D();
-
-        /**
-         * @brief       Constructor for a vector in R3 that inits to (x,y,z)
-         * @param       x the 1st entry in the Vect3D
-         * @param       y the 2nd entry in the Vect3D
-         * @param       z the 3rd entry in the Vect3D
-         */
-        Vect3D(const float, const float, const float);
-
-        /**
-         * @brief       Copy Constructor for a vector in R3
-         * @param       original a const Vect3D reference
-         */ 
-        Vect3D(const Vect3D&);
-
-        /**
-         * @brief       Constructor useful for polymorphic copies of 
-         *              Vect* v = new Vect3D(); 
-         *              Error prone!! Call should ALWAYS be wrapped with guard 
-         *              in the form if (v->get_dimension() == 3)
-         * @param       coordinates the entries in the 3D vector
-         */
-        Vect3D(const float*);
-
-        /**
-         * @brief       Destructor deletes coordinate array
-         */ 
-        ~Vect3D();
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const Vect3D reference to the right side of =
-         */ 
-        Vect3D&         operator=(const Vect3D&);
-
-        /**
-         * @brief       Manual assignment of x, y, z vector entries
-         * @param       x the 1st entry in the Vect3D
-         * @param       y the 2nd entry in the Vect3D
-         * @param       z the 3rd entry in the Vect3D
-         */ 
-        void            set_coordinates(float, float, float);
-
-        /**
-         * @param       that a const Vect3D
-         * @return      sum of the entrywise products of two Vect3Ds
-         */ 
-        float           dot_product(const Vect3D&);
-    };
-
-    //========================================================================//
-    // END OF VECT3D CLASS DECLARATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECT4D CLASS DECLARATION
-    //========================================================================//
-
-    /**
-     * @brief           A floating point vector in R4 that inherits from Vect
-     * @file            TPP_VMath.h
-     */ 
-    class Vect4D : public Vect
-    {
-    public:
-
-        /**
-         * @brief       A vector in R4 that defaults to zero
-         */
-        Vect4D(); 
-
-        /**
-         * @brief       A vector in R4 that inits to (x, y, z, w)
-         * @param       x the 1st entry in the Vect4D
-         * @param       y the 2nd entry in the Vect4D
-         * @param       z the 3rd entry in the Vect4D
-         * @param       w the 4th entry in the Vect4D
-         */
-        Vect4D(const float, const float, const float, const float);
-
-        /**
-         * @brief       Copy Constructor for a vector in R4
-         * @param       original a const Vect4D reference
-         */
-        Vect4D(const Vect4D&);
-
-        /**
-         * @brief       Constructor useful for polymorphic copies of 
-         *              Vect* v = new Vect4D(); 
-         *              Error prone!! Call should ALWAYS be wrapped with guard 
-         *              in the form if (v->get_dimension() == 4)
-         * @param       coordinates the entries in the 4D vector
-         */
-        Vect4D(const float*); 
-
-        /**
-         * @brief       Destructor deletes coordinate array
-         */ 
-        ~Vect4D();
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const Vect4D reference to the right side of =
-         */ 
-        Vect4D&         operator=(const Vect4D&);
-
-        /**
-         * @brief       Manual assignment of x, y, z, w vector entries
-         * @param       x the 1st entry in the Vect4D
-         * @param       y the 2nd entry in the Vect4D
-         * @param       z the 3rd entry in the Vect4D
-         * @param       w the 4th entry in the Vect4D
-         */ 
-        void            set_coordinates(float, float, float, float);
-
-        /**
-         * @param       that a const Vect4D
-         * @return      sum of the entrywise products of two Vect4Ds
-         */ 
-        float           dot_product(const Vect4D&);
-    };
-    //========================================================================//
-    // END OF VECT4D CLASS DECLARATION
-    //========================================================================//
-
-    //========================================================================//
-    // START OF VECTND CLASS DECLARATION
-    //========================================================================//
-
-    /**
-     * @brief           A floating point vector in RN (variable length) that
-     *                  inherits from Vect
-     * @file            TPP_VMath.h
-     */
-    class VectND : public Vect
-    {
-    public:
-
-        /**
-         * @brief       Constructor for a vector in RN where N is provided that 
-         *              defaults to the zero vector
-         * @param       n the dimension of the vector
-         */ 
-        VectND(int);
-
-        /**
-         * @brief       Constructor for a vector in RN where N is provided that
-         *              initializes to the provided array of floats
-         * @param       n the dimension of the vector
-         * @param       coordinates the provided array of floats
-         */
-        VectND(int, float*);
-
-        /**
-         * @brief       Destructor deletes the coordinate array
-         */
-        ~VectND();
-    }; 
-
-    //========================================================================//
-    // END OF VECTND CLASS DECLARATION
     //========================================================================//
 
     //========================================================================//
