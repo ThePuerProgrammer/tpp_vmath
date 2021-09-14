@@ -32,6 +32,20 @@ namespace TPP_VMath
         return sqrtf(sumOfSquares);
     }
 
+    float Vect::get_magnitude(Vect& vect)
+    {
+        float sumOfSquares = 0;
+        float* coordinates = vect.get_coordinates(); 
+        int      dimension = vect.get_dimension();
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfSquares += coordinates[i] * coordinates[i];
+        }
+
+        return sqrtf(sumOfSquares);
+    }
+
     void Vect::scale_by(int c)
     {
         for (int i = 0; i < dimension; ++i)
@@ -40,8 +54,30 @@ namespace TPP_VMath
         }
     }
 
+    void Vect::scale_by(int c, Vect& vect)
+    {
+        float* coordinates = vect.get_coordinates();
+        int      dimension = vect.get_dimension();
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            coordinates[i] *= c;
+        }
+    }
+
     void Vect::scale_by(float c)
     {
+        for (int i = 0; i < dimension; ++i)
+        {
+            coordinates[i] *= c;
+        }
+    }
+
+    void Vect::scale_by(float c, Vect& vect)
+    {
+        float* coordinates = vect.get_coordinates();
+        int      dimension = vect.get_dimension();
+
         for (int i = 0; i < dimension; ++i)
         {
             coordinates[i] *= c;
@@ -64,6 +100,60 @@ namespace TPP_VMath
         }
 
         return sumOfProducts;
+    }
+
+    float Vect::dot_product(const Vect& a, const Vect& b)
+    {
+        int dimension = a.get_dimension();
+
+        if (dimension != b.get_dimension())
+        {
+            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
+            return -FLT_MAX;
+        }
+
+        float sumOfProducts = 0;
+        float* aCoordinates = a.get_coordinates();
+        float* bCoordinates = b.get_coordinates();
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += aCoordinates[i] * bCoordinates[i];
+        }
+
+        return sumOfProducts;
+    }
+
+    void Vect::normalize_vect()
+    {
+        float magnitude = this->get_magnitude();
+
+        if (magnitude == 0)
+        {
+            std::cerr << "Cannot normalize the zero vector. Divide by zero "
+                      << "error\n";
+            return;
+        }
+
+        float inverseMagnitude = 1 / magnitude;
+
+        this->scale_by(inverseMagnitude);
+    }
+
+    void Vect::normalize_vect(Vect& vect)
+    {
+        float magnitude = vect.get_magnitude();
+
+        if (magnitude == 0)
+        {
+            std::cerr << "Cannot normalize the zero vector. Divide by zero "
+                      << "error\n";
+            return;
+        }
+
+        float inverseMagnitude = 1 / magnitude;
+
+        vect.scale_by(inverseMagnitude);
     }
 
     void Vect::set_coordinates(std::vector<float> v)
@@ -564,6 +654,11 @@ namespace TPP_VMath
                       << i + 1;
         }
         std::cout << std::endl;
+        for (int i = 0; i < (n*11) + 4; ++i)
+        {
+            std::cout << "=";
+        }
+        std::cout << std::endl;
         for (int i = 0; i < m; ++i)
         {
             for (int j = 0; j < n; ++j)
@@ -576,7 +671,7 @@ namespace TPP_VMath
                           << " ";
             }
 
-            std::cout << "      Row " << i + 1 << std::endl;
+            std::cout << "    ||Row " << i + 1 << std::endl;
         }
     }
 

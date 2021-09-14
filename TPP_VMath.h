@@ -11,7 +11,7 @@
 
 namespace TPP_VMath
 {
-
+    #pragma region Vect_Declaration
     //========================================================================//
     // START OF VECT CLASS DECLARATION
     //========================================================================//
@@ -35,16 +35,37 @@ namespace TPP_VMath
         float           get_magnitude();
 
         /**
+         * @brief       The magnitude of a Vect is its distance from the origin
+         * @param       vect a reference to a child of Vect 
+         * @return      sqrtf(v₁^2+...+vᵢ^2) as a float
+         */
+        static float    get_magnitude(Vect&);
+
+        /**
          * @brief       Scales each entry in the vector by integer scalar value
          * @param       c an integer scalar value
          */ 
         void            scale_by(int);
 
         /**
+         * @brief       Scales each entry in the vector by integer scalar value
+         * @param       c an integer scalar value
+         * @param       vect a reference to a child of Vect
+         */ 
+        static void     scale_by(int, Vect&);
+
+        /**
          * @brief       Scales each entry in the vector by float scalar value
          * @param       c a floating point scalar value
          */ 
         void            scale_by(float);
+
+        /**
+         * @brief       Scales each entry in the vector by float scalar value
+         * @param       c an float scalar value
+         * @param       vect a reference to a child of Vect
+         */ 
+        static void     scale_by(float, Vect&);
 
         /**
          * @brief       If the Vects have unmatching dimensions an error will
@@ -54,6 +75,32 @@ namespace TPP_VMath
          * @return      sum of the entrywise products of two Vects
          */ 
         float           dot_product(const Vect&);
+
+        /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       a a const Vect reference
+         * @param       b a const Vect reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        static float    dot_product(const Vect&, const Vect&);
+
+        /**
+         * @brief       Normalization scales the vector by the inverse of its
+         *              magnitude, which has the effect of setting the magnitude
+         *              of the vector to 1.
+         * @param       void
+         */
+        void            normalize_vect(); 
+
+        /**
+         * @brief       Normalization scales the vector by the inverse of its
+         *              magnitude, which has the effect of setting the magnitude
+         *              of the vector to 1.
+         * @param       vect a reference to a child of Vect
+         */
+        static void     normalize_vect(Vect&); 
 
         /**
          * @brief       Manual assignment of entires in the vector
@@ -102,7 +149,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT CLASS DECLARATION
     //========================================================================//
+    #pragma endregion Vect_Declaration
 
+    #pragma region VectND_Declaration
     //========================================================================//
     // START OF VECTND CLASS DECLARATION
     //========================================================================//
@@ -149,7 +198,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECTND CLASS DECLARATION
     //========================================================================//
+    #pragma endregion VectND_Declaration
 
+    #pragma region Vect1D_Declaration
     //========================================================================//
     // START OF VECT1D CLASS DECLARATION
     //========================================================================//
@@ -194,7 +245,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT1D CLASS DECLARATION
     //========================================================================//
+    #pragma endregion Vect1D_Declaration
 
+    #pragma region Vect2D_Declaration
     //========================================================================//
     // START OF VECT2D CLASS DECLARATION
     //========================================================================//
@@ -236,7 +289,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT2D CLASS DECLARATION
     //========================================================================//
+    #pragma endregion Vect2D_Declaration
 
+    #pragma region Vect3D_Declaration
     //========================================================================//
     // START OF VECT3D CLASS DECLARATION
     //========================================================================//
@@ -280,7 +335,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT3D CLASS DECLARATION
     //========================================================================//
+    #pragma endregion Vect3D_Declaration
 
+    #pragma region Vect4D_Declaration
     //========================================================================//
     // START OF VECT4D CLASS DECLARATION
     //========================================================================//
@@ -322,9 +379,11 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VECT4D CLASS DECLARATION
     //========================================================================//
+    #pragma endregion Vect4D_Declaration
 
+    #pragma region VWrap_Declaration
     //========================================================================//
-    // START OF VWrap CLASS DECLARATION
+    // START OF VWRAP CLASS DECLARATION
     //========================================================================//
 
     /**
@@ -420,9 +479,11 @@ namespace TPP_VMath
     };
 
     //========================================================================//
-    // END OF VWrap CLASS DECLARATION
+    // END OF VWRAP CLASS DECLARATION
     //========================================================================//
+    #pragma endregion VWrap_Declaration
 
+    #pragma region VSet_Declaration
     //========================================================================//
     // START OF VSET CLASS DECLARATION
     //========================================================================//
@@ -532,7 +593,9 @@ namespace TPP_VMath
     //========================================================================//
     // END OF VSET CLASS DECLARATION
     //========================================================================//
+    #pragma endregion VSet_Declaration
 
+    #pragma region Matrix_Declaration
     //========================================================================//
     // START OF MATRIX CLASS DECLARATION
     //========================================================================//
@@ -631,5 +694,5 @@ namespace TPP_VMath
     //========================================================================//
     // END OF MATRIX CLASS DECLARATION
     //========================================================================//
-
+    #pragma endregion Matrix_Declaration
 };
