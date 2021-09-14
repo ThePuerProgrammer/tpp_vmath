@@ -47,6 +47,21 @@ namespace TPP_VMath
         void            scale_by(float);
 
         /**
+         * @brief       If the Vects have unmatching dimensions an error will
+         *              print to the console and the function will return 
+         *              -FLT_MAX
+         * @param       that a const Vect reference
+         * @return      sum of the entrywise products of two Vects
+         */ 
+        float           dot_product(const Vect&);
+
+        /**
+         * @brief       Manual assignment of entires in the vector
+         * @param       v the provided array of floats
+         */ 
+        void            set_coordinates(std::vector<float>);
+
+        /**
          * @param       i the ith coordinate
          * @return      a pointer to the ith coordinate in the vector
          */
@@ -63,6 +78,12 @@ namespace TPP_VMath
          * @return      the dimension of the vector (the number of entries)
          */ 
         unsigned int    get_dimension() const;
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector
+         * @param       right a const Vect reference to the right side of =
+         */ 
+        Vect&           operator=(const Vect&);
 
         /**
          * @brief       Pure virtual destructor
@@ -123,27 +144,6 @@ namespace TPP_VMath
          * @brief       Destructor deletes the coordinate array
          */
         ~VectND();
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const Vect reference to the right side of =
-         */ 
-        VectND&         operator=(const VectND&);
-
-        /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
-         * @param       that a const Vect reference
-         * @return      sum of the entrywise products of two Vects
-         */ 
-        float           dot_product(const VectND&);
-
-        /**
-         * @brief       Manual assignment of entires in the vector
-         * @param       v the provided array of floats
-         */ 
-        void            set_coordinates(std::vector<float>);
     }; 
 
     //========================================================================//
@@ -190,27 +190,6 @@ namespace TPP_VMath
          * @param       coordinates the entries in the 1D vector
          */
         Vect1D(float*);
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const VectND reference to the right side of =
-         */ 
-        VectND&         operator=(const VectND&);
-
-        /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
-         * @param       that a const VectND reference
-         * @return      sum of the entrywise products of two Vects
-         */ 
-        float           dot_product(const VectND&);
-
-        /**
-         * @brief       Manual assignment of entires in the vector
-         * @param       v the provided array of floats
-         */ 
-        void            set_coordinates(std::vector<float>);
     }; 
     //========================================================================//
     // END OF VECT1D CLASS DECLARATION
@@ -253,27 +232,6 @@ namespace TPP_VMath
          * @param       coordinates the entries in the 2D vector
          */
         Vect2D(float*);
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const VectND reference to the right side of =
-         */ 
-        VectND&         operator=(const VectND&);
-
-        /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
-         * @param       that a const VectND reference
-         * @return      sum of the entrywise products of two Vects
-         */ 
-        float           dot_product(const VectND&);
-
-        /**
-         * @brief       Manual assignment of entires in the vector
-         * @param       v the provided array of floats
-         */ 
-        void            set_coordinates(std::vector<float>);
     }; 
     //========================================================================//
     // END OF VECT2D CLASS DECLARATION
@@ -317,27 +275,6 @@ namespace TPP_VMath
          * @param       coordinates the entries in the 3D vector
          */
         Vect3D(float*);
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const VectND reference to the right side of =
-         */ 
-        VectND&         operator=(const VectND&);
-
-        /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
-         * @param       that a const VectND reference
-         * @return      sum of the entrywise products of two Vects
-         */ 
-        float           dot_product(const VectND&);
-
-        /**
-         * @brief       Manual assignment of entires in the vector
-         * @param       v the provided array of floats
-         */ 
-        void            set_coordinates(std::vector<float>);
     };
 
     //========================================================================//
@@ -381,27 +318,6 @@ namespace TPP_VMath
          * @param       coordinates the entries in the 4D vector
          */
         Vect4D(float*); 
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector
-         * @param       right a const VectND reference to the right side of =
-         */ 
-        VectND&         operator=(const VectND&);
-
-        /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
-         * @param       that a const VectND reference
-         * @return      sum of the entrywise products of two Vects
-         */ 
-        float           dot_product(const VectND&);
-
-        /**
-         * @brief       Manual assignment of entires in the vector
-         * @param       v the provided array of floats
-         */ 
-        void            set_coordinates(std::vector<float>);
     };
     //========================================================================//
     // END OF VECT4D CLASS DECLARATION

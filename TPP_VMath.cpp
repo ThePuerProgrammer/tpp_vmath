@@ -48,9 +48,64 @@ namespace TPP_VMath
         }
     }
 
+    float Vect::dot_product(const Vect& that)
+    {
+        if (this->dimension != that.get_dimension())
+        {
+            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
+            return -FLT_MAX;
+        }
+
+        float sumOfProducts = 0;
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+        }
+
+        return sumOfProducts;
+    }
+
+    void Vect::set_coordinates(std::vector<float> v)
+    {
+        if (dimension != 0 && v.size() != dimension)
+        {
+            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
+            return;
+        }
+
+        if (dimension == 0)
+        {
+            dimension = v.size();
+            coordinates = new float[v.size()];
+        }
+
+        for (int i = 0; i < dimension; ++i)
+        {
+            coordinates[i] = v[i];
+        }
+    }
+
     float* Vect::operator[](int i)
     {
         return &coordinates[i];
+    }
+
+
+    Vect& Vect::operator=(const Vect& right)
+    {
+        if (this->dimension != right.get_dimension())
+        {
+            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
+            return *this;
+        }
+
+        for (int i = 0; i < this->dimension; ++i)
+        {
+            this->coordinates[i] = right.get_coordinates()[i];
+        }
+
+        return *this;
     }
 
     float* Vect::get_coordinates() const
@@ -127,60 +182,6 @@ namespace TPP_VMath
         }
     }
 
-    VectND& VectND::operator=(const VectND& right)
-    {
-        if (this->dimension != right.get_dimension())
-        {
-            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
-            return *this;
-        }
-
-        for (int i = 0; i < this->dimension; ++i)
-        {
-            this->coordinates[i] = right.get_coordinates()[i];
-        }
-
-        return *this;
-    }
-
-    float VectND::dot_product(const VectND& that)
-    {
-        if (this->dimension != that.get_dimension())
-        {
-            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
-            return -FLT_MAX;
-        }
-
-        float sumOfProducts = 0;
-
-        for (int i = 0; i < dimension; ++i)
-        {
-            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
-        }
-
-        return sumOfProducts;
-    }
-
-    void VectND::set_coordinates(std::vector<float> v)
-    {
-        if (dimension != 0 && v.size() != dimension)
-        {
-            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
-            return;
-        }
-
-        if (dimension == 0)
-        {
-            dimension = v.size();
-            coordinates = new float[v.size()];
-        }
-
-        for (int i = 0; i < dimension; ++i)
-        {
-            coordinates[i] = v[i];
-        }
-    }
-
     //========================================================================//
     // END OF VECTND CLASS IMPLEMENTATION
     //========================================================================//
@@ -200,21 +201,6 @@ namespace TPP_VMath
 
     Vect1D::Vect1D(float* coordinates) : VectND(1, coordinates)
     {   }
-
-    VectND& Vect1D::operator=(const VectND& right)
-    {   
-        return VectND::operator=(right);
-    }
-
-    float Vect1D::dot_product(const VectND& that)
-    {
-        return VectND::dot_product(that);
-    }
-
-    void Vect1D::set_coordinates(std::vector<float> v)
-    {
-        VectND::set_coordinates(v);
-    }
 
     //========================================================================//
     // END OF VECT1D CLASS IMPLEMENTATION
@@ -236,21 +222,6 @@ namespace TPP_VMath
     Vect2D::Vect2D(float* coordinates) : VectND(2, coordinates)
     {   }
 
-    VectND& Vect2D::operator=(const VectND& right)
-    {   
-        return VectND::operator=(right);
-    }
-
-    float Vect2D::dot_product(const VectND& that)
-    {
-        return VectND::dot_product(that);
-    }
-
-    void Vect2D::set_coordinates(std::vector<float> v)
-    {
-        VectND::set_coordinates(v);
-    }
-
     //========================================================================//
     // END OF VECT1D CLASS IMPLEMENTATION
     //========================================================================//
@@ -271,21 +242,6 @@ namespace TPP_VMath
     Vect3D::Vect3D(float* coordinates) : VectND(3, coordinates)
     {   }
 
-    VectND& Vect3D::operator=(const VectND& right)
-    {   
-        return VectND::operator=(right);
-    }
-
-    float Vect3D::dot_product(const VectND& that)
-    {
-        return VectND::dot_product(that);
-    }
-
-    void Vect3D::set_coordinates(std::vector<float> v)
-    {
-        VectND::set_coordinates(v);
-    }
-
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
     //========================================================================//
@@ -305,21 +261,6 @@ namespace TPP_VMath
 
     Vect4D::Vect4D(float* coordinates) : VectND(4, coordinates)
     {   }
-
-    VectND& Vect4D::operator=(const VectND& right)
-    {   
-        return VectND::operator=(right);
-    }
-
-    float Vect4D::dot_product(const VectND& that)
-    {
-        return VectND::dot_product(that);
-    }
-
-    void Vect4D::set_coordinates(std::vector<float> v)
-    {
-        VectND::set_coordinates(v);
-    }
 
     //========================================================================//
     // END OF VECT4D CLASS IMPLEMENTATION
