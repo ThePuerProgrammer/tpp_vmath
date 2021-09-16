@@ -8,6 +8,8 @@
 #pragma region Includes
 #include <array>
 #include <vector>
+#include <stdexcept>
+#include <string> // for TPP_VMath_Exception
 #pragma endregion Includes
 
 namespace TPP_VMath
@@ -115,6 +117,12 @@ namespace TPP_VMath
          * @return      a pointer to the ith coordinate in the vector
          */
         float*          operator[](int);
+
+        /**
+         * @brief       Overloaded *= calls the appropriate scale_by() function
+         * @param       c a scalar
+         */
+        void            operator*=(float c); 
 
         /**
          * @param       void
@@ -663,10 +671,11 @@ namespace TPP_VMath
         static Vect*   get_matrix_vector_product(Matrix&, Vect&);
 
         /**
-         * @brief       Console representation of coefficient matrix for testing
-         * @param       void
-         */ 
-        void            print_matrix();
+         * @brief       AB = C
+         * @param       B a matrix whose m dimension must match this n dimension
+         * @return      a matrix that is the product of AB
+         */
+        Matrix          mat_mul(Matrix&); 
 
         /**
          * @brief       Identity matrix is an nxn diagonal matrix in RE form
@@ -674,6 +683,12 @@ namespace TPP_VMath
          * @return      A newly created nxn identity matrix
          */
         static Matrix   get_identity_matrix_of_size(int);
+
+        /**
+         * @brief       Console representation of coefficient matrix for testing
+         * @param       void
+         */ 
+        void            print_matrix();
 
     private:
 
@@ -705,4 +720,46 @@ namespace TPP_VMath
     // END OF MATRIX CLASS DECLARATION
     //========================================================================//
     #pragma endregion Matrix_Declaration
+
+    #pragma region TPP_VMath_Exception_Declaration
+    //========================================================================//
+    // START OF TPP_VMATH_EXCEPTION CLASS DECLARATION
+    //========================================================================//
+
+    /**
+     * @brief           Class is used to handle runtime errors associated with
+     *                  undefined vector and matrix operations, such as 
+     *                  transformations outside of the defined range of T
+     * @file            TPP_VMath.h
+     */ 
+    class TPP_VMath_Exception : public std::runtime_error
+    {
+    public:
+        /** 
+         *  @brief      Exception handler for runtime errors associated with
+         *              undefined vector and matrix operations.
+         *  @param      msg a description of the exception thrown
+         *  @param      num a value attributed to the error type
+         */
+        TPP_VMath_Exception(const char*, int);
+
+        /**
+         * @brief       return the integer value of the error code
+         */
+        int             get_error_code() const; 
+
+    private:
+
+        ///             the error code
+        int             errCode;     
+
+        ///             a description of the exception, e.what()
+        const char*     errMsg;     
+    };
+
+    //========================================================================//
+    // START OF TPP_VMATH_EXCEPTION CLASS DECLARATION
+    //========================================================================//
+    #pragma endregion TPP_VMath_Exception_Declaration
+
 };

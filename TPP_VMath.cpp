@@ -184,6 +184,11 @@ namespace TPP_VMath
         return &coordinates[i];
     }
 
+    void Vect::operator*=(float c)
+    {
+        this->scale_by(c);
+    }
+
 
     Vect& Vect::operator=(const Vect& right)
     {
@@ -663,37 +668,6 @@ namespace TPP_VMath
         delete [] A;
     }
 
-    void Matrix::print_matrix()
-    {
-        for (int i = 0; i < n; ++i)
-        {
-            std::cout << std::right
-                      << std::setw(10)
-                      << "Col "
-                      << i + 1;
-        }
-        std::cout << std::endl;
-        for (int i = 0; i < (n*11) + 4; ++i)
-        {
-            std::cout << "=";
-        }
-        std::cout << std::endl;
-        for (int i = 0; i < m; ++i)
-        {
-            for (int j = 0; j < n; ++j)
-            {
-                std::cout << std::setprecision(2) 
-                          << std::fixed
-                          << std::right
-                          << std::setw(10)
-                          << A[i][j]
-                          << " ";
-            }
-
-            std::cout << "    ||Row " << i + 1 << std::endl;
-        }
-    }
-
     void Matrix::reduce_matrix()
     {
         int pivotCol = 0, pivotRow = 0;
@@ -806,6 +780,22 @@ namespace TPP_VMath
         }
     }
 
+    Matrix Matrix::mat_mul(Matrix& B)
+    {
+        if (this->n != B.m)
+        {
+            throw TPP_VMath_Exception("The product of AB is undefined", 0xAB);
+        }
+
+        float** f = new float*[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            f[i] = new float[3];
+        }
+        Matrix m(3,3, f);
+        return m;
+    }
+
     Matrix Matrix::get_identity_matrix_of_size(int n)
     {
         float** fMatrix = new float*[n];
@@ -832,8 +822,59 @@ namespace TPP_VMath
         return result;
     }
 
+    void Matrix::print_matrix()
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            std::cout << std::right
+                      << std::setw(10)
+                      << "Col "
+                      << i + 1;
+        }
+        std::cout << std::endl;
+        for (int i = 0; i < (n*11) + 4; ++i)
+        {
+            std::cout << "=";
+        }
+        std::cout << std::endl;
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                std::cout << std::setprecision(2) 
+                          << std::fixed
+                          << std::right
+                          << std::setw(10)
+                          << A[i][j]
+                          << " ";
+            }
+
+            std::cout << "    ||Row " << i + 1 << std::endl;
+        }
+    }
+
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
     #pragma endregion Matrix_Implementation
+
+    #pragma region TPP_VMath_Exception_Implementation
+    //========================================================================//
+    // START OF TPP_VMATH_EXCEPTION CLASS IMPLEMENTATION
+    //========================================================================//
+
+    TPP_VMath_Exception::TPP_VMath_Exception(const char* msg, int num)
+    : errCode(num), errMsg(msg), std::runtime_error(msg)
+    {   }
+
+    int TPP_VMath_Exception::get_error_code() const
+    {
+        return errCode;
+    }
+
+    //========================================================================//
+    // END OF TPP_VMATH_EXCEPTION CLASS IMPLEMENTATION
+    //========================================================================//
+    #pragma endregion TPP_VMath_Exception_Implementation
+
 }
