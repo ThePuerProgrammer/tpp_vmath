@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>  // for printing the matrix to the console
-#include <cfloat>   // for -FLT_MAX
+#include <sstream>  // for converting address of objects to string
 #pragma endregion Includes
 
 namespace TPP_VMath
@@ -91,8 +91,16 @@ namespace TPP_VMath
     {
         if (this->dimension != that.get_dimension())
         {
-            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
-            return -FLT_MAX;
+            std::string error = "TPP_VMath_Exception: ";
+            error += "The dot product of a vector in R";
+            error += std::to_string(this->dimension) + " ";
+            error += "and a vector in R";
+            error += std::to_string(that.dimension) + " ";
+            error += "is undefined.";
+            throw TPP_VMath_Exception(
+                error,
+                0xA
+            );
         }
 
         float sumOfProducts = 0;
@@ -111,8 +119,16 @@ namespace TPP_VMath
 
         if (dimension != b.get_dimension())
         {
-            std::cerr << "Dimensions do not match. Cannot evaulate dot product";
-            return -FLT_MAX;
+            std::string error = "TPP_VMath_Exception: ";
+            error += "The dot product of a vector in R";
+            error += std::to_string(a.dimension) + " ";
+            error += "and a vector in R";
+            error += std::to_string(b.dimension) + " ";
+            error += "is undefined.";
+            throw TPP_VMath_Exception(
+                error,
+                0xA
+            );
         }
 
         float sumOfProducts = 0;
@@ -133,9 +149,12 @@ namespace TPP_VMath
 
         if (magnitude == 0)
         {
-            std::cerr << "Cannot normalize the zero vector. Divide by zero "
-                      << "error\n";
-            return;
+            std::string error = "TPP_VMath_Exception: Divide by zero ";
+            error += "while attempting to normalize Vect";
+            throw TPP_VMath_Exception(
+                error,
+                0xE1
+            );
         }
 
         float inverseMagnitude = 1 / magnitude;
@@ -149,9 +168,12 @@ namespace TPP_VMath
 
         if (magnitude == 0)
         {
-            std::cerr << "Cannot normalize the zero vector. Divide by zero "
-                      << "error\n";
-            return;
+            std::string error = "TPP_VMath_Exception: Divide by zero ";
+            error += "while attempting to normalize Vect";
+            throw TPP_VMath_Exception(
+                error,
+                0xE1
+            );
         }
 
         float inverseMagnitude = 1 / magnitude;
@@ -163,8 +185,13 @@ namespace TPP_VMath
     {
         if (dimension != 0 && v.size() != dimension)
         {
-            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
-            return;
+            std::string error = "TPP_VMath_Exception: Provided entries of ";
+            error += "set_coordinates(std::vector<float>) do not match the ";
+            error += "dimensions of the Vect from which is was called.";
+            throw TPP_VMath_Exception(
+                error,
+                0xEC
+            );
         }
 
         if (dimension == 0)
@@ -194,8 +221,13 @@ namespace TPP_VMath
     {
         if (this->dimension != right.get_dimension())
         {
-            std::cerr << "Dimensions do not match. Cannot assign coordinates\n";
-            return *this;
+            std::string error = "TPP_VMath_Exception: Dimensions of ";
+            error += "operator=(const Vect& right) do not match the ";
+            error += "dimensions of the left side Vect.";
+            throw TPP_VMath_Exception(
+                error,
+                0xEC
+            );
         }
 
         for (int i = 0; i < this->dimension; ++i)
@@ -711,8 +743,10 @@ namespace TPP_VMath
         // the dimensions of the vector must match the number of columns in A
         if (n != this->n) 
         {
-            std::cerr << "x is not in the range of the transformation Ax\n";
-            return nullptr;
+            throw TPP_VMath_Exception(
+                "x is not in the range of the transformation Ax",
+                0xA0
+            );
         }
 
         // The matrix vector product
@@ -743,8 +777,10 @@ namespace TPP_VMath
         // the dimensions of the vector must match the number of columns in A
         if (n != matrix.n) 
         {
-            std::cerr << "x is not in the range of the transformation Ax\n";
-            return nullptr;
+            throw TPP_VMath_Exception(
+                "x is not in the range of the transformation Ax",
+                0xA0
+            );
         }
 
         // The matrix vector product
@@ -863,7 +899,7 @@ namespace TPP_VMath
     // START OF TPP_VMATH_EXCEPTION CLASS IMPLEMENTATION
     //========================================================================//
 
-    TPP_VMath_Exception::TPP_VMath_Exception(const char* msg, int num)
+    TPP_VMath_Exception::TPP_VMath_Exception(std::string msg, int num)
     : errCode(num), errMsg(msg), std::runtime_error(msg)
     {   }
 

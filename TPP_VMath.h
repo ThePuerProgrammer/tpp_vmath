@@ -72,18 +72,14 @@ namespace TPP_VMath
         static void     scale_by(float, Vect&);
 
         /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
+         * @brief       Faulty dimensions throws TPP_VMath_Exception
          * @param       that a const Vect reference
          * @return      sum of the entrywise products of two Vects
          */ 
         float           dot_product(const Vect&);
 
         /**
-         * @brief       If the Vects have unmatching dimensions an error will
-         *              print to the console and the function will return 
-         *              -FLT_MAX
+         * @brief       Faulty dimensions throws TPP_VMath_Excpetion
          * @param       a a const Vect reference
          * @param       b a const Vect reference
          * @return      sum of the entrywise products of two Vects
@@ -93,7 +89,8 @@ namespace TPP_VMath
         /**
          * @brief       Normalization scales the vector by the inverse of its
          *              magnitude, which has the effect of setting the magnitude
-         *              of the vector to 1.
+         *              of the vector to 1. If called upon the zero vector, a
+         *              TPP_VMath_Exception is thrown to prevent divide by zero
          * @param       void
          */
         void            normalize_vect(); 
@@ -101,13 +98,15 @@ namespace TPP_VMath
         /**
          * @brief       Normalization scales the vector by the inverse of its
          *              magnitude, which has the effect of setting the magnitude
-         *              of the vector to 1.
+         *              of the vector to 1. If called upon the zero vector, a
+         *              TPP_VMath_Exception is thrown to prevent divide by zero
          * @param       vect a reference to a child of Vect
          */
         static void     normalize_vect(Vect&); 
 
         /**
-         * @brief       Manual assignment of entires in the vector
+         * @brief       Manual assignment of entires in the vector. Faulty
+         *              dimensions throws TPP_VMath_Exception
          * @param       v the provided array of floats
          */ 
         void            set_coordinates(std::vector<float>);
@@ -119,7 +118,8 @@ namespace TPP_VMath
         float*          operator[](int);
 
         /**
-         * @brief       Overloaded *= calls the appropriate scale_by() function
+         * @brief       Overloaded *= calls the appropriate scale_by() function.
+         *              Faulty dimensions throws TPP_VMath_Exception
          * @param       c a scalar
          */
         void            operator*=(float c); 
@@ -137,7 +137,8 @@ namespace TPP_VMath
         unsigned int    get_dimension() const;
 
         /**
-         * @brief       Copies coordinates from right vector to left vector
+         * @brief       Copies coordinates from right vector to left vector. 
+         *              Mismatched dimensions throws TPP_VMath_Exception
          * @param       right a const Vect reference to the right side of =
          */ 
         Vect&           operator=(const Vect&);
@@ -656,14 +657,14 @@ namespace TPP_VMath
         Matrix          get_reduced();
 
         /**
-         * @brief       Ax = b
+         * @brief       Ax = b. Faulty dimensions throws TPP_VMath_Exception
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
          */ 
         Vect*           get_matrix_vector_product(Vect&);
 
         /**
-         * @brief       Ax = b
+         * @brief       Ax = b. Faulty dimensions throws TPP_VMath_Exception
          * @param       matrix a Matrix reference
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
@@ -671,7 +672,7 @@ namespace TPP_VMath
         static Vect*   get_matrix_vector_product(Matrix&, Vect&);
 
         /**
-         * @brief       AB = C
+         * @brief       AB = C. Faulty dimensions throws TPP_VMath_Exception
          * @param       B a matrix whose m dimension must match this n dimension
          * @return      a matrix that is the product of AB
          */
@@ -741,7 +742,7 @@ namespace TPP_VMath
          *  @param      msg a description of the exception thrown
          *  @param      num a value attributed to the error type
          */
-        TPP_VMath_Exception(const char*, int);
+        TPP_VMath_Exception(std::string, int);
 
         /**
          * @brief       return the integer value of the error code
@@ -754,7 +755,7 @@ namespace TPP_VMath
         int             errCode;     
 
         ///             a description of the exception, e.what()
-        const char*     errMsg;     
+        std::string     errMsg;     
     };
 
     //========================================================================//
