@@ -532,6 +532,14 @@ namespace TPP_VMath
         VSet(int, Vect**); 
 
         /**
+         * @brief       Construct a new VSet object that requires all Vect& 
+         *              in the provided input std::vector to be of matching
+         *              dimensions, else a TPP_VMath_Exception is thrown.
+         * @param       vects an array of Vects with matching dimensions
+         */
+        VSet(std::vector<Vect*>);
+
+        /**
          * @brief       Constructor using a VWrap that can either contain a
          *              single wrapped Vect* or an array of Wrapped Vect*. This
          *              function creates a copy of every wrapped Vect.
@@ -677,6 +685,14 @@ namespace TPP_VMath
          * @return      a matrix that is the product of AB
          */
         Matrix          mat_mul(Matrix&); 
+
+        /**
+         * @brief       AB = C. Faulty dimensions throws TPP_VMath_Exception
+         * @param       A a matrix
+         * @param       B a matrix
+         * @return      a matrix that is the product of AB
+         */
+        static Matrix   mat_mul(Matrix&, Matrix&); 
 
         /**
          * @brief       Identity matrix is an nxn diagonal matrix in RE form

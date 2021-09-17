@@ -529,6 +529,39 @@ namespace TPP_VMath
         setOfVectors = a;
     }
 
+    VSet::VSet(std::vector<Vect*> vects)
+    {
+        n = vects.size();
+
+        if (n == 0)
+        {
+            setOfVectors = nullptr;
+            m = n;
+        }
+        else
+        {
+            setOfVectors = new Vect*[n];
+            m = vects[0]->get_dimension();
+            setOfVectors[0] = add_vect_of_valid_dimensions(m, vects[0]);
+            
+            for (int i = 1; i < vects.size(); ++i)
+            {
+                if (vects[i]->get_dimension() != m)
+                {
+                    std::string error = "TPP_VMath_Exception: ";
+                    error += "VSet(std::vector<Vect*>) requires all Vects to ";
+                    error += "have the same dimensions";
+                    throw TPP_VMath_Exception(
+                        error,
+                        0x5e7
+                    );
+                }
+
+                setOfVectors[i] = add_vect_of_valid_dimensions(m, vects[i]);
+            }
+        }
+    }
+
     VSet::VSet(VWrap& wrapper)
     {
         this->n = wrapper.get_n();
@@ -557,11 +590,15 @@ namespace TPP_VMath
 
     VSet::~VSet()
     {
-        for (int i = 0; i < n; ++i)
+        if (setOfVectors)
         {
-            delete setOfVectors[i];
+            for (int i = 0; i < n; ++i)
+            {
+                delete setOfVectors[i];
+            }
+
+            delete [] setOfVectors;
         }
-        delete [] setOfVectors;
     }
 
     unsigned int VSet::get_n() const
@@ -586,9 +623,13 @@ namespace TPP_VMath
         {
             if (vect->get_dimension() != m)
             {
-                std::cerr << "The dimensions for vect must match the "
-                          << "established VSet dimensions\n";
-                return;
+                std::string error = "TPP_VMath_Exception: ";
+                error += "add_vect_to_set(Vect*) requires all Vects to ";
+                error += "have the same dimensions";
+                throw TPP_VMath_Exception(
+                    error,
+                    0x5e7
+                );
             }
 
             // increase the size of the set
@@ -842,6 +883,38 @@ namespace TPP_VMath
                 for (int k = 0; k < this->n; ++k)
                 {
                     f[j][i] += this->entries[j][k] * B.entries[k][i];
+                }
+            }
+        }
+        
+        return Matrix(mRows, nCols, f);
+    }
+
+    Matrix Matrix::mat_mul(Matrix& A, Matrix& B)
+    {
+        if (A.n != B.m)
+        {
+            throw TPP_VMath_Exception("The product of AB is undefined", 0xAB);
+        }
+
+        const int mRows = A.m;
+        const int nCols = B.n;
+
+        float** f = new float*[mRows];
+        for (int i = 0; i < mRows; ++i)
+        {
+            f[i] = new float[nCols];
+        }
+
+        for (int i = 0; i < nCols; ++i)
+        {
+            for (int j = 0; j < mRows; ++j)
+            {
+                f[j][i] = 0;
+
+                for (int k = 0; k < A.n; ++k)
+                {
+                    f[j][i] += A.entries[j][k] * B.entries[k][i];
                 }
             }
         }
