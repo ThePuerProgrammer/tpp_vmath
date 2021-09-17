@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iomanip>  // for printing the matrix to the console
 #include <sstream>  // for converting address of objects to string
+#include <cfenv>
 #pragma endregion Includes
 
 namespace TPP_VMath
@@ -32,7 +33,7 @@ namespace TPP_VMath
             sumOfSquares += coordinates[i] * coordinates[i];
         }
 
-        return sqrtf(sumOfSquares);
+        return std::sqrt(sumOfSquares);
     }
 
     float Vect::get_magnitude(Vect& vect)
@@ -46,7 +47,7 @@ namespace TPP_VMath
             sumOfSquares += coordinates[i] * coordinates[i];
         }
 
-        return sqrtf(sumOfSquares);
+        return std::sqrt(sumOfSquares);
     }
 
     void Vect::scale_by(int c)
@@ -654,17 +655,17 @@ namespace TPP_VMath
     {
         this->m = set.get_m();
         this->n = set.get_n();
-        A = new float*[m];
+        entries = new float*[m];
 
         for (int i = 0; i < m; ++i)
         {
-            A[i] = new float[n];
+            entries[i] = new float[n];
 
             for (int j = 0; j < n; ++j)
             {
                 Vect* jthVect  = set.get_set_of_vectors()[j];
                 float ithEntry = jthVect->get_coordinates()[i];
-                A[i][j] = ithEntry;
+                entries[i][j] = ithEntry;
             }
         }
     }
@@ -673,20 +674,20 @@ namespace TPP_VMath
     {
         this->m = m;
         this->n = n;
-        A = fMatrix;
+        entries = fMatrix;
     }
 
     Matrix::Matrix(const Matrix& original)
     {
         this->m = original.m;
         this->n = original.n;
-        A = new float*[m];
+        entries = new float*[m];
         for (int i = 0; i < m; ++i)
         {
-            A[i] = new float[n];
+            entries[i] = new float[n];
             for (int j = 0; j < n; ++j)
             {
-                A[i][j] = original.A[i][j];
+                entries[i][j] = original.entries[i][j];
             }
         }
     }
@@ -695,9 +696,9 @@ namespace TPP_VMath
     {
         for (int i = 0; i < m; ++i)
         {
-            delete [] A[i];
+            delete [] entries[i];
         }
-        delete [] A;
+        delete [] entries;
     }
 
     void Matrix::reduce_matrix()
@@ -711,7 +712,7 @@ namespace TPP_VMath
             notInReducedEchelonForm = false;
             
             // search the row for the first non zero entry as our pivot
-            while (pivotCol < n && A[pivotCol][pivotRow] == 0)
+            while (pivotCol < n && entries[pivotCol][pivotRow] == 0)
             {
                 ++pivotCol;
             }
@@ -761,7 +762,7 @@ namespace TPP_VMath
 
             for (int j = 0; j < n; j++) 
             {
-                sum += A[i][j] * x[j];
+                sum += entries[i][j] * x[j];
             }
 
             b->get_coordinates()[i] = sum;
@@ -795,7 +796,7 @@ namespace TPP_VMath
 
             for (int j = 0; j < n; j++) 
             {
-                sum += matrix.A[i][j] * x[j];
+                sum += matrix.entries[i][j] * x[j];
             }
 
             b->get_coordinates()[i] = sum;
@@ -823,13 +824,29 @@ namespace TPP_VMath
             throw TPP_VMath_Exception("The product of AB is undefined", 0xAB);
         }
 
-        float** f = new float*[3];
-        for (int i = 0; i < 3; ++i)
+        const int mRows = this->m;
+        const int nCols = B.n;
+
+        float** f = new float*[mRows];
+        for (int i = 0; i < mRows; ++i)
         {
-            f[i] = new float[3];
+            f[i] = new float[nCols];
         }
-        Matrix m(3,3, f);
-        return m;
+
+        for (int i = 0; i < nCols; ++i)
+        {
+            for (int j = 0; j < mRows; ++j)
+            {
+                f[j][i] = 0;
+
+                for (int k = 0; k < this->n; ++k)
+                {
+                    f[j][i] += this->entries[j][k] * B.entries[k][i];
+                }
+            }
+        }
+        
+        return Matrix(mRows, nCols, f);
     }
 
     Matrix Matrix::get_identity_matrix_of_size(int n)
@@ -881,12 +898,13 @@ namespace TPP_VMath
                           << std::fixed
                           << std::right
                           << std::setw(10)
-                          << A[i][j]
+                          << entries[i][j]
                           << " ";
             }
 
-            std::cout << "    ||Row " << i + 1 << std::endl;
+            std::cout << "    |Row " << i + 1 << "\n" << std::endl;
         }
+        std::cout << std::endl;
     }
 
     //========================================================================//

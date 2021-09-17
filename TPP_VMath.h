@@ -639,7 +639,7 @@ namespace TPP_VMath
         Matrix(const Matrix&);
 
         /**
-         * @brief       Destructor deletes the matrix A
+         * @brief       Destructor deletes the entries of the matrix
          */ 
         ~Matrix();
 
@@ -693,14 +693,14 @@ namespace TPP_VMath
 
     private:
 
-        ///             The number of rows in A
+        ///             The number of rows in the matrix
         unsigned int    m;
 
-        ///             The number of columns in A
+        ///             The number of columns in the matrix
         unsigned int    n;
 
         ///             2D array using pointer notation representing a matrix
-        float**         A;
+        float**         entries;
 
         /**
          * @brief       Swaps the pointers for A[rowA] and A[rowB]
