@@ -9,8 +9,6 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>  // for printing the matrix to the console
-#include <sstream>  // for converting address of objects to string
-#include <cfenv>
 #pragma endregion Includes
 
 namespace TPP_VMath
