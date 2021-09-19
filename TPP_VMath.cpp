@@ -897,7 +897,7 @@ namespace TPP_VMath
         {
             throw TPP_VMath_Exception(
                 "x is not in the range of the transformation Ax",
-                0xA0
+                0x3a7
             );
         }
 
@@ -931,7 +931,7 @@ namespace TPP_VMath
         {
             throw TPP_VMath_Exception(
                 "x is not in the range of the transformation Ax",
-                0xA0
+                0x3a7
             );
         }
 
@@ -1087,6 +1087,30 @@ namespace TPP_VMath
             std::cout << "    |Row " << i + 1 << "\n" << std::endl;
         }
         std::cout << std::endl;
+    }
+
+    Matrix Matrix::transpose_matrix(Matrix& original)
+    {
+        VSet set;
+        
+        for (int i = 0; i < original.m; ++i)
+        {
+            Vect*  temp = original.get_b(original.n);
+            std::vector<float> v;
+
+            for (int j = 0; j < original.n; ++j)
+            {
+                v.push_back(original.entries[i][j]);
+            }
+
+            temp->set_coordinates(v);
+
+            set.add_vect_to_set(temp);
+
+            delete temp;
+        }
+
+        return Matrix(set);
     }
 
     //========================================================================//

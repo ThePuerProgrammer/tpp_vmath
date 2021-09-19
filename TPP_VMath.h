@@ -658,11 +658,9 @@ namespace TPP_VMath
         Vect**          get_set_of_vectors() const;
 
         /**
-        * @brief        Add a new vect of *matching dimensions* to the set. If 
-        *               the vector dimension isn't m, a runtime exception is 
-        *               thrown. It is best to wrap the call to this funtion in 
-        *               a guard ensuring that the dimensions are a match. This 
-        *               does not apply if the set is currently null.
+        * @brief        Add a new vect of matching dimensions to the set. If the
+        *               vector dimension isn't m and the set is NOT empty, a
+        *               TPP_VMath_Exception is thrown.
         * @param        vect a reference to a child of Vect
         */
         void            add_vect_to_set(Vect*);
@@ -770,6 +768,13 @@ namespace TPP_VMath
          * @return      A newly created nxn identity matrix
          */
         static Matrix   get_identity_matrix_of_size(int);
+
+        /**
+         * @brief       Transpose the rows and columns of a copy of this matrix
+         * @param       original the matrix to be copied
+         * @return      original copy transposed
+         */
+        static Matrix   transpose_matrix(Matrix&);
 
         /**
          * @brief       Console representation of coefficient matrix for testing
