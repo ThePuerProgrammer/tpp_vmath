@@ -34,14 +34,14 @@ namespace TPP_VMath
         /**
          * @brief       The magnitude of a Vect is its distance from the origin
          * @param       void
-         * @return      sqrtf(v₁^2+...+vᵢ^2) as a float
+         * @return      std::sqrt(v₁^2+...+vᵢ^2) as a float
          */
         float           get_magnitude();
 
         /**
          * @brief       The magnitude of a Vect is its distance from the origin
          * @param       vect a reference to a child of Vect 
-         * @return      sqrtf(v₁^2+...+vᵢ^2) as a float
+         * @return      std::sqrt(v₁^2+...+vᵢ^2) as a float
          */
         static float    get_magnitude(Vect&);
 
@@ -745,7 +745,7 @@ namespace TPP_VMath
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
          */ 
-        static Vect*   get_matrix_vector_product(Matrix&, Vect&);
+        static Vect*    get_matrix_vector_product(Matrix&, Vect&);
 
         /**
          * @brief       AB = C. Faulty dimensions throws TPP_VMath_Exception
