@@ -287,6 +287,21 @@ namespace TPP_VMath
         this->scale_by(c);
     }
 
+    void Vect::operator/=(float c)
+    {
+        if (c == 0)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "operator/=(float c) divide by zero.";
+            throw TPP_VMath_Exception(
+                error,
+                0x4ec7
+            );
+        }
+
+        this->scale_by(1/c);
+    }
+
     void Vect::operator+=(Vect& right)
     {
         this->vect_addition(right);
@@ -295,6 +310,20 @@ namespace TPP_VMath
     void Vect::operator-=(Vect& right)
     {
         this->vect_subtraction(right);
+    }
+
+    Vect* Vect::operator+(Vect& right)
+    {
+        Vect* result = get_vect_of_valid_dimensions(this);
+        result->vect_addition(right);
+        return result;
+    }
+
+    Vect* Vect::operator-(Vect& right)
+    {
+        Vect* result = get_vect_of_valid_dimensions(this);
+        result->vect_subtraction(right);
+        return result;
     }
 
     Vect& Vect::operator=(const Vect& right)
@@ -316,6 +345,21 @@ namespace TPP_VMath
         }
 
         return *this;
+    }
+
+    Vect* Vect::get_vect_of_valid_dimensions(Vect* vect)
+    {
+        float* c = vect->get_coordinates();
+        int    m = vect->get_dimension();
+
+        switch (m)
+        {
+            case  1: return new Vect1D(c);
+            case  2: return new Vect2D(c);
+            case  3: return new Vect3D(c);
+            case  4: return new Vect4D(c);
+            default: return new VectND(m, c);
+        }
     }
 
     float* Vect::get_coordinates() const
@@ -598,7 +642,7 @@ namespace TPP_VMath
         n = 1;
         m = vect.get_dimension();
         setOfVectors = new Vect*[1];
-        setOfVectors[0] = add_vect_of_valid_dimensions(m, &vect);
+        setOfVectors[0] = Vect::get_vect_of_valid_dimensions(&vect);
     }
 
     VSet::VSet(int n, Vect** a)
@@ -621,7 +665,7 @@ namespace TPP_VMath
         {
             setOfVectors = new Vect*[n];
             m = vects[0]->get_dimension();
-            setOfVectors[0] = add_vect_of_valid_dimensions(m, vects[0]);
+            setOfVectors[0] = Vect::get_vect_of_valid_dimensions(vects[0]);
             
             for (int i = 1; i < vects.size(); ++i)
             {
@@ -636,7 +680,7 @@ namespace TPP_VMath
                     );
                 }
 
-                setOfVectors[i] = add_vect_of_valid_dimensions(m, vects[i]);
+                setOfVectors[i] = Vect::get_vect_of_valid_dimensions(vects[i]);
             }
         }
     }
@@ -650,7 +694,7 @@ namespace TPP_VMath
         
         for (int i = 0; i < n; ++i)
         {
-            setOfVectors[i] = add_vect_of_valid_dimensions(m, temp[i]);
+            setOfVectors[i] = Vect::get_vect_of_valid_dimensions(temp[i]);
         }
     }
 
@@ -663,7 +707,7 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             Vect* v = original.setOfVectors[i];
-            setOfVectors[i] = add_vect_of_valid_dimensions(m, v);
+            setOfVectors[i] = Vect::get_vect_of_valid_dimensions(v);
         }
     }
 
@@ -725,7 +769,7 @@ namespace TPP_VMath
             delete [] setOfVectors;
 
             // add the new vect of m dimensions to the new set p
-            p[n - 1] = add_vect_of_valid_dimensions(m, vect);
+            p[n - 1] = Vect::get_vect_of_valid_dimensions(vect);
 
             // set = new set
             setOfVectors = p;
@@ -744,20 +788,7 @@ namespace TPP_VMath
             setOfVectors = new Vect*[1];
 
             // add the new vect of m dimension as the first entry in the set
-            setOfVectors[0] = add_vect_of_valid_dimensions(m, vect);
-        }
-    }
-
-    Vect* VSet::add_vect_of_valid_dimensions(int m, Vect* vect)
-    {
-        float* c = vect->get_coordinates();
-        switch (m)
-        {
-            case  1: return new Vect1D(c);
-            case  2: return new Vect2D(c);
-            case  3: return new Vect3D(c);
-            case  4: return new Vect4D(c);
-            default: return new VectND(m, c);
+            setOfVectors[0] = Vect::get_vect_of_valid_dimensions(vect);
         }
     }
 

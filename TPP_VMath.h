@@ -153,6 +153,15 @@ namespace TPP_VMath
         void            operator*=(float c); 
 
         /**
+         * @brief       Overloaded /= calls the appropriate scale_by() function,
+         *              passing in the inverse of the right side argument.
+         *              Faulty dimensions throws TPP_VMath_Exception
+         *              Zero throws TPP_VMath_Exception to prevent divide by 0
+         * @param       c a scalar
+         */
+        void            operator/=(float c); 
+
+        /**
          * @brief       Component wise addition of two Vects of matching
          *              dimensions.
          * @param       right a Vect reference
@@ -167,6 +176,40 @@ namespace TPP_VMath
         void            operator-=(Vect&);
 
         /**
+         * @brief       Component wise addition of two Vects of matching
+         *              dimensions. Result should be wrapped with a VWrap object
+         *              in order to prevent memory leaks. 
+         * @param       right a Vect reference
+         * @return      Vect* to new Vect child of matching dimensions that is
+         *              the sum of the left and right Vect.
+         */
+        Vect*           operator+(Vect&);
+
+        /**
+         * @brief       Component wise subtraction of two Vects of matching
+         *              dimensions. Result should be wrapped with a VWrap object
+         *              in order to prevent memory leaks.
+         * @param       right a Vect reference
+         * return       Vect* to a new Vect child of matching dimensions that
+         *              is the difference between the left and right Vect.
+         */
+        Vect*           operator-(Vect&);
+
+        /**
+         * @brief       Copies coordinates from right vector to left vector. 
+         *              Mismatched dimensions throws TPP_VMath_Exception
+         * @param       right a const Vect reference to the right side of =
+         */ 
+        Vect&           operator=(const Vect&);
+
+        /**
+         * @brief       Polymorphic resolution for copy construction
+         * @param       vect the Vect being copied
+         * @return      a Vect* to a new child vect of m dimensions
+         */ 
+        static Vect*    get_vect_of_valid_dimensions(Vect*);
+
+        /**
          * @param       void
          * @return      the coordinate array as a pointer to coordinates[0]
          */
@@ -177,13 +220,6 @@ namespace TPP_VMath
          * @return      the dimension of the vector (the number of entries)
          */ 
         unsigned int    get_dimension() const;
-
-        /**
-         * @brief       Copies coordinates from right vector to left vector. 
-         *              Mismatched dimensions throws TPP_VMath_Exception
-         * @param       right a const Vect reference to the right side of =
-         */ 
-        Vect&           operator=(const Vect&);
 
         /**
          * @brief       Pure virtual destructor
@@ -641,14 +677,6 @@ namespace TPP_VMath
 
         ///             The set of vectors as an array in pointer notation
         Vect**          setOfVectors;
-
-        /**
-         * @brief       Called by add_vect_to_set() to reduce redundancy
-         * @param       m the dimension of the vect
-         * @param       vect the original vect passed to add_vect_to_set()
-         * @return      a Vect* to a new child vect of m dimensions
-         */ 
-        Vect*           add_vect_of_valid_dimensions(int, Vect*);
     };
 
     //========================================================================//
