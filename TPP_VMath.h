@@ -105,6 +105,34 @@ namespace TPP_VMath
         static void     normalize_vect(Vect&); 
 
         /**
+         * @brief       Component-wise addition of two Vects
+         * @param       vect a Vect reference of matching dimensions 
+         */
+        void            vect_addition(Vect&);
+
+        /**
+         * @brief       Component-wise addition of two Vects of matching
+         *              dimensions.
+         * @param       a a Vect reference
+         * @param       b a Vect reference
+         */
+        static void     vect_addition(Vect&, Vect&);
+
+        /**
+         * @brief       Component wise subtraction of two Vects
+         * @param       vect a Vect reference of matching dimensions
+         */
+        void            vect_subtraction(Vect&);
+
+        /**
+         * @brief       Component wise subtraction of two Vects of matching
+         *              dimensions
+         * @param       a a Vect reference
+         * @param       b a Vect reference
+         */
+        static void     vect_subtraction(Vect&, Vect&);
+
+        /**
          * @brief       Manual assignment of entires in the vector. Faulty
          *              dimensions throws TPP_VMath_Exception
          * @param       v the provided array of floats
@@ -123,6 +151,20 @@ namespace TPP_VMath
          * @param       c a scalar
          */
         void            operator*=(float c); 
+
+        /**
+         * @brief       Component wise addition of two Vects of matching
+         *              dimensions.
+         * @param       right a Vect reference
+         */
+        void            operator+=(Vect&);
+
+        /**
+         * @brief       Component wise subtraction of two Vects of matching
+         *              dimensions.
+         * @param       right a Vect reference
+         */
+        void            operator-=(Vect&);
 
         /**
          * @param       void

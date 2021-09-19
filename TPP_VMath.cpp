@@ -98,7 +98,7 @@ namespace TPP_VMath
             error += "is undefined.";
             throw TPP_VMath_Exception(
                 error,
-                0xA
+                0x4ec7
             );
         }
 
@@ -126,7 +126,7 @@ namespace TPP_VMath
             error += "is undefined.";
             throw TPP_VMath_Exception(
                 error,
-                0xA
+                0x4ec7
             );
         }
 
@@ -152,7 +152,7 @@ namespace TPP_VMath
             error += "while attempting to normalize Vect";
             throw TPP_VMath_Exception(
                 error,
-                0xE1
+                0x4ec7
             );
         }
 
@@ -171,13 +171,85 @@ namespace TPP_VMath
             error += "while attempting to normalize Vect";
             throw TPP_VMath_Exception(
                 error,
-                0xE1
+                0x4ec7
             );
         }
 
         float inverseMagnitude = 1 / magnitude;
 
         vect.scale_by(inverseMagnitude);
+    }
+
+    void Vect::vect_addition(Vect& vect)
+    {
+        if (this->dimension != vect.dimension)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "vect_addition(Vect&) requires matching dimensions\n";
+            throw TPP_VMath_Exception(
+                error,
+                0x4ec7
+            );
+        }
+
+        for (int i = 0; i < this->dimension; ++i)
+        {
+            this->coordinates[i] += vect.coordinates[i];
+        }
+    }
+
+    void Vect::vect_addition(Vect& a, Vect& b)
+    {
+        if (a.dimension != b.dimension)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "vect_addition(Vect&) requires matching dimensions\n";
+            throw TPP_VMath_Exception(
+                error,
+                0x4ec7
+            );
+        }
+
+        for (int i = 0; i < a.dimension; ++i)
+        {
+            a.coordinates[i] += b.coordinates[i];
+        }
+    }
+
+    void Vect::vect_subtraction(Vect& vect)
+    {
+        if (this->dimension != vect.dimension)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "vect_addition(Vect&) requires matching dimensions\n";
+            throw TPP_VMath_Exception(
+                error,
+                0x4ec7
+            );
+        }
+
+        for (int i = 0; i < this->dimension; ++i)
+        {
+            this->coordinates[i] -= vect.coordinates[i];
+        }
+    }
+
+    void Vect::vect_subtraction(Vect& a, Vect& b)
+    {
+        if (a.dimension != b.dimension)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "vect_addition(Vect&) requires matching dimensions\n";
+            throw TPP_VMath_Exception(
+                error,
+                0x4ec7
+            );
+        }
+
+        for (int i = 0; i < a.dimension; ++i)
+        {
+            a.coordinates[i] -= b.coordinates[i];
+        }
     }
 
     void Vect::set_coordinates(std::vector<float> v)
@@ -189,7 +261,7 @@ namespace TPP_VMath
             error += "dimensions of the Vect from which is was called.";
             throw TPP_VMath_Exception(
                 error,
-                0xEC
+                0x4ec7
             );
         }
 
@@ -215,6 +287,15 @@ namespace TPP_VMath
         this->scale_by(c);
     }
 
+    void Vect::operator+=(Vect& right)
+    {
+        this->vect_addition(right);
+    }
+
+    void Vect::operator-=(Vect& right)
+    {
+        this->vect_subtraction(right);
+    }
 
     Vect& Vect::operator=(const Vect& right)
     {
@@ -225,7 +306,7 @@ namespace TPP_VMath
             error += "dimensions of the left side Vect.";
             throw TPP_VMath_Exception(
                 error,
-                0xEC
+                0x4ec7
             );
         }
 
@@ -795,11 +876,11 @@ namespace TPP_VMath
         float* x = vect.get_coordinates();
 
         // Ax = b
-        for (int i = 0; i < m; i++) 
+        for (int i = 0; i < m; ++i) 
         {
             int sum = 0;
 
-            for (int j = 0; j < n; j++) 
+            for (int j = 0; j < n; ++j) 
             {
                 sum += entries[i][j] * x[j];
             }
@@ -829,11 +910,11 @@ namespace TPP_VMath
         float* x = vect.get_coordinates();
 
         // Ax = b
-        for (int i = 0; i < matrix.m; i++) 
+        for (int i = 0; i < matrix.m; ++i) 
         {
             int sum = 0;
 
-            for (int j = 0; j < n; j++) 
+            for (int j = 0; j < n; ++j) 
             {
                 sum += matrix.entries[i][j] * x[j];
             }
@@ -865,8 +946,8 @@ namespace TPP_VMath
 
         const int mRows = this->m;
         const int nCols = B.n;
-
         float** f = new float*[mRows];
+
         for (int i = 0; i < mRows; ++i)
         {
             f[i] = new float[nCols];
@@ -897,8 +978,8 @@ namespace TPP_VMath
 
         const int mRows = A.m;
         const int nCols = B.n;
-
         float** f = new float*[mRows];
+
         for (int i = 0; i < mRows; ++i)
         {
             f[i] = new float[nCols];
@@ -942,8 +1023,7 @@ namespace TPP_VMath
             fMatrix[i] = row;
         }
 
-        Matrix result(n, n, fMatrix);
-        return result;
+        return Matrix(n, n, fMatrix);
     }
 
     void Matrix::print_matrix()
