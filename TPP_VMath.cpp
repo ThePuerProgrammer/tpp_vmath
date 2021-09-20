@@ -22,71 +22,71 @@ namespace TPP_VMath
     Vect::~Vect()
     {   }
 
-    float Vect::get_magnitude()
+    float   Vect::get_magnitude()
     {
         float sumOfSquares = 0;
 
         for (int i = 0; i < dimension; ++i)
         {
-            sumOfSquares += coordinates[i] * coordinates[i];
+            sumOfSquares += components[i] * components[i];
         }
 
         return std::sqrt(sumOfSquares);
     }
 
-    float Vect::get_magnitude(Vect& vect)
+    float   Vect::get_magnitude(Vect& vect)
     {
         float sumOfSquares = 0;
-        float* coordinates = vect.get_coordinates(); 
+        float* components = vect.get_components(); 
         int      dimension = vect.get_dimension();
 
         for (int i = 0; i < dimension; ++i)
         {
-            sumOfSquares += coordinates[i] * coordinates[i];
+            sumOfSquares += components[i] * components[i];
         }
 
         return std::sqrt(sumOfSquares);
     }
 
-    void Vect::scale_by(int c)
+    void    Vect::scale_by(int c)
     {
         for (int i = 0; i < dimension; ++i)
         {
-            coordinates[i] *= c;
+            components[i] *= c;
         }
     }
 
-    void Vect::scale_by(int c, Vect& vect)
+    void    Vect::scale_by(int c, Vect& vect)
     {
-        float* coordinates = vect.get_coordinates();
+        float* components = vect.get_components();
         int      dimension = vect.get_dimension();
 
         for (int i = 0; i < dimension; ++i)
         {
-            coordinates[i] *= c;
+            components[i] *= c;
         }
     }
 
-    void Vect::scale_by(float c)
+    void    Vect::scale_by(float c)
     {
         for (int i = 0; i < dimension; ++i)
         {
-            coordinates[i] *= c;
+            components[i] *= c;
         }
     }
 
-    void Vect::scale_by(float c, Vect& vect)
+    void    Vect::scale_by(float c, Vect& vect)
     {
-        float* coordinates = vect.get_coordinates();
+        float* components = vect.get_components();
         int      dimension = vect.get_dimension();
 
         for (int i = 0; i < dimension; ++i)
         {
-            coordinates[i] *= c;
+            components[i] *= c;
         }
     }
 
-    float Vect::dot_product(const Vect& that)
+    float   Vect::dot_product(const Vect& that)
     {
         if (this->dimension != that.get_dimension())
         {
@@ -106,13 +106,13 @@ namespace TPP_VMath
 
         for (int i = 0; i < dimension; ++i)
         {
-            sumOfProducts += this->coordinates[i] * that.get_coordinates()[i];
+            sumOfProducts += this->components[i] * that.get_components()[i];
         }
 
         return sumOfProducts;
     }
 
-    float Vect::dot_product(const Vect& a, const Vect& b)
+    float   Vect::dot_product(const Vect& a, const Vect& b)
     {
         int dimension = a.get_dimension();
 
@@ -131,18 +131,18 @@ namespace TPP_VMath
         }
 
         float sumOfProducts = 0;
-        float* aCoordinates = a.get_coordinates();
-        float* bCoordinates = b.get_coordinates();
+        float* acomponents = a.get_components();
+        float* bcomponents = b.get_components();
 
         for (int i = 0; i < dimension; ++i)
         {
-            sumOfProducts += aCoordinates[i] * bCoordinates[i];
+            sumOfProducts += acomponents[i] * bcomponents[i];
         }
 
         return sumOfProducts;
     }
 
-    void Vect::normalize_vect()
+    void    Vect::normalize_vect()
     {
         float magnitude = this->get_magnitude();
 
@@ -161,7 +161,7 @@ namespace TPP_VMath
         this->scale_by(inverseMagnitude);
     }
 
-    void Vect::normalize_vect(Vect& vect)
+    void    Vect::normalize_vect(Vect& vect)
     {
         float magnitude = vect.get_magnitude();
 
@@ -180,7 +180,7 @@ namespace TPP_VMath
         vect.scale_by(inverseMagnitude);
     }
 
-    void Vect::vect_addition(Vect& vect)
+    void    Vect::vect_addition(Vect& vect)
     {
         if (this->dimension != vect.dimension)
         {
@@ -194,11 +194,11 @@ namespace TPP_VMath
 
         for (int i = 0; i < this->dimension; ++i)
         {
-            this->coordinates[i] += vect.coordinates[i];
+            this->components[i] += vect.components[i];
         }
     }
 
-    void Vect::vect_addition(Vect& a, Vect& b)
+    void    Vect::vect_addition(Vect& a, Vect& b)
     {
         if (a.dimension != b.dimension)
         {
@@ -212,11 +212,11 @@ namespace TPP_VMath
 
         for (int i = 0; i < a.dimension; ++i)
         {
-            a.coordinates[i] += b.coordinates[i];
+            a.components[i] += b.components[i];
         }
     }
 
-    void Vect::vect_subtraction(Vect& vect)
+    void    Vect::vect_subtraction(Vect& vect)
     {
         if (this->dimension != vect.dimension)
         {
@@ -230,11 +230,11 @@ namespace TPP_VMath
 
         for (int i = 0; i < this->dimension; ++i)
         {
-            this->coordinates[i] -= vect.coordinates[i];
+            this->components[i] -= vect.components[i];
         }
     }
 
-    void Vect::vect_subtraction(Vect& a, Vect& b)
+    void    Vect::vect_subtraction(Vect& a, Vect& b)
     {
         if (a.dimension != b.dimension)
         {
@@ -248,16 +248,16 @@ namespace TPP_VMath
 
         for (int i = 0; i < a.dimension; ++i)
         {
-            a.coordinates[i] -= b.coordinates[i];
+            a.components[i] -= b.components[i];
         }
     }
 
-    void Vect::set_coordinates(std::vector<float> v)
+    void    Vect::set_components(std::vector<float> v)
     {
         if (dimension != 0 && v.size() != dimension)
         {
             std::string error = "TPP_VMath_Exception: Provided entries of ";
-            error += "set_coordinates(std::vector<float>) do not match the ";
+            error += "set_components(std::vector<float>) do not match the ";
             error += "dimensions of the Vect from which is was called.";
             throw TPP_VMath_Exception(
                 error,
@@ -268,26 +268,26 @@ namespace TPP_VMath
         if (dimension == 0)
         {
             dimension = v.size();
-            coordinates = new float[v.size()];
+            components = new float[v.size()];
         }
 
         for (int i = 0; i < dimension; ++i)
         {
-            coordinates[i] = v[i];
+            components[i] = v[i];
         }
     }
 
-    float* Vect::operator[](int i)
+    float*  Vect::operator[](int i)
     {
-        return &coordinates[i];
+        return &components[i];
     }
 
-    void Vect::operator*=(float c)
+    void    Vect::operator*=(float c)
     {
         this->scale_by(c);
     }
 
-    void Vect::operator/=(float c)
+    void    Vect::operator/=(float c)
     {
         if (c == 0)
         {
@@ -302,31 +302,31 @@ namespace TPP_VMath
         this->scale_by(1/c);
     }
 
-    void Vect::operator+=(Vect& right)
+    void    Vect::operator+=(Vect& right)
     {
         this->vect_addition(right);
     }
 
-    void Vect::operator-=(Vect& right)
+    void    Vect::operator-=(Vect& right)
     {
         this->vect_subtraction(right);
     }
 
-    Vect* Vect::operator+(Vect& right)
+    Vect*   Vect::operator+(Vect& right)
     {
         Vect* result = get_vect_of_valid_dimensions(this);
         result->vect_addition(right);
         return result;
     }
 
-    Vect* Vect::operator-(Vect& right)
+    Vect*   Vect::operator-(Vect& right)
     {
         Vect* result = get_vect_of_valid_dimensions(this);
         result->vect_subtraction(right);
         return result;
     }
 
-    Vect& Vect::operator=(const Vect& right)
+    Vect&   Vect::operator=(const Vect& right)
     {
         if (this->dimension != right.get_dimension())
         {
@@ -341,15 +341,15 @@ namespace TPP_VMath
 
         for (int i = 0; i < this->dimension; ++i)
         {
-            this->coordinates[i] = right.get_coordinates()[i];
+            this->components[i] = right.get_components()[i];
         }
 
         return *this;
     }
 
-    Vect* Vect::get_vect_of_valid_dimensions(Vect* vect)
+    Vect*   Vect::get_vect_of_valid_dimensions(Vect* vect)
     {
-        float* c = vect->get_coordinates();
+        float* c = vect->get_components();
         int    m = vect->get_dimension();
 
         switch (m)
@@ -362,9 +362,9 @@ namespace TPP_VMath
         }
     }
 
-    float* Vect::get_coordinates() const
+    float*  Vect::get_components() const
     {
-        return coordinates;
+        return components;
     }
 
     unsigned int Vect::get_dimension() const
@@ -385,28 +385,28 @@ namespace TPP_VMath
     VectND::VectND()
     {   
         dimension = 0;
-        coordinates = nullptr;
+        components = nullptr;
     }
 
     VectND::VectND(int n)
     {
         dimension = n;
-        coordinates = new float[n];
+        components = new float[n];
 
         for (int i = 0; i < n; ++i)
         {
-            coordinates[i] = 0;
+            components[i] = 0;
         }
     }
 
-    VectND::VectND(int n, float* coordinates)
+    VectND::VectND(int n, float* components)
     {
         dimension = n;
-        this->coordinates = new float[n];
+        this->components = new float[n];
 
         for (int i = 0; i < n; ++i)
         {
-            this->coordinates[i] = coordinates[i];
+            this->components[i] = components[i];
         }
     }
 
@@ -415,26 +415,26 @@ namespace TPP_VMath
         if (v.size() > 0)
         {
             dimension = v.size();
-            coordinates = new float[v.size()];
+            components = new float[v.size()];
 
             for (int i = 0; i < dimension; ++i)
             {
-                coordinates[i] = v[i];
+                components[i] = v[i];
             }
         }
         else
         {
             dimension = 0;
-            coordinates = nullptr;
+            components = nullptr;
         }
     }
 
     VectND::~VectND()
     {
-        if (coordinates) 
+        if (components) 
         {
-            delete [] coordinates;
-            coordinates = nullptr;
+            delete [] components;
+            components = nullptr;
         }
     }
 
@@ -454,10 +454,10 @@ namespace TPP_VMath
     Vect1D::Vect1D(std::array<float, 1> a) : VectND(1, a.begin())
     {   }
 
-    Vect1D::Vect1D(const Vect1D& original) : VectND(1, original.coordinates)
+    Vect1D::Vect1D(const Vect1D& original) : VectND(1, original.components)
     {   }
 
-    Vect1D::Vect1D(float* coordinates) : VectND(1, coordinates)
+    Vect1D::Vect1D(float* components) : VectND(1, components)
     {   }
 
     //========================================================================//
@@ -476,10 +476,10 @@ namespace TPP_VMath
     Vect2D::Vect2D(std::array<float, 2> a) : VectND(2, a.begin())
     {   }
 
-    Vect2D::Vect2D(const Vect2D& original) : VectND(2, original.coordinates)
+    Vect2D::Vect2D(const Vect2D& original) : VectND(2, original.components)
     {   }
 
-    Vect2D::Vect2D(float* coordinates) : VectND(2, coordinates)
+    Vect2D::Vect2D(float* components) : VectND(2, components)
     {   }
 
     //========================================================================//
@@ -498,10 +498,10 @@ namespace TPP_VMath
     Vect3D::Vect3D(std::array<float, 3> a) : VectND(3, a.begin())
     {   }
 
-    Vect3D::Vect3D(const Vect3D& original) : VectND(3, original.coordinates)
+    Vect3D::Vect3D(const Vect3D& original) : VectND(3, original.components)
     {   }
 
-    Vect3D::Vect3D(float* coordinates) : VectND(3, coordinates)
+    Vect3D::Vect3D(float* components) : VectND(3, components)
     {   }
 
     //========================================================================//
@@ -520,10 +520,10 @@ namespace TPP_VMath
     Vect4D::Vect4D(std::array<float, 4> a) : VectND(4, a.begin())
     {   }
 
-    Vect4D::Vect4D(const Vect4D& original) : VectND(4, original.coordinates)
+    Vect4D::Vect4D(const Vect4D& original) : VectND(4, original.components)
     {   }
 
-    Vect4D::Vect4D(float* coordinates) : VectND(4, coordinates)
+    Vect4D::Vect4D(float* components) : VectND(4, components)
     {   }
 
     //========================================================================//
@@ -573,21 +573,21 @@ namespace TPP_VMath
         }
     }
 
-    void VWrap::wrap(Vect* vect)
+    void    VWrap::wrap(Vect* vect)
     {
         n = 1;
         if (!this->vect)
             this->vect = vect;
     }
 
-    void VWrap::wrap(int n, Vect** vpp)
+    void    VWrap::wrap(int n, Vect** vpp)
     {
         this->n = n;
         if (!this->vpp)
             this->vpp = vpp;
     }
 
-    void VWrap::unwrap()
+    void    VWrap::unwrap()
     {
         if (this->vect)
         {
@@ -606,17 +606,17 @@ namespace TPP_VMath
         }
     }
 
-    Vect* VWrap::get_vect()
+    Vect*   VWrap::get_vect()
     {
         return vect;
     }
 
-    Vect** VWrap::get_vpp()
+    Vect**  VWrap::get_vpp()
     {
         return vpp;
     }
 
-    int VWrap::get_n()
+    int     VWrap::get_n()
     {
         return n;
     }
@@ -626,186 +626,43 @@ namespace TPP_VMath
     //========================================================================//
     #pragma endregion VWrap_Implementation
 
-    #pragma region VSet_Implementation
-    //========================================================================//
-    // START OF VSET CLASS IMPLEMENTATION
-    //========================================================================//
-
-    VSet::VSet()
-    {
-        m = n = 0;
-        setOfVectors = nullptr;
-    }
-
-    VSet::VSet(Vect& vect)
-    {
-        n = 1;
-        m = vect.get_dimension();
-        setOfVectors = new Vect*[1];
-        setOfVectors[0] = Vect::get_vect_of_valid_dimensions(&vect);
-    }
-
-    VSet::VSet(int n, Vect** a)
-    {
-        this->n = n;
-        m = a[0]->get_dimension();
-        setOfVectors = a;
-    }
-
-    VSet::VSet(std::vector<Vect*> vects)
-    {
-        n = vects.size();
-
-        if (n == 0)
-        {
-            setOfVectors = nullptr;
-            m = n;
-        }
-        else
-        {
-            setOfVectors = new Vect*[n];
-            m = vects[0]->get_dimension();
-            setOfVectors[0] = Vect::get_vect_of_valid_dimensions(vects[0]);
-            
-            for (int i = 1; i < vects.size(); ++i)
-            {
-                if (vects[i]->get_dimension() != m)
-                {
-                    std::string error = "TPP_VMath_Exception: ";
-                    error += "VSet(std::vector<Vect*>) requires all Vects to ";
-                    error += "have the same dimensions";
-                    throw TPP_VMath_Exception(
-                        error,
-                        0x5e7
-                    );
-                }
-
-                setOfVectors[i] = Vect::get_vect_of_valid_dimensions(vects[i]);
-            }
-        }
-    }
-
-    VSet::VSet(VWrap& wrapper)
-    {
-        this->n = wrapper.get_n();
-        Vect** temp = wrapper.get_vpp();
-        m = temp[0]->get_dimension();
-        setOfVectors = new Vect*[n];
-        
-        for (int i = 0; i < n; ++i)
-        {
-            setOfVectors[i] = Vect::get_vect_of_valid_dimensions(temp[i]);
-        }
-    }
-
-    VSet::VSet(const VSet& original)
-    {
-        this->n = original.n;
-        this->m = original.m;
-        setOfVectors = new Vect*[n];
-
-        for (int i = 0; i < n; ++i)
-        {
-            Vect* v = original.setOfVectors[i];
-            setOfVectors[i] = Vect::get_vect_of_valid_dimensions(v);
-        }
-    }
-
-    VSet::~VSet()
-    {
-        if (setOfVectors)
-        {
-            for (int i = 0; i < n; ++i)
-            {
-                delete setOfVectors[i];
-            }
-
-            delete [] setOfVectors;
-        }
-    }
-
-    unsigned int VSet::get_n() const
-    {
-        return n;
-    }
-
-    unsigned int VSet::get_m() const
-    {
-        return m;
-    }
-
-    Vect** VSet::get_set_of_vectors() const
-    {
-        return setOfVectors;
-    }
-
-    void VSet::add_vect_to_set(Vect* vect)
-    {
-        // set already contains entries
-        if (setOfVectors)
-        {
-            if (vect->get_dimension() != m)
-            {
-                std::string error = "TPP_VMath_Exception: ";
-                error += "add_vect_to_set(Vect*) requires all Vects to ";
-                error += "have the same dimensions";
-                throw TPP_VMath_Exception(
-                    error,
-                    0x5e7
-                );
-            }
-
-            // increase the size of the set
-            ++n;
-            Vect** p = new Vect*[n];
-
-            // add all in the current set to the new set
-            for (int i = 0; i < n - 1; ++i)
-            {
-                p[i] = setOfVectors[i];
-            }
-
-            // deallocate the old memory resource
-            delete [] setOfVectors;
-
-            // add the new vect of m dimensions to the new set p
-            p[n - 1] = Vect::get_vect_of_valid_dimensions(vect);
-
-            // set = new set
-            setOfVectors = p;
-        }
-
-        // first entry in the set
-        else
-        {
-            // 1 entry in the set
-            ++n;
-
-            // set the dimension of the set
-            m = vect->get_dimension();
-
-            // establish the set in memory
-            setOfVectors = new Vect*[1];
-
-            // add the new vect of m dimension as the first entry in the set
-            setOfVectors[0] = Vect::get_vect_of_valid_dimensions(vect);
-        }
-    }
-
-    //========================================================================//
-    // END OF VSET CLASS IMPLEMENTATION
-    //========================================================================//
-    #pragma endregion VSet_Implementation
-
     #pragma region Matrix_Implementation
     //========================================================================//
     // START OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
 
-    Matrix::Matrix(const VSet& set)
+    Matrix::Matrix()
     {
-        this->m = set.get_m();
-        this->n = set.get_n();
+        m = n = 0;
+        entries = nullptr;
+    }
+
+    Matrix::Matrix(Vect& vect)
+    {
+        m = vect.get_dimension();
+        n = 1;
+        entries = new float*[m];
+
+        for (int i = 0; i < m; ++i)
+        {
+            entries[i] = new float[1];
+            entries[i][0] = vect.get_components()[i];
+        }
+    }
+
+    Matrix::Matrix(std::vector<Vect*> vects)
+    {
+        n = vects.size();
+
+        if (n == 0)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "Matrix(std::vector<Vect*>) ";
+            error += "Argument must have size >= 1";
+            throw TPP_VMath_Exception(error, 0x3a7);
+        }
+
+        m = vects[0]->get_dimension();
         entries = new float*[m];
 
         for (int i = 0; i < m; ++i)
@@ -814,9 +671,65 @@ namespace TPP_VMath
 
             for (int j = 0; j < n; ++j)
             {
-                Vect* jthVect  = set.get_set_of_vectors()[j];
-                float ithEntry = jthVect->get_coordinates()[i];
-                entries[i][j] = ithEntry;
+                Vect* temp = vects[j];
+                if (temp->get_dimension() != m)
+                {
+                    std::string error = "TPP_VMath_Exception: ";
+                    error += "Matrix(std::vector<Vect*>) ";
+                    error += "All entries must have matching dimensions";
+                    throw TPP_VMath_Exception(error, 0x3a7);
+                }
+
+                entries[i][j] = temp->get_components()[i];
+            }
+        }
+
+    }
+
+    Matrix::Matrix(VWrap& wrapped)
+    {
+        // wrapped contains a single wrapped Vect
+        if (wrapped.get_vect())
+        {
+            Vect* vect = wrapped.get_vect();
+            m = vect->get_dimension();
+            n = 1;
+            entries = new float*[m];
+
+            for (int i = 0; i < m; ++i)
+            {
+                entries[i] = new float[1];
+                entries[i][0] = vect->get_components()[i];
+            }
+        }
+
+        // wrapped contains multiple wrapped Vects
+        else 
+        {
+            Vect** vpp = wrapped.get_vpp();
+            m = vpp[0]->get_dimension();
+            n = wrapped.get_n();
+            entries = new float*[m];
+
+            for (int i = 0; i < m; ++i)
+            {
+                entries[i] = new float[n];
+
+                for (int j = 0; j < n; ++j)
+                {
+                    Vect*  vect = vpp[j];
+
+                    if (vect->get_dimension() != m)
+                    {
+                        std::string error = "TPP_VMath_Exception: ";
+                        error += "Matrix(VWrap&) ";
+                        error += "All entries must have matching dimensions";
+                        throw TPP_VMath_Exception(error, 0x3a7);
+                    }
+
+                    float* comp = vect->get_components();
+                    entries[i][j] = comp[i];
+                }
             }
         }
     }
@@ -847,12 +760,83 @@ namespace TPP_VMath
     {
         for (int i = 0; i < m; ++i)
         {
-            delete [] entries[i];
+            if (entries[i])
+                delete [] entries[i];
         }
-        delete [] entries;
+
+        if (entries)
+            delete [] entries;
     }
 
-    void Matrix::reduce_matrix()
+    void    Matrix::append_vect_to_matrix(Vect* vect)
+    {
+        // matrix already contains entries
+        if (entries)
+        {
+            if (vect->get_dimension() != m)
+            {
+                std::string error = "TPP_VMath_Exception: ";
+                error += "append_vect_to_matrix(Vect*) requires all Vects to ";
+                error += "have the same dimensions";
+                throw TPP_VMath_Exception(
+                    error,
+                    0x3a7
+                );
+            }
+
+            // increase the column count of the matrix
+            ++n;
+            float** p = new float*[m];
+
+            // include all the current entries in the matrix
+            for (int i = 0; i < m; ++i)
+            {
+                p[i] = new float[n];
+
+                for (int j = 0; j < n - 1; ++j)
+                {
+                    p[i][j] = entries[i][j];
+                }
+            }
+
+            // deallocate the old memory resource
+            for (int i = 0; i < m; ++i)
+            {
+                delete [] entries[i];
+            }
+            delete [] entries;
+
+            // add the components of vect to the remaining entries of p
+            for (int i = 0; i < m; ++i)
+            {
+                p[i][n - 1] = vect->get_components()[i];
+            }
+
+            // entries = new entries
+            entries = p;
+        }
+
+        // first entry in the matrix
+        else
+        {
+            // 1 entry in the matrix
+            ++n;
+
+            // define the number of rows
+            m = vect->get_dimension();
+
+            // establish the matrix in memory
+            entries = new float*[m];
+
+            for (int i = 0; i < m; ++i)
+            {
+                entries[i] = new float[1];
+                entries[i][0] = vect->get_components()[i];
+            }
+        }
+    }
+
+    void    Matrix::reduce_matrix()
     {
         int pivotCol = 0, pivotRow = 0;
         bool notInReducedEchelonForm = true;
@@ -904,7 +888,7 @@ namespace TPP_VMath
         // The matrix vector product
         Vect* b = get_b(this->m);
 
-        float* x = vect.get_coordinates();
+        float* x = vect.get_components();
 
         // Ax = b
         for (int i = 0; i < m; ++i) 
@@ -916,7 +900,7 @@ namespace TPP_VMath
                 sum += entries[i][j] * x[j];
             }
 
-            b->get_coordinates()[i] = sum;
+            b->get_components()[i] = sum;
         }
 
         return b;
@@ -938,7 +922,7 @@ namespace TPP_VMath
         // The matrix vector product
         Vect* b = matrix.get_b(matrix.m);
 
-        float* x = vect.get_coordinates();
+        float* x = vect.get_components();
 
         // Ax = b
         for (int i = 0; i < matrix.m; ++i) 
@@ -950,13 +934,13 @@ namespace TPP_VMath
                 sum += matrix.entries[i][j] * x[j];
             }
 
-            b->get_coordinates()[i] = sum;
+            b->get_components()[i] = sum;
         }
 
         return b;
     }
 
-    Vect* Matrix::get_b(const int& m)
+    Vect*   Matrix::get_b(const int& m)
     {
         switch (m)
         {
@@ -968,7 +952,7 @@ namespace TPP_VMath
         }
     }
 
-    Matrix Matrix::mat_mul(Matrix& B)
+    Matrix  Matrix::mat_mul(Matrix& B)
     {
         if (this->n != B.m)
         {
@@ -1000,7 +984,7 @@ namespace TPP_VMath
         return Matrix(mRows, nCols, f);
     }
 
-    Matrix Matrix::mat_mul(Matrix& A, Matrix& B)
+    Matrix  Matrix::mat_mul(Matrix& A, Matrix& B)
     {
         if (A.n != B.m)
         {
@@ -1032,7 +1016,7 @@ namespace TPP_VMath
         return Matrix(mRows, nCols, f);
     }
 
-    Matrix Matrix::get_identity_matrix_of_size(int n)
+    Matrix  Matrix::get_identity_matrix_of_size(int n)
     {
         float** fMatrix = new float*[n];
         
@@ -1057,7 +1041,7 @@ namespace TPP_VMath
         return Matrix(n, n, fMatrix);
     }
 
-    void Matrix::print_matrix()
+    void    Matrix::print_matrix()
     {
         for (int i = 0; i < n; ++i)
         {
@@ -1089,9 +1073,9 @@ namespace TPP_VMath
         std::cout << std::endl;
     }
 
-    Matrix Matrix::transpose_matrix(Matrix& original)
+    Matrix  Matrix::transpose_matrix(Matrix& original)
     {
-        VSet set;
+        Matrix result;
         
         for (int i = 0; i < original.m; ++i)
         {
@@ -1103,16 +1087,16 @@ namespace TPP_VMath
                 v.push_back(original.entries[i][j]);
             }
 
-            temp->set_coordinates(v);
+            temp->set_components(v);
 
-            set.add_vect_to_set(temp);
+            result.append_vect_to_matrix(temp);
 
             delete temp;
         }
 
-        return Matrix(set);
+        return result;
     }
-
+    
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//
@@ -1127,7 +1111,7 @@ namespace TPP_VMath
     : errCode(num), errMsg(msg), std::runtime_error(msg)
     {   }
 
-    int TPP_VMath_Exception::get_error_code() const
+    int     TPP_VMath_Exception::get_error_code() const
     {
         return errCode;
     }

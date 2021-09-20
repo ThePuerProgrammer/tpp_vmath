@@ -137,7 +137,7 @@ namespace TPP_VMath
          *              dimensions throws TPP_VMath_Exception
          * @param       v the provided array of floats
          */ 
-        void            set_coordinates(std::vector<float>);
+        void            set_components(std::vector<float>);
 
         /**
          * @param       i the ith coordinate
@@ -196,7 +196,7 @@ namespace TPP_VMath
         Vect*           operator-(Vect&);
 
         /**
-         * @brief       Copies coordinates from right vector to left vector. 
+         * @brief       Copies components from right vector to left vector. 
          *              Mismatched dimensions throws TPP_VMath_Exception
          * @param       right a const Vect reference to the right side of =
          */ 
@@ -211,9 +211,9 @@ namespace TPP_VMath
 
         /**
          * @param       void
-         * @return      the coordinate array as a pointer to coordinates[0]
+         * @return      the coordinate array as a pointer to components[0]
          */
-        float*          get_coordinates() const;
+        float*          get_components() const;
 
         /**
          * @param       void
@@ -228,11 +228,11 @@ namespace TPP_VMath
 
     protected:
 
-        ///             The number of entries in coordinates
+        ///             The number of entries in components
         unsigned int    dimension;
 
         ///             The array representing the vector
-        float*          coordinates;
+        float*          components;
     };
 
     //========================================================================//
@@ -267,7 +267,7 @@ namespace TPP_VMath
          * @brief       Constructor for a vector in RN where N is provided that
          *              initializes to the provided array of floats
          * @param       n the dimension of the vector
-         * @param       coordinates the provided array of floats
+         * @param       components the provided array of floats
          */
         VectND(int, float*);
 
@@ -327,7 +327,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect1D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 1)
-         * @param       coordinates the entries in the 1D vector
+         * @param       components the entries in the 1D vector
          */
         Vect1D(float*);
     }; 
@@ -371,7 +371,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect2D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 2)
-         * @param       coordinates the entries in the 2D vector
+         * @param       components the entries in the 2D vector
          */
         Vect2D(float*);
     }; 
@@ -416,7 +416,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect3D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 3)
-         * @param       coordinates the entries in the 3D vector
+         * @param       components the entries in the 3D vector
          */
         Vect3D(float*);
     };
@@ -461,7 +461,7 @@ namespace TPP_VMath
          *              Vect* v = new Vect4D(); 
          *              Error prone!! Call should ALWAYS be wrapped with guard 
          *              in the form if (v->get_dimension() == 4)
-         * @param       coordinates the entries in the 4D vector
+         * @param       components the entries in the 4D vector
          */
         Vect4D(float*); 
     };
@@ -572,132 +572,50 @@ namespace TPP_VMath
     //========================================================================//
     #pragma endregion VWrap_Declaration
 
-    #pragma region VSet_Declaration
-    //========================================================================//
-    // START OF VSET CLASS DECLARATION
-    //========================================================================//
-
-    /**
-     * @brief           A set of vectors with matching dimensions
-     * @file            TPP_VMath.h
-     */ 
-    class VSet
-    {
-    public:
-
-        /**
-         * @brief       Default constructor is a null set
-         * @param       void
-         */ 
-        VSet();
-
-        /**
-         * @brief       Constructor for a set containing a single Vect child
-         * @param       v a Vect child reference
-         */
-        VSet(Vect&);
-
-        /**
-         * @brief       Constructor using an array of Vect where n is the number
-         *              of elements in a. In order to avoid errors, a should be 
-         *              instatntiated with a const int that is also used as the 
-         *              argument for n. This function should not be used to 
-         *              create a set from a wrapped Vect**. Instead, a
-         *              constructor has been defined to accept a VWrap.
-         * @param       n the number of elements in a
-         * @param       a a polymorphic pointer to an array of Vect children
-         */
-        VSet(int, Vect**); 
-
-        /**
-         * @brief       Construct a new VSet object that requires all Vect& 
-         *              in the provided input std::vector to be of matching
-         *              dimensions, else a TPP_VMath_Exception is thrown.
-         * @param       vects an array of Vects with matching dimensions
-         */
-        VSet(std::vector<Vect*>);
-
-        /**
-         * @brief       Constructor using a VWrap that can either contain a
-         *              single wrapped Vect* or an array of Wrapped Vect*. This
-         *              function creates a copy of every wrapped Vect.
-         * @param       wrapper a VWrap containing one or more Vects
-         */
-        VSet(VWrap&); 
-
-        /**
-         * @brief       Copy constructor
-         * @param       original a const VSet reference
-         */ 
-        VSet(const VSet&);
-
-        /**
-         * @brief       Destructor deletes the set
-         */ 
-        ~VSet();
-
-        /**
-         * @brief       The number of vectors in the set is always non-negative
-         * @param       void
-         * @return      The number of vectors in the set
-         */ 
-        unsigned int    get_n() const;
-        
-        /**
-         * @brief       The number of entries is always non-negative
-         * @param       void
-         * @return      The number of entries in each vector
-         */ 
-        unsigned int    get_m() const;
-
-        /** 
-         * @brief       Returns the set as an array of Vects
-         * @param       void
-         * @return      an array of Vect* that point to children of Vect
-         */ 
-        Vect**          get_set_of_vectors() const;
-
-        /**
-        * @brief        Add a new vect of matching dimensions to the set. If the
-        *               vector dimension isn't m and the set is NOT empty, a
-        *               TPP_VMath_Exception is thrown.
-        * @param        vect a reference to a child of Vect
-        */
-        void            add_vect_to_set(Vect*);
-
-    private:
-
-        ///             The number of entries in each vector in the set
-        unsigned int    m;
-
-        ///             The number of vectors in the set
-        unsigned int    n;
-
-        ///             The set of vectors as an array in pointer notation
-        Vect**          setOfVectors;
-    };
-
-    //========================================================================//
-    // END OF VSET CLASS DECLARATION
-    //========================================================================//
-    #pragma endregion VSet_Declaration
-
     #pragma region Matrix_Declaration
     //========================================================================//
     // START OF MATRIX CLASS DECLARATION
     //========================================================================//
 
+    /**
+     * @brief           Offers useful transformations and functions on a 2D
+     *                  array of floats that represent an mxn matrix. Can be
+     *                  instantiated using m, n, float** or more simply by 
+     *                  providing a VSet.
+     * @file            TPP_VMath.h
+     */
     class Matrix
     {
     public:
 
         /**
-         * @brief       Overloaded constructor accepts a set of Vects and 
-         *              generates a matrix
-         * @param       set a const VSet reference as a set of vectors with 
-         *              matching dimensions
-         */ 
-        Matrix(const VSet&);
+         * @brief       Default constructor for a matrix is the 0 matrix
+         * @param       void
+         */
+        Matrix();
+
+        /**
+         * @brief       Constructor for a matrix that inits with a single Vect
+         *              reference to a child of Vect
+         * @param       vect a child of the Vect class
+         */
+        Matrix(Vect&);
+
+        /**
+         * @brief       Constructor for a matrix that inits with an array of
+         *              polymorphic Vect children. If all the provided Vects
+         *              don't have the same dimensions, a TPP_VMath_Exception
+         *              is thrown.
+         * @param       vects an array of Vect* pointing to Vect children
+         */
+        Matrix(std::vector<Vect*>);
+
+        /**
+         * @brief       Constructor takes a VWrap object and unpacks the Vects
+         *              out of it in order to init a matrix.  
+         * @param wrapped 
+         */
+        Matrix(VWrap&);
 
         /**
          * @brief       Overloaded constructer accepts a float** in the form
@@ -718,6 +636,14 @@ namespace TPP_VMath
          * @brief       Destructor deletes the entries of the matrix
          */ 
         ~Matrix();
+
+        /**
+         * @brief       Adds a Vect with matching dimensions as the final column
+         *              to the matrix. If the dimensions don't match a
+         *              TPP_VMath_Exception is thrown.
+         * @param       vect a polymorphic pointer to a child vect
+         */
+        void            append_vect_to_matrix(Vect*);
 
         /**
          * @brief       Reduce this matrix to reduced echelon form
