@@ -1096,7 +1096,32 @@ namespace TPP_VMath
 
         return result;
     }
-    
+
+    VectND  Matrix::operator[](const int n)
+    {
+        float f[m];
+
+        for (int i = 0; i < m; ++i)
+        {
+            f[i] = (entries[i][n]);
+        }
+
+        return VectND(m, f);
+    }
+ 
+    float   Matrix::operator()(const int i, const int j)
+    {
+        if (i < 0 || i >= m || j < 0 || j >= n)
+        {
+            std::string error = "TPP_VMath_Exception: ";
+            error += "Matrix::operator()(int, int) ";
+            error += "Values out of bounds of matrix.";
+            throw TPP_VMath_Exception(error, 0x3a7);
+        }
+
+        return entries[i][j];
+    }
+
     //========================================================================//
     // END OF MATRIX CLASS IMPLEMENTATION
     //========================================================================//

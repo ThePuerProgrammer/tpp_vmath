@@ -477,11 +477,8 @@ namespace TPP_VMath
 
     /**
      * @brief           This class should be used to wrap any newly allocated 
-     *                  Vect memory such as Vect* p = new Vect3D[3] or any 
-     *                  function that returns a Vect* to a newly allocated 
-     *                  resource, such as the function 
-     * 
-     *                  Vect* Matrix::get_matrix_vector_product() 
+     *                  Vect memory such as Vect* p = new Vect3D or any function
+     *                  that returns a Vect* to a newly allocated resource.
      * 
      *                  Wrapping a new Vect allows the destructor to handle 
      *                  deallocation of heap resources. If two VWraps are 
@@ -701,6 +698,21 @@ namespace TPP_VMath
          * @return      original copy transposed
          */
         static Matrix   transpose_matrix(Matrix&);
+
+        /**
+         * @brief       Access the nth column of the matrix as a VectND.
+         * @param       n the column to be returned
+         * @return      a Vect of this->n dimensions
+         */
+        VectND          operator[](const int);
+
+        /**
+         * @brief       get the ith, jth value of the entries in the matrix
+         * @param       i the ith row
+         * @param       j the jth col
+         * @return      entries[i][j] 
+         */
+        float           operator()(const int, const int);
 
         /**
          * @brief       Console representation of coefficient matrix for testing
