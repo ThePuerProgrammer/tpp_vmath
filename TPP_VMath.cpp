@@ -142,7 +142,7 @@ namespace TPP_VMath
         return sumOfProducts;
     }
 
-    void    Vect::normalize_vect()
+    void    Vect::normalize()
     {
         float magnitude = this->get_magnitude();
 
@@ -161,7 +161,7 @@ namespace TPP_VMath
         this->scale_by(inverseMagnitude);
     }
 
-    void    Vect::normalize_vect(Vect& vect)
+    void    Vect::normalize(Vect& vect)
     {
         float magnitude = vect.get_magnitude();
 
@@ -372,6 +372,17 @@ namespace TPP_VMath
         return dimension;
     }
 
+    void    Vect::print()
+    {
+        std::cout << "---\n";
+        for (int i = 0; i < dimension; ++i)
+        {
+            std::cout << std::setprecision(10) << std::fixed
+                      << "|" << components[i] << "|\n";
+        }
+        std::cout << "---\n";
+    }
+
     //========================================================================//
     // END OF VECT CLASS IMPLEMENTATION
     //========================================================================//
@@ -503,6 +514,36 @@ namespace TPP_VMath
 
     Vect3D::Vect3D(float* components) : VectND(3, components)
     {   }
+
+    Vect3D  Vect3D::cross_product(Vect3D& that)
+    {
+        return Vect3D
+        ({
+           this->components[1] * that.components[2] - 
+           this->components[2] * that.components[1],
+
+           this->components[2] * that.components[0] - 
+           this->components[0] * that.components[2],
+
+           this->components[0] * that.components[1] - 
+           this->components[1] * that.components[0]
+        });
+    }
+
+    Vect3D  Vect3D::cross_product(Vect3D& a, Vect3D& b)
+    {
+        return Vect3D
+        ({
+           a.components[1] * b.components[2] - 
+           a.components[2] * b.components[1],
+
+           a.components[2] * b.components[0] - 
+           a.components[0] * b.components[2],
+
+           a.components[0] * b.components[1] - 
+           a.components[1] * b.components[0]
+        });
+    }
 
     //========================================================================//
     // END OF VECT3D CLASS IMPLEMENTATION
@@ -1041,7 +1082,7 @@ namespace TPP_VMath
         return Matrix(n, n, fMatrix);
     }
 
-    void    Matrix::print_matrix()
+    void    Matrix::print()
     {
         for (int i = 0; i < n; ++i)
         {
@@ -1111,14 +1152,6 @@ namespace TPP_VMath
  
     float   Matrix::operator()(const int i, const int j)
     {
-        if (i < 0 || i >= m || j < 0 || j >= n)
-        {
-            std::string error = "TPP_VMath_Exception: ";
-            error += "Matrix::operator()(int, int) ";
-            error += "Values out of bounds of matrix.";
-            throw TPP_VMath_Exception(error, 0x3a7);
-        }
-
         return entries[i][j];
     }
 

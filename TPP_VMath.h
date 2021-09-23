@@ -93,7 +93,7 @@ namespace TPP_VMath
          *              TPP_VMath_Exception is thrown to prevent divide by zero
          * @param       void
          */
-        void            normalize_vect(); 
+        void            normalize(); 
 
         /**
          * @brief       Normalization scales the vector by the inverse of its
@@ -102,7 +102,7 @@ namespace TPP_VMath
          *              TPP_VMath_Exception is thrown to prevent divide by zero
          * @param       vect a reference to a child of Vect
          */
-        static void     normalize_vect(Vect&); 
+        static void     normalize(Vect&); 
 
         /**
          * @brief       Component-wise addition of two Vects
@@ -220,6 +220,12 @@ namespace TPP_VMath
          * @return      the dimension of the vector (the number of entries)
          */ 
         unsigned int    get_dimension() const;
+
+        /**
+         * @brief       A print function for simple tests in the console
+         * @param       void
+         */
+        void            print();
 
         /**
          * @brief       Pure virtual destructor
@@ -419,6 +425,23 @@ namespace TPP_VMath
          * @param       components the entries in the 3D vector
          */
         Vect3D(float*);
+
+        /**
+         * @brief       The cross product of two Vect3Ds is a Vect3D that is
+         *              right angled to both.          
+         * @param       that a Vect3D
+         * @return      A Vect3D that is the cross product of this and that
+         */
+        Vect3D          cross_product(Vect3D&);
+
+        /**
+         * @brief       The cross product of two Vect3Ds is a Vect3D that is
+         *              right angled to both.
+         * @param       a a Vect3D          
+         * @param       b a Vect3D
+         * @return      A Vect3D that is the cross product of a and b
+         */
+        static Vect3D   cross_product(Vect3D&, Vect3D&);
     };
 
     //========================================================================//
@@ -718,7 +741,7 @@ namespace TPP_VMath
          * @brief       Console representation of coefficient matrix for testing
          * @param       void
          */ 
-        void            print_matrix();
+        void            print();
 
     private:
 
