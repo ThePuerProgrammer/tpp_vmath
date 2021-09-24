@@ -3,3 +3,4 @@ makefile
 *.o
 test
 .vscode
+.DS_Store
