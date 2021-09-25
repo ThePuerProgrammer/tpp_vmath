@@ -8,6 +8,7 @@
 
 #include "../.h/VectND.h"
 #include "../.h/Vect2D.h"
+#include <iostream>
 
 namespace TPP_VMath
 {

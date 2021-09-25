@@ -8,7 +8,6 @@
 
 #include "../.h/Matrix.h"
 #include "../.h/VWrap.h"
-#include "../.h/TPP_VMath_Exception.h"
 #include "../.h/Vect.h"
 #include "../.h/Vect1D.h"
 #include "../.h/Vect2D.h"
@@ -53,7 +52,7 @@ namespace TPP_VMath
             std::string error = "TPP_VMath_Exception: ";
             error += "Matrix(std::vector<Vect*>) ";
             error += "Argument must have size >= 1";
-            throw TPP_VMath_Exception(error, 0x3a7);
+            throw std::runtime_error(error);
         }
 
         m = vects[0]->get_dimension();
@@ -71,7 +70,7 @@ namespace TPP_VMath
                     std::string error = "TPP_VMath_Exception: ";
                     error += "Matrix(std::vector<Vect*>) ";
                     error += "All entries must have matching dimensions";
-                    throw TPP_VMath_Exception(error, 0x3a7);
+                    throw std::runtime_error(error);
                 }
 
                 entries[i][j] = temp->get_components()[i];
@@ -118,7 +117,7 @@ namespace TPP_VMath
                         std::string error = "TPP_VMath_Exception: ";
                         error += "Matrix(VWrap&) ";
                         error += "All entries must have matching dimensions";
-                        throw TPP_VMath_Exception(error, 0x3a7);
+                        throw std::runtime_error(error);
                     }
 
                     float* comp = vect->get_components();
@@ -172,10 +171,7 @@ namespace TPP_VMath
                 std::string error = "TPP_VMath_Exception: ";
                 error += "append_vect_to_matrix(Vect*) requires all Vects to ";
                 error += "have the same dimensions";
-                throw TPP_VMath_Exception(
-                    error,
-                    0x3a7
-                );
+                throw std::runtime_error(error);
             }
 
             // increase the column count of the matrix
@@ -273,10 +269,8 @@ namespace TPP_VMath
         // the dimensions of the vector must match the number of columns in A
         if (n != this->n) 
         {
-            throw TPP_VMath_Exception(
-                "x is not in the range of the transformation Ax",
-                0x3a7
-            );
+            throw std::runtime_error(
+                "x is not in range of the Transformation Ax");
         }
 
         // The matrix vector product
@@ -307,10 +301,8 @@ namespace TPP_VMath
         // the dimensions of the vector must match the number of columns in A
         if (n != matrix.n) 
         {
-            throw TPP_VMath_Exception(
-                "x is not in the range of the transformation Ax",
-                0x3a7
-            );
+            throw std::runtime_error(
+                "x is not in range of the Transformation Ax");
         }
 
         // The matrix vector product
@@ -350,7 +342,7 @@ namespace TPP_VMath
     {
         if (this->n != B.m)
         {
-            throw TPP_VMath_Exception("The product of AB is undefined", 0xAB);
+            throw std::runtime_error("The product of AB is undefined");
         }
 
         const int mRows = this->m;
@@ -382,7 +374,7 @@ namespace TPP_VMath
     {
         if (A.n != B.m)
         {
-            throw TPP_VMath_Exception("The product of AB is undefined", 0xAB);
+            throw std::runtime_error("The product of AB is undefined");
         }
 
         const int mRows = A.m;
@@ -440,7 +432,7 @@ namespace TPP_VMath
         for (int i = 0; i < n; ++i)
         {
             std::cout << std::right
-                      << std::setw(10)
+                      << std::setw(i == 0 ? 9 : 10)
                       << "Col "
                       << i + 1;
         }

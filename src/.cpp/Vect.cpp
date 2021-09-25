@@ -12,11 +12,9 @@
 #include "../.h/Vect3D.h"
 #include "../.h/Vect4D.h"
 #include "../.h/VectND.h"
-#include "../.h/TPP_VMath_Exception.h"
 #include <cmath>
 #include <string>
 #include <iostream>
-#include <iomanip>
 
 namespace TPP_VMath
 {
@@ -102,10 +100,7 @@ namespace TPP_VMath
             error += "and a vector in R";
             error += std::to_string(that.dimension) + " ";
             error += "is undefined.";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         float sumOfProducts = 0;
@@ -130,10 +125,7 @@ namespace TPP_VMath
             error += "and a vector in R";
             error += std::to_string(b.dimension) + " ";
             error += "is undefined.";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         float sumOfProducts = 0;
@@ -156,10 +148,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: Divide by zero ";
             error += "while attempting to normalize Vect";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         float inverseMagnitude = 1 / magnitude;
@@ -175,10 +164,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: Divide by zero ";
             error += "while attempting to normalize Vect";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         float inverseMagnitude = 1 / magnitude;
@@ -192,10 +178,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         for (int i = 0; i < this->dimension; ++i)
@@ -210,10 +193,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         for (int i = 0; i < a.dimension; ++i)
@@ -228,10 +208,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         for (int i = 0; i < this->dimension; ++i)
@@ -246,10 +223,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         for (int i = 0; i < a.dimension; ++i)
@@ -265,10 +239,7 @@ namespace TPP_VMath
             std::string error = "TPP_VMath_Exception: Provided entries of ";
             error += "set_components(std::vector<float>) do not match the ";
             error += "dimensions of the Vect from which is was called.";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         if (dimension == 0)
@@ -299,10 +270,7 @@ namespace TPP_VMath
         {
             std::string error = "TPP_VMath_Exception: ";
             error += "operator/=(float c) divide by zero.";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         this->scale_by(1/c);
@@ -339,10 +307,7 @@ namespace TPP_VMath
             std::string error = "TPP_VMath_Exception: Dimensions of ";
             error += "operator=(const Vect& right) do not match the ";
             error += "dimensions of the left side Vect.";
-            throw TPP_VMath_Exception(
-                error,
-                0x4ec7
-            );
+            throw std::runtime_error(error);
         }
 
         for (int i = 0; i < this->dimension; ++i)
@@ -380,13 +345,12 @@ namespace TPP_VMath
 
     void    Vect::print()
     {
-        std::cout << "---\n";
+        std::cout << "------\n";
         for (int i = 0; i < dimension; ++i)
         {
-            std::cout << std::setprecision(10) << std::fixed
-                      << "|" << components[i] << "|\n";
+            std::cout << "|" << components[i] << "|\n";
         }
-        std::cout << "---\n";
+        std::cout << "------\n";
     }
 
     //========================================================================//
