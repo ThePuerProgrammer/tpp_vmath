@@ -9,14 +9,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(TPP_VMath VERSION 0.1)
 
 add_library(TPP_VMath STATIC
-    ../src/.cpp/Matrix.cpp
-    ../src/.cpp/VWrap.cpp
-    ../src/.cpp/Vect.cpp
-    ../src/.cpp/Vect1D.cpp
-    ../src/.cpp/Vect2D.cpp
-    ../src/.cpp/Vect3D.cpp
-    ../src/.cpp/Vect4D.cpp
-    ../src/.cpp/VectND.cpp
+    src/.cpp/Matrix.cpp
+    src/.cpp/VWrap.cpp
+    src/.cpp/Vect.cpp
+    src/.cpp/Vect1D.cpp
+    src/.cpp/Vect2D.cpp
+    src/.cpp/Vect3D.cpp
+    src/.cpp/Vect4D.cpp
+    src/.cpp/VectND.cpp
 )
 
 set_target_properties(TPP_VMath PROPERTIES VERSION ${PROJECT_VERSION})
