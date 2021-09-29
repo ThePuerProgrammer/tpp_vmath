@@ -10,6 +10,7 @@ project(TPP_VMath VERSION 0.1)
 
 add_library(TPP_VMath STATIC
     src/.cpp/Matrix.cpp
+    src/.cpp/Matrix3.cpp
     src/.cpp/VWrap.cpp
     src/.cpp/Vect.cpp
     src/.cpp/Vect1D.cpp

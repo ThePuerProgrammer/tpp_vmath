@@ -6,14 +6,7 @@
  * @copyright           Copyright (c) 2021
  */
 
-#include "../.h/Matrix.h"
-#include "../.h/VWrap.h"
-#include "../.h/Vect.h"
-#include "../.h/Vect1D.h"
-#include "../.h/Vect2D.h"
-#include "../.h/Vect3D.h"
-#include "../.h/Vect4D.h"
-#include "../.h/VectND.h"
+#include "../.h/TPP_VMath.h"
 #include <iostream>
 #include <iomanip>
 
