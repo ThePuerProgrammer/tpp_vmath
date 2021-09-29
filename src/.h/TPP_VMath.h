@@ -18,6 +18,5 @@
 #include "VectND.h"
 #include "VWrap.h"
 #include "Matrix.h"
-#include "Matrix3.h"
 
 #endif

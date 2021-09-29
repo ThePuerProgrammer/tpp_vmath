@@ -1,7 +1,7 @@
 test.cpp
 makefile
 *.o
-test
+a.out
 .vscode
 .DS_Store
 build/
