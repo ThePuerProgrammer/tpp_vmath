@@ -43,7 +43,7 @@ namespace TPP_VMath
         /**
          * @brief       Constructor for a matrix that inits with an array of
          *              polymorphic Vect children. If all the provided Vects
-         *              don't have the same dimensions, a TPP_VMath_Exception
+         *              don't have the same dimensions, a exception
          *              is thrown.
          * @param       vects an array of Vect* pointing to Vect children
          */
@@ -79,7 +79,7 @@ namespace TPP_VMath
         /**
          * @brief       Adds a Vect with matching dimensions as the final column
          *              to the matrix. If the dimensions don't match a
-         *              TPP_VMath_Exception is thrown.
+         *              exception is thrown.
          * @param       vect a polymorphic pointer to a child vect
          */
         void            append_vect_to_matrix(Vect*);
@@ -98,14 +98,14 @@ namespace TPP_VMath
         Matrix          get_reduced();
 
         /**
-         * @brief       Ax = b. Faulty dimensions throws TPP_VMath_Exception
+         * @brief       Ax = b. Faulty dimensions throws exception
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
          */ 
         Vect*           get_matrix_vector_product(Vect&);
 
         /**
-         * @brief       Ax = b. Faulty dimensions throws TPP_VMath_Exception
+         * @brief       Ax = b. Faulty dimensions throws exception
          * @param       matrix a Matrix reference
          * @param       vect a polymorphic pointer to a child of Vect
          * @return      a pointer to b where b = Ax
@@ -113,14 +113,14 @@ namespace TPP_VMath
         static Vect*    get_matrix_vector_product(Matrix&, Vect&);
 
         /**
-         * @brief       AB = C. Faulty dimensions throws TPP_VMath_Exception
+         * @brief       AB = C. Faulty dimensions throws exception
          * @param       B a matrix whose m dimension must match this n dimension
          * @return      a matrix that is the product of AB
          */
         Matrix          mat_mul(Matrix&); 
 
         /**
-         * @brief       AB = C. Faulty dimensions throws TPP_VMath_Exception
+         * @brief       AB = C. Faulty dimensions throws exception
          * @param       A a matrix
          * @param       B a matrix
          * @return      a matrix that is the product of AB

@@ -67,14 +67,14 @@ namespace TPP_VMath
         static void     scale_by(float, Vect&);
 
         /**
-         * @brief       Faulty dimensions throws TPP_VMath_Exception
+         * @brief       Faulty dimensions throws exception
          * @param       that a const Vect reference
          * @return      sum of the entrywise products of two Vects
          */ 
         float           dot_product(const Vect&);
 
         /**
-         * @brief       Faulty dimensions throws TPP_VMath_Excpetion
+         * @brief       Faulty dimensions throws TPP_VMath_exception
          * @param       a a const Vect reference
          * @param       b a const Vect reference
          * @return      sum of the entrywise products of two Vects
@@ -85,7 +85,7 @@ namespace TPP_VMath
          * @brief       Normalization scales the vector by the inverse of its
          *              magnitude, which has the effect of setting the magnitude
          *              of the vector to 1. If called upon the zero vector, a
-         *              TPP_VMath_Exception is thrown to prevent divide by zero
+         *              exception is thrown to prevent divide by zero
          * @param       void
          */
         void            normalize(); 
@@ -94,7 +94,7 @@ namespace TPP_VMath
          * @brief       Normalization scales the vector by the inverse of its
          *              magnitude, which has the effect of setting the magnitude
          *              of the vector to 1. If called upon the zero vector, a
-         *              TPP_VMath_Exception is thrown to prevent divide by zero
+         *              exception is thrown to prevent divide by zero
          * @param       vect a reference to a child of Vect
          */
         static void     normalize(Vect&); 
@@ -129,7 +129,7 @@ namespace TPP_VMath
 
         /**
          * @brief       Manual assignment of entires in the vector. Faulty
-         *              dimensions throws TPP_VMath_Exception
+         *              dimensions throws exception
          * @param       v the provided array of floats
          */ 
         void            set_components(std::vector<float>);
@@ -142,7 +142,7 @@ namespace TPP_VMath
 
         /**
          * @brief       Overloaded *= calls the appropriate scale_by() function.
-         *              Faulty dimensions throws TPP_VMath_Exception
+         *              Faulty dimensions throws exception
          * @param       c a scalar
          */
         void            operator*=(float c); 
@@ -150,8 +150,8 @@ namespace TPP_VMath
         /**
          * @brief       Overloaded /= calls the appropriate scale_by() function,
          *              passing in the inverse of the right side argument.
-         *              Faulty dimensions throws TPP_VMath_Exception
-         *              Zero throws TPP_VMath_Exception to prevent divide by 0
+         *              Faulty dimensions throws exception
+         *              Zero throws exception to prevent divide by 0
          * @param       c a scalar
          */
         void            operator/=(float c); 
@@ -192,7 +192,7 @@ namespace TPP_VMath
 
         /**
          * @brief       Copies components from right vector to left vector. 
-         *              Mismatched dimensions throws TPP_VMath_Exception
+         *              Mismatched dimensions throws exception
          * @param       right a const Vect reference to the right side of =
          */ 
         Vect&           operator=(const Vect&);

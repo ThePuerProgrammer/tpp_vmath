@@ -42,7 +42,7 @@ namespace TPP_VMath
 
         if (n == 0)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "Matrix(std::vector<Vect*>) ";
             error += "Argument must have size >= 1";
             throw std::runtime_error(error);
@@ -60,7 +60,7 @@ namespace TPP_VMath
                 Vect* temp = vects[j];
                 if (temp->get_dimension() != m)
                 {
-                    std::string error = "TPP_VMath_Exception: ";
+                    std::string error = "exception: ";
                     error += "Matrix(std::vector<Vect*>) ";
                     error += "All entries must have matching dimensions";
                     throw std::runtime_error(error);
@@ -107,7 +107,7 @@ namespace TPP_VMath
 
                     if (vect->get_dimension() != m)
                     {
-                        std::string error = "TPP_VMath_Exception: ";
+                        std::string error = "exception: ";
                         error += "Matrix(VWrap&) ";
                         error += "All entries must have matching dimensions";
                         throw std::runtime_error(error);
@@ -161,7 +161,7 @@ namespace TPP_VMath
         {
             if (vect->get_dimension() != m)
             {
-                std::string error = "TPP_VMath_Exception: ";
+                std::string error = "exception: ";
                 error += "append_vect_to_matrix(Vect*) requires all Vects to ";
                 error += "have the same dimensions";
                 throw std::runtime_error(error);

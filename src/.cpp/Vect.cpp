@@ -94,7 +94,7 @@ namespace TPP_VMath
     {
         if (this->dimension != that.get_dimension())
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "The dot product of a vector in R";
             error += std::to_string(this->dimension) + " ";
             error += "and a vector in R";
@@ -119,7 +119,7 @@ namespace TPP_VMath
 
         if (dimension != b.get_dimension())
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "The dot product of a vector in R";
             error += std::to_string(a.dimension) + " ";
             error += "and a vector in R";
@@ -146,7 +146,7 @@ namespace TPP_VMath
 
         if (magnitude == 0)
         {
-            std::string error = "TPP_VMath_Exception: Divide by zero ";
+            std::string error = "exception: Divide by zero ";
             error += "while attempting to normalize Vect";
             throw std::runtime_error(error);
         }
@@ -162,7 +162,7 @@ namespace TPP_VMath
 
         if (magnitude == 0)
         {
-            std::string error = "TPP_VMath_Exception: Divide by zero ";
+            std::string error = "exception: Divide by zero ";
             error += "while attempting to normalize Vect";
             throw std::runtime_error(error);
         }
@@ -176,7 +176,7 @@ namespace TPP_VMath
     {
         if (this->dimension != vect.dimension)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
             throw std::runtime_error(error);
         }
@@ -191,7 +191,7 @@ namespace TPP_VMath
     {
         if (a.dimension != b.dimension)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
             throw std::runtime_error(error);
         }
@@ -206,7 +206,7 @@ namespace TPP_VMath
     {
         if (this->dimension != vect.dimension)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
             throw std::runtime_error(error);
         }
@@ -221,7 +221,7 @@ namespace TPP_VMath
     {
         if (a.dimension != b.dimension)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "vect_addition(Vect&) requires matching dimensions\n";
             throw std::runtime_error(error);
         }
@@ -236,7 +236,7 @@ namespace TPP_VMath
     {
         if (dimension != 0 && v.size() != dimension)
         {
-            std::string error = "TPP_VMath_Exception: Provided entries of ";
+            std::string error = "exception: Provided entries of ";
             error += "set_components(std::vector<float>) do not match the ";
             error += "dimensions of the Vect from which is was called.";
             throw std::runtime_error(error);
@@ -268,7 +268,7 @@ namespace TPP_VMath
     {
         if (c == 0)
         {
-            std::string error = "TPP_VMath_Exception: ";
+            std::string error = "exception: ";
             error += "operator/=(float c) divide by zero.";
             throw std::runtime_error(error);
         }
@@ -304,7 +304,7 @@ namespace TPP_VMath
     {
         if (this->dimension != right.get_dimension())
         {
-            std::string error = "TPP_VMath_Exception: Dimensions of ";
+            std::string error = "exception: Dimensions of ";
             error += "operator=(const Vect& right) do not match the ";
             error += "dimensions of the left side Vect.";
             throw std::runtime_error(error);
